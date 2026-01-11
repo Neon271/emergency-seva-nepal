@@ -58,7 +58,7 @@ export default function Dashboard() {
     }
     return (
         <div className="w-full max-w-5xl mx-auto">
-             <Card className="mb-6">
+             <Card className="mb-6 bg-card/70">
                 <CardHeader>
                     <CardTitle>Find Nearby Services</CardTitle>
                     <CardDescription>
@@ -66,10 +66,10 @@ export default function Dashboard() {
                     </CardDescription>
                 </CardHeader>
                  <CardContent className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    <Button onClick={() => findNearby('hospitals')} size="lg" variant="secondary" className="font-semibold">
+                    <Button onClick={() => findNearby('hospitals')} size="lg" className="font-semibold">
                        🏥 Find Nearby Hospitals
                     </Button>
-                     <Button onClick={() => findNearby('pharmacy')} size="lg" variant="secondary" className="font-semibold">
+                     <Button onClick={() => findNearby('pharmacy')} size="lg" className="font-semibold">
                        💊 Find Nearby Pharmacy
                     </Button>
                  </CardContent>
@@ -109,7 +109,7 @@ export default function Dashboard() {
                      <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-3">
-                                <Star className="text-primary" />
+                                <Star className="text-accent" />
                                 Favorite Contacts
                             </CardTitle>
                         </CardHeader>
@@ -133,7 +133,7 @@ export default function Dashboard() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-3">
-                                <UserSquare className="text-primary" />
+                                <UserSquare className="text-accent" />
                                 My Custom Contacts
                             </CardTitle>
                         </CardHeader>

@@ -78,7 +78,7 @@ export default function EmergencyGuide() {
     <Card>
         <CardHeader>
             <CardTitle className="flex items-center gap-3 text-2xl">
-                <BookOpen className="h-7 w-7 text-primary" />
+                <BookOpen className="h-7 w-7 text-accent" />
                 Emergency Preparedness Guide
             </CardTitle>
         </CardHeader>

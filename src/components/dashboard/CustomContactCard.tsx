@@ -55,7 +55,7 @@ export default function CustomContactCard({ contact }: CustomContactCardProps) {
     <Card>
       <CardContent className="p-4 space-y-3">
         <div className="flex items-start gap-4">
-          <CategoryIcon className="h-8 w-8 text-primary mt-1" />
+          <CategoryIcon className="h-8 w-8 text-accent mt-1" />
           <div className="flex-1">
             <p className="text-xs text-muted-foreground uppercase tracking-wider">{categoryNames[contact.category]}</p>
             <h3 className="font-bold text-lg">{contact.name}</h3>
@@ -63,7 +63,7 @@ export default function CustomContactCard({ contact }: CustomContactCardProps) {
         </div>
 
         <a href={`tel:${contact.phone}`} className="block">
-            <div className="flex items-center gap-2 text-lg font-semibold text-primary">
+            <div className="flex items-center gap-2 text-lg font-semibold text-accent">
                 <Phone className="h-5 w-5" /> <span>{contact.phone}</span>
             </div>
         </a>
@@ -75,18 +75,13 @@ export default function CustomContactCard({ contact }: CustomContactCardProps) {
           </div>
         )}
 
-        <div className="grid grid-cols-3 gap-2">
-            <Button asChild>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <Button asChild variant="accent">
                 <a href={`tel:${contact.phone}`}>
-                    <Phone /> Call
+                    <Phone /> Call Now
                 </a>
             </Button>
              <Button asChild variant="secondary">
-                 <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
-                    <MapPin /> Map
-                </a>
-              </Button>
-               <Button asChild variant="secondary">
                  <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
                     <Navigation /> Directions
                 </a>

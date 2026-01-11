@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
+    --background: 210 20% 96%; /* Light gray: #F0F4F8 */
     --foreground: 224 71.4% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 0 84.2% 60.2%; /* Red */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 210 20% 96.1%;
+    --primary: 206 58% 85%; /* Soft blue: #A8D0E6 */
+    --primary-foreground: 215 13.8% 34.3%;
+    --secondary: 210 20% 90%;
     --secondary-foreground: 215 13.8% 34.3%;
-    --muted: 210 20% 96.1%;
+    --muted: 210 20% 90%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 255 75% 50%; /* Blueish accent */
+    --accent: 31 100% 49%; /* Warm orange: #F77F00 */
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 0 84.2% 60.2%;
+    --ring: 206 58% 85%;
     --radius: 1rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -46,19 +46,19 @@
     --card-foreground: 210 20% 98%;
     --popover: 222 47.4% 11.2%;
     --popover-foreground: 210 20% 98%;
-    --primary: 0 72% 65%; /* Lighter Red */
+    --primary: 206 50% 45%;
     --primary-foreground: 0 0% 98%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 20% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 255 70% 60%; /* Lighter Blueish */
+    --accent: 31 90% 55%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 0 72% 65%;
+    --ring: 206 50% 45%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;

@@ -106,7 +106,7 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
           </div>
 
           <a href={`tel:${contact.phone}`} className="block">
-            <div className="flex items-center gap-2 text-lg font-semibold text-primary">
+            <div className="flex items-center gap-2 text-lg font-semibold text-accent">
                 <Phone className="h-5 w-5" /> <span>{contact.phone}</span>
             </div>
           </a>
@@ -121,25 +121,20 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
             {contact.bloodTypes && contact.bloodTypes.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                     {contact.bloodTypes.map(bt => (
-                        <span key={bt} className="inline-block bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded-full">{bt}</span>
+                        <span key={bt} className="inline-block bg-primary/20 text-primary-foreground text-xs font-bold px-2 py-1 rounded-full">{bt}</span>
                     ))}
                 </div>
             )}
 
-          <div className="grid grid-cols-3 gap-2">
-            <Button asChild>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <Button asChild variant="accent">
                 <a href={`tel:${contact.phone}`}>
-                    <Phone /> Call
+                    <Phone /> Call Now
                 </a>
             </Button>
              <Button asChild variant="secondary">
-                 <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
-                    <MapPin /> Map
-                </a>
-              </Button>
-               <Button asChild variant="secondary">
                  <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
-                    <Navigation /> Directions
+                    <Navigation /> Get Directions
                 </a>
               </Button>
           </div>

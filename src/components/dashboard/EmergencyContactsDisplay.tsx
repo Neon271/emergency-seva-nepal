@@ -80,7 +80,12 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
       </div>
   );
   
-  if (isLoading || !districtInfo) {
+  if (isLoading) {
+    return renderSkeleton();
+  }
+
+  if (!districtInfo) {
+    // This case handles when districtInfo is still loading, which might happen briefly.
     return renderSkeleton();
   }
 
@@ -113,7 +118,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
         <div className="flex space-x-2 overflow-x-auto pb-2">
             <button 
                 onClick={() => setActiveCategory('all')}
-                className={`flex-shrink-0 rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${activeCategory === 'all' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}
+                className={`flex-shrink-0 rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${activeCategory === 'all' ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'}`}
             >
                 All
             </button>
@@ -121,7 +126,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
              <button 
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`flex-shrink-0 rounded-full px-3 py-1.5 text-sm font-medium transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}
+                className={`flex-shrink-0 rounded-full px-3 py-1.5 text-sm font-medium transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'}`}
              >
                 {categoryIcons[cat.id as keyof typeof categoryIcons] || cat.name} {cat.name_ne}
             </button>

@@ -15,11 +15,11 @@ const Header = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b bg-card">
+      <header className="sticky top-0 z-50 w-full border-b bg-card/80 backdrop-blur-sm">
         <div className="container flex h-16 items-center">
           <div className="mr-4 flex">
             <Link href="/" className="flex items-center space-x-2">
-              <HeartHandshake className="h-6 w-6 text-primary" />
+              <HeartHandshake className="h-6 w-6 text-accent" />
               <span className="font-bold">
                 Emergency Seva
               </span>
@@ -32,10 +32,11 @@ const Header = () => {
                 className="hidden sm:inline-flex"
                 onClick={() => setShowSelector(true)}
               >
-                📍 {selectedDistrict?.name_ne} ({selectedProvince?.name_ne})
+                📍 {selectedDistrict?.name_ne}
               </Button>
             )}
             <Button
+                variant="accent"
                 size="sm"
                 onClick={() => setAddContactOpen(true)}
               >
