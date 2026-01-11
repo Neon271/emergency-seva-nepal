@@ -17,7 +17,7 @@ export interface District {
 
 // For displaying contacts
 export interface EmergencyContact {
-  id: string;
+  id:string;
   name: string;
   name_ne: string;
   phone: string;

@@ -6,6 +6,7 @@ import {
   Siren,
   Phone,
   Flame,
+  PersonStanding,
 } from 'lucide-react';
 import type { EmergencyServiceCategory } from '@/lib/types';
 
@@ -16,8 +17,31 @@ const allServices: Omit<EmergencyServiceCategory, 'contacts'>[] = [
   { id: 'ambulance', name: 'Ambulance', name_ne: 'एम्बुलेन्स', icon: Ambulance },
   { id: 'fire', name: 'Fire Brigade', name_ne: 'दमकल', icon: Flame },
   { id: 'hospital', name: 'Hospitals', name_ne: 'अस्पताल', icon: Building },
-  { id: 'blood', name: 'Blood Donation', name_ne: 'रक्तदान', icon: HeartHandshake },
+  { id: 'women', name: 'Women Helpline', name_ne: 'महिला हेल्पलाइन', icon: PersonStanding },
+  { id: 'blood', name: 'Blood Bank', name_ne: 'ब्लड बैंक', icon: HeartHandshake },
   { id: 'disaster', name: 'National Helplines', name_ne: 'राष्ट्रिय हेल्पलाइन', icon: Phone },
+];
+
+const nationalHelplines: EmergencyServiceCategory[] = [
+    {
+      id: 'women',
+      name: 'Women Helpline',
+      name_ne: 'महिला हेल्पलाइन',
+      icon: PersonStanding,
+      contacts: [
+        { id: 'nat-w-1', name: 'National Women Commission', name_ne: 'राष्ट्रिय महिला आयोग', phone: '1145', address: 'Nationwide' },
+      ],
+    },
+    {
+      id: 'disaster',
+      name: 'National Helplines',
+      name_ne: 'राष्ट्रिय हेल्पलाइन',
+      icon: Phone,
+      contacts: [
+         { id: 'nat-d-1', name: 'Disaster & Emergency Control', name_ne: 'विपद् तथा आपतकालीन नियन्त्रण', phone: '1149', address: 'Nationwide' },
+         { id: 'nat-d-2', name: 'National Emergency Operation Center', name_ne: 'राष्ट्रिय आपतकालीन कार्य सञ्चालन केन्द्र', phone: '1155', address: 'Nationwide' },
+      ],
+    },
 ];
 
 const contactsData: { [key: string]: EmergencyServiceCategory[] } = {
@@ -56,8 +80,8 @@ const contactsData: { [key: string]: EmergencyServiceCategory[] } = {
     },
     {
       id: 'blood',
-      name: 'Blood Donation',
-      name_ne: 'रक्तदान',
+      name: 'Blood Bank',
+      name_ne: 'ब्लड बैंक',
       icon: HeartHandshake,
       contacts: [
         { id: 'k-b-1', name: 'Central Blood Transfusion Service', name_ne: 'केन्द्रीय रक्तसञ्चार सेवा', phone: '014225344', address: 'Kalimati, Kathmandu', mapLink: 'https://maps.app.goo.gl/2mRRT2Y8ZhcY7YgN7', bloodTypes: allBloodTypes },
@@ -154,13 +178,6 @@ const contactsData: { [key: string]: EmergencyServiceCategory[] } = {
       contacts: [
         { id: 'kaski-f-1', name: 'Pokhara Fire Brigade', name_ne: 'पोखरा दमकल', phone: '061522222', address: 'Pokhara', mapLink: 'https://maps.app.goo.gl/B9Zg9YvXgJ5Z8A3G9' },
       ],
-    },
-    {
-      id: 'disaster',
-      name: 'National Helplines',
-      name_ne: 'राष्ट्रिय हेल्पलाइन',
-      icon: Phone,
-      contacts: [{ id: 'kaski-d-1', name: 'District Disaster Mgmt.', name_ne: 'जिल्ला विपद् व्यवस्थापन', phone: '061520633', address: 'Kaski' }],
     },
   ],
   chitwan: [
@@ -496,48 +513,41 @@ const contactsData: { [key: string]: EmergencyServiceCategory[] } = {
 };
 
 export const getEmergencyServicesByDistrict = (districtId: string): EmergencyServiceCategory[] => {
-  if (contactsData[districtId]) {
-    // Make sure all categories are present, even if empty
-    return allServices.map(service => {
-      const districtService = contactsData[districtId].find(s => s.id === service.id);
-      return districtService || { ...service, contacts: [] };
+  // Start with a copy of all service categories, ensuring none are missing
+  const services: EmergencyServiceCategory[] = allServices.map(s => ({ ...s, contacts: [] }));
+
+  // Get district-specific data if it exists
+  const districtSpecificServices = contactsData[districtId];
+  if (districtSpecificServices) {
+    services.forEach(service => {
+      const specificService = districtSpecificServices.find(s => s.id === service.id);
+      if (specificService) {
+        service.contacts.push(...specificService.contacts);
+      }
     });
   }
 
-  // Fallback for other supported districts with generic numbers
-  const genericServices: EmergencyServiceCategory[] = [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: `${districtId}-p-1`, name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: `${districtId}-a-1`, name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: `${districtId}-f-1`, name: 'Fire Brigade', name_ne: 'दमकल', phone: '101', address: 'Nationwide' },
-      ],
-    },
-  ];
-  
-  // Return all services, with generic fallbacks and empty ones.
-  return allServices.map(service => {
-    const genericService = genericServices.find(s => s.id === service.id);
-    return genericService || { ...service, contacts: [] };
+  // Add generic national numbers for core services if they don't have contacts yet
+  if (services.find(s => s.id === 'police')?.contacts.length === 0) {
+    services.find(s => s.id === 'police')?.contacts.push({ id: `${districtId}-p-1`, name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' });
+  }
+  if (services.find(s => s.id === 'ambulance')?.contacts.length === 0) {
+    services.find(s => s.id === 'ambulance')?.contacts.push({ id: `${districtId}-a-1`, name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' });
+  }
+  if (services.find(s => s.id === 'fire')?.contacts.length === 0) {
+    services.find(s => s.id === 'fire')?.contacts.push({ id: `${districtId}-f-1`, name: 'Fire Brigade', name_ne: 'दमकल', phone: '101', address: 'Nationwide' });
+  }
+
+  // Always merge national helplines
+  nationalHelplines.forEach(nationalService => {
+      const service = services.find(s => s.id === nationalService.id);
+      if (service) {
+          // Avoid duplicates
+          const existingIds = new Set(service.contacts.map(c => c.id));
+          const newContacts = nationalService.contacts.filter(c => !existingIds.has(c.id));
+          service.contacts.unshift(...newContacts);
+      }
   });
+
+  return services;
 };

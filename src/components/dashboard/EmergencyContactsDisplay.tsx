@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PlusCircle, UserSquare, Star } from "lucide-react";
+import { PlusCircle, UserSquare, Star, PersonStanding } from "lucide-react";
 import EmergencyContactCard from "./EmergencyContactCard";
 import { getEmergencyServicesByDistrict, allBloodTypes } from "@/lib/emergency-services";
 import { districts } from "@/lib/locations";
@@ -42,7 +42,10 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
       const fetchedServices = getEmergencyServicesByDistrict(districtId);
       setServices(fetchedServices);
       if (fetchedServices.length > 0) {
-        setActiveTab(fetchedServices[0].id);
+        // Default to a tab that is likely to have content
+        const defaultTab = fetchedServices.find(s => s.id === 'police' && s.contacts.length > 0) ||
+                           fetchedServices.find(s => s.contacts.length > 0);
+        setActiveTab(defaultTab ? defaultTab.id : 'favorites');
       }
       setIsLoading(false);
     }, 300);
@@ -111,13 +114,13 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
       </div>
       
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4 h-auto md:grid-cols-5 lg:grid-cols-8">
+        <TabsList className="grid w-full grid-cols-4 h-auto md:grid-cols-5 lg:grid-cols-9">
            <TabsTrigger value="favorites" className="flex gap-2">
               <Star className="h-5 w-5" />
               <span>Favorites</span>
             </TabsTrigger>
           {servicesWithContacts.map((service) => (
-            <TabsTrigger key={service.id} value={service.id} className="flex gap-2">
+            <TabsTrigger key={service.id} value={service.id} className="flex gap-2 text-xs md:text-sm">
               <service.icon className="h-5 w-5" />
               <span>{service.name_ne}</span>
             </TabsTrigger>
