@@ -4,26 +4,21 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { LocationProvider } from '@/contexts/LocationContext';
-import { Manrope } from 'next/font/google';
+import { PT_Sans } from 'next/font/google';
 
-const manrope = Manrope({
+const ptSans = PT_Sans({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-body',
+  weight: ['400', '700'],
 });
 
-const manrope_bold = Manrope({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-headline',
-  weight: '800',
-});
 
 export const metadata: Metadata = {
   title: 'Emergency Seva',
-  description: 'Fast access to emergency services in Nepal',
+  description: 'Fast emergency help for Nepal',
   manifest: '/manifest.json',
-  themeColor: '#d9274b',
+  themeColor: '#A8D0E6',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -37,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${manrope.variable} ${manrope_bold.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${ptSans.variable}`}>
       <head>
       </head>
       <body

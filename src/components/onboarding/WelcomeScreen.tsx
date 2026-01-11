@@ -14,15 +14,18 @@ export default function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
         Emergency Seva
       </h1>
       <p className="mt-2 max-w-md text-lg text-muted-foreground">
-        Your one-tap access to emergency services in Nepal. Fast, reliable, and always ready.
+        Fast emergency help for Nepal
       </p>
       <Button
         size="lg"
-        className="mt-8 text-lg"
+        className="mt-8 text-lg py-6"
         onClick={onGetStarted}
       >
         Get Started
       </Button>
+      <div className="absolute bottom-4 text-sm text-muted-foreground">
+        Powered by Emergency Seva © Prajwol
+      </div>
     </div>
   );
 }

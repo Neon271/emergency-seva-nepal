@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { ThemeToggle } from '../ThemeToggle';
 import { useLocation } from '@/hooks/use-location-context';
 import { Button } from '../ui/button';
-import { MapPin } from 'lucide-react';
+import { MapPin, Edit } from 'lucide-react';
 
 const Header = () => {
-  const { setShowSelector, selectedDistrict, isLocationSet } = useLocation();
+  const { setShowSelector, selectedDistrict, selectedProvince, isLocationSet } = useLocation();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -16,7 +16,7 @@ const Header = () => {
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <SirenIcon className="h-6 w-6 text-primary" />
-            <span className="font-bold font-headline sm:inline-block">
+            <span className="font-bold font-headline text-lg sm:inline-block">
               Emergency Seva
             </span>
           </Link>
@@ -24,23 +24,25 @@ const Header = () => {
         <div className="flex flex-1 items-center justify-end space-x-2">
           {isLocationSet && (
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
               className="hidden sm:inline-flex"
               onClick={() => setShowSelector(true)}
             >
               <MapPin className="mr-2 h-4 w-4" />
-              {selectedDistrict?.name_ne}
+              <div className="text-left">
+                <div className="font-semibold">{selectedDistrict?.name_ne}</div>
+                <div className="text-xs text-muted-foreground -mt-1">{selectedProvince?.name_ne}</div>
+              </div>
             </Button>
           )}
           <Button
             variant="ghost"
             size="icon"
-            className="sm:hidden"
             onClick={() => setShowSelector(true)}
             aria-label="Change Location"
           >
-            <MapPin className="h-5 w-5" />
+            <Edit className="h-5 w-5" />
           </Button>
           <ThemeToggle />
         </div>

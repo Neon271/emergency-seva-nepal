@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from 'react';
 import { useLocation } from '@/hooks/use-location-context';
 import WelcomeScreen from '@/components/onboarding/WelcomeScreen';
 import LocationSetup from '@/components/onboarding/LocationSetup';

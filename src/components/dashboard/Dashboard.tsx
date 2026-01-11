@@ -10,12 +10,21 @@ import EmergencyContactsDisplay from '@/components/dashboard/EmergencyContactsDi
 import EmergencyGuide from '@/components/guide/EmergencyGuide';
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Phone, BookOpen } from 'lucide-react';
+import { Phone, BookOpen, Star, UserSquare } from 'lucide-react';
 import EmergencySms from '@/components/sms/EmergencySms';
+import { useFavorites } from '@/hooks/use-favorites';
+import EmergencyContactCard from './EmergencyContactCard';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { useCustomContacts } from '@/hooks/use-custom-contacts';
+import CustomContactCard from './CustomContactCard';
 
 export default function Dashboard() {
   const { location, isInitialLoad, isLocationSet, showSelector, setShowSelector } = useLocation();
   const [activeTab, setActiveTab] = useState('contacts');
+  
+  const { favoriteContacts, isLoading: isLoadingFavorites } = useFavorites();
+  const { customContacts, isLoading: isLoadingCustomContacts } = useCustomContacts();
+
 
   const renderContent = () => {
     if (isInitialLoad || !isLocationSet) {
@@ -32,17 +41,27 @@ export default function Dashboard() {
     }
     return (
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className='flex justify-center'>
-                <TabsList className="grid w-full max-w-md grid-cols-2 h-12">
-                    <TabsTrigger value="contacts" className="flex gap-2 text-md">
-                        <Phone className="h-5 w-5" />
-                        <span>Emergency Contacts</span>
-                    </TabsTrigger>
-                    <TabsTrigger value="guide" className="flex gap-2 text-md">
-                        <BookOpen className="h-5 w-5" />
-                        <span>Emergency Guide</span>
-                    </TabsTrigger>
-                </TabsList>
+            <div className='sticky top-14 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-4 -mt-4'>
+                <div className='flex justify-center'>
+                    <TabsList className="grid w-full max-w-lg grid-cols-4 h-12">
+                        <TabsTrigger value="contacts" className="flex gap-2 text-md">
+                            <Phone className="h-5 w-5" />
+                            <span>Home</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="favorites" className="flex gap-2 text-md">
+                            <Star className="h-5 w-5" />
+                            <span>Favorites</span>
+                        </TabsTrigger>
+                         <TabsTrigger value="custom" className="flex gap-2 text-md">
+                            <UserSquare className="h-5 w-5" />
+                            <span>My Contacts</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="guide" className="flex gap-2 text-md">
+                            <BookOpen className="h-5 w-5" />
+                            <span>Guide</span>
+                        </TabsTrigger>
+                    </TabsList>
+                </div>
             </div>
 
             <TabsContent value="contacts" className="mt-6">
@@ -50,6 +69,54 @@ export default function Dashboard() {
             </TabsContent>
             <TabsContent value="guide" className="mt-6">
                 <EmergencyGuide />
+            </TabsContent>
+             <TabsContent value="favorites" className="mt-6">
+                 <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3 text-2xl">
+                            <Star className="h-7 w-7 text-primary" />
+                            Favorite Contacts
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                    {isLoadingFavorites ? <Skeleton className="h-48 w-full" /> : favoriteContacts.length > 0 ? (
+                        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                            {favoriteContacts.map((contact) => (
+                            <EmergencyContactCard key={contact.id} contact={contact} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/30 bg-muted/20 p-12 text-center">
+                            <h3 className="text-lg font-semibold">No Favorites Yet</h3>
+                            <p className="mt-1 text-sm text-muted-foreground">Click the star icon on any contact to add it to your favorites.</p>
+                        </div>
+                    )}
+                    </CardContent>
+                </Card>
+            </TabsContent>
+             <TabsContent value="custom" className="mt-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3 text-2xl">
+                            <UserSquare className="h-7 w-7 text-primary" />
+                            My Custom Contacts
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                    {isLoadingCustomContacts ? <Skeleton className="h-48 w-full" /> : customContacts.length > 0 ? (
+                        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                            {customContacts.map((contact) => (
+                            <CustomContactCard key={contact.id} contact={contact} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/30 bg-muted/20 p-12 text-center">
+                            <h3 className="text-lg font-semibold">No Custom Contacts Yet</h3>
+                            <p className="mt-1 text-sm text-muted-foreground">Click "Add a Contact" to save your personal emergency numbers.</p>
+                        </div>
+                    )}
+                    </CardContent>
+                </Card>
             </TabsContent>
       </Tabs>
     );

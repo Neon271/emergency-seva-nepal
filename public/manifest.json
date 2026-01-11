@@ -1,7 +1,7 @@
 {
   "name": "Emergency Seva",
   "short_name": "Emergency Seva",
-  "description": "Fast access to emergency services in Nepal",
+  "description": "Fast access to emergency services in Nepal.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
