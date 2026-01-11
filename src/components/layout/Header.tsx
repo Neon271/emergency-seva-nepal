@@ -19,9 +19,9 @@ const Header = () => {
         <div className="container mx-auto flex h-auto max-w-5xl flex-col items-center justify-between gap-2 p-4 sm:h-20 sm:flex-row sm:gap-0">
           <div className="mr-4 flex items-center gap-3">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-3xl">🏥</span>
+              <span className="text-3xl">⛑️</span>
               <span className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                Nepal Health & Emergency
+                Emergency Seva
               </span>
             </Link>
           </div>
@@ -39,7 +39,7 @@ const Header = () => {
                 className="rounded-full border-2 bg-gray-100 font-semibold text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                 onClick={() => setShowSelector(true)}
               >
-                📍 {selectedDistrict?.name_ne}
+                📍 {selectedDistrict?.name_ne} ({selectedDistrict?.name})
               </Button>
             )}
             <ThemeToggle />
