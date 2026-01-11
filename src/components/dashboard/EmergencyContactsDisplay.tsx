@@ -2,18 +2,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import EmergencyContactCard from "./EmergencyContactCard";
 import { getEmergencyServicesByDistrict } from "@/lib/emergency-services";
 import { districts } from "@/lib/locations";
 import type { EmergencyServiceCategory } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ComingSoon } from "../shared/ComingSoon";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface EmergencyContactsDisplayProps {
   districtId: string;
@@ -40,9 +36,13 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <Skeleton className="h-16 w-full" />
-        <Skeleton className="h-16 w-full" />
-        <Skeleton className="h-16 w-full" />
+        <Skeleton className="h-10 w-2/3" />
+        <Skeleton className="h-8 w-full" />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Skeleton className="h-48 w-full" />
+          <Skeleton className="h-48 w-full" />
+          <Skeleton className="h-48 w-full" />
+        </div>
       </div>
     );
   }
@@ -51,7 +51,9 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
     return <ComingSoon districtName={districtInfo?.name_ne || 'this area'} />;
   }
 
-  if (services.length === 0) {
+  const servicesWithContacts = services.filter(s => s.contacts.length > 0);
+
+  if (servicesWithContacts.length === 0) {
      return <ComingSoon districtName={districtInfo?.name_ne || 'this area'} />;
   }
 
@@ -65,25 +67,40 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
           Tap to call or share emergency contacts. Use the report button for incorrect information.
         </p>
       </div>
-      <Accordion type="multiple" className="w-full" defaultValue={services.map(s => s.id)}>
-        {services.map((service) => (
-          <AccordionItem value={service.id} key={service.id}>
-            <AccordionTrigger className="text-xl font-bold font-headline hover:no-underline">
-              <div className="flex items-center gap-4">
-                <service.icon className="h-6 w-6 text-primary" />
-                {service.name_ne} ({service.name})
-              </div>
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="space-y-3 pt-2">
-                {service.contacts.map((contact) => (
-                  <EmergencyContactCard key={contact.id} contact={contact} />
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+      
+      <Tabs defaultValue={servicesWithContacts[0].id} className="w-full">
+        <TabsList className="grid w-full grid-cols-2 h-auto md:grid-cols-3 lg:grid-cols-6">
+          {servicesWithContacts.map((service) => (
+            <TabsTrigger key={service.id} value={service.id} className="flex gap-2">
+              <service.icon className="h-5 w-5" />
+              <span>{service.name_ne}</span>
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {servicesWithContacts.map((service) => (
+          <TabsContent value={service.id} key={service.id}>
+             <Card className="mt-4">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-2xl">
+                        <service.icon className="h-7 w-7 text-primary" />
+                        {service.name_ne} ({service.name})
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        {service.contacts.length > 0 ? (
+                            service.contacts.map((contact) => (
+                                <EmergencyContactCard key={contact.id} contact={contact} />
+                            ))
+                        ) : (
+                            <p className="text-muted-foreground col-span-full">No contacts available for this service.</p>
+                        )}
+                    </div>
+                </CardContent>
+            </Card>
+          </TabsContent>
         ))}
-      </Accordion>
+      </Tabs>
     </div>
   );
 }

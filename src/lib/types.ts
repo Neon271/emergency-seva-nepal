@@ -21,10 +21,13 @@ export interface EmergencyContact {
   name: string;
   name_ne: string;
   phone: string;
+  address?: string;
+  mapLink?: string;
+  whatsapp?: string;
 }
 
 export interface EmergencyServiceCategory {
-  id: string;
+  id:string;
   name: string;
   name_ne: string;
   icon: LucideIcon;
