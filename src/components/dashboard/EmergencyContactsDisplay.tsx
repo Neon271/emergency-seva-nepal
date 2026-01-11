@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
@@ -24,12 +25,14 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBloodType, setSelectedBloodType] = useState<string>("all");
 
-  const districtInfo = districts.find(d => d.id === districtId);
+  const districtInfo = useMemo(() => districts.find(d => d.id === districtId), [districtId]);
 
   useEffect(() => {
     setIsLoading(true);
-    const fetchedServices = getEmergencyServicesByDistrict(districtId);
-    setServices(fetchedServices);
+    if (districtId) {
+      const fetchedServices = getEmergencyServicesByDistrict(districtId);
+      setServices(fetchedServices);
+    }
     setIsLoading(false);
   }, [districtId]);
 
@@ -56,7 +59,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
   }, [allContacts, activeCategory, searchTerm, selectedBloodType]);
 
   const serviceCategories = useMemo(() => {
-    const categories = services.map(s => ({id: s.id, name: s.name, name_ne: s.name_ne, icon: s.icon, contactsCount: s.contacts.length}));
+    const categories = services.map(s => ({id: s.id, name: s.name, name_ne: s.name_ne, contactsCount: s.contacts.length}));
     return categories;
   }, [services]);
 
@@ -77,12 +80,12 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
       </div>
   );
   
-  if (isLoading) {
+  if (isLoading || !districtInfo) {
     return renderSkeleton();
   }
 
-  if (!districtInfo || !districtInfo.isSupported) {
-    return <ComingSoon districtName={districtInfo?.name_ne || 'this area'} />;
+  if (!districtInfo.isSupported) {
+    return <ComingSoon districtName={districtInfo.name_ne} />;
   }
 
   const categoryIcons = {
