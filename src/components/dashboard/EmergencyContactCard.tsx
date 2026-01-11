@@ -50,8 +50,9 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
   const favorite = isFavorite(contact.id);
   
   const categoryId = contact.categoryId || 'helpline';
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address || contact.name)}`;
-  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contact.address || contact.name)}`;
+  
+  // Use specific map link if available, otherwise search by address/name
+  const directionsUrl = contact.mapLink || `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contact.address || contact.name)}`;
 
 
   const handleShare = async () => {
