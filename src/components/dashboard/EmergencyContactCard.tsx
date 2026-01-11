@@ -51,16 +51,16 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
   return (
     <>
       <Card className="flex h-full flex-col bg-card/80 transition-shadow hover:shadow-md">
-        <CardContent className="p-4 flex-1">
-            <h3 className="text-lg font-bold font-headline">{contact.name_ne}</h3>
+        <CardContent className="flex-1 p-4">
+            <h3 className="font-headline text-lg font-bold">{contact.name_ne}</h3>
             <p className="text-sm text-muted-foreground">{contact.name}</p>
             {contact.address && (
-                <div className="flex items-center text-sm text-muted-foreground mt-1">
+                <div className="mt-1 flex items-center text-sm text-muted-foreground">
                     <MapPin className="mr-1.5 h-4 w-4 flex-shrink-0" />
                     <span>{contact.address}</span>
                 </div>
             )}
-            <a href={`tel:${contact.phone}`} className="mt-2 text-3xl font-bold font-mono tracking-wider text-primary hover:underline">
+            <a href={`tel:${contact.phone}`} className="mt-2 inline-block text-3xl font-bold tracking-wider text-primary hover:underline font-mono">
                 {contact.phone}
             </a>
         </CardContent>
@@ -71,32 +71,31 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
                     Call Now
                 </a>
             </Button>
-            <div className="flex gap-2">
-                {contact.whatsapp && (
-                    <Button asChild variant="outline" size="icon" className="flex-1">
-                        <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noopener noreferrer">
+            <div className="grid grid-cols-3 gap-2">
+                {contact.whatsapp ? (
+                    <Button asChild variant="outline" className="w-full">
+                        <a href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
                             <WhatsAppIcon className="h-5 w-5" />
-                            <span className="sr-only">WhatsApp</span>
                         </a>
                     </Button>
-                )}
-                {contact.mapLink && (
-                     <Button asChild variant="outline" size="icon" className="flex-1">
+                ) : <div/>}
+
+                {contact.mapLink ? (
+                     <Button asChild variant="outline" className="w-full">
                         <a href={contact.mapLink} target="_blank" rel="noopener noreferrer">
                             <MapPin className="h-5 w-5" />
-                            <span className="sr-only">Open Map</span>
                         </a>
                     </Button>
-                )}
-                <Button variant="outline" size="icon" className="flex-1" onClick={handleShare}>
+                ) : <div />}
+
+                <Button variant="outline" className="w-full" onClick={handleShare}>
                     <Share2 className="h-5 w-5" />
-                    <span className="sr-only">Share</span>
-                </Button>
-                 <Button variant="outline" size="icon" className="flex-1" onClick={() => setReportDialogOpen(true)}>
-                    <Flag className="h-5 w-5" />
-                    <span className="sr-only">Report incorrect number</span>
                 </Button>
             </div>
+             <Button variant="outline" size="sm" className="w-full" onClick={() => setReportDialogOpen(true)}>
+                <Flag className="mr-2 h-4 w-4" />
+                Report Issue
+            </Button>
         </CardFooter>
       </Card>
       {isReportDialogOpen && (
