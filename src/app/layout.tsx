@@ -15,10 +15,10 @@ const ptSans = PT_Sans({
 
 
 export const metadata: Metadata = {
-  title: 'Emergency Seva',
-  description: 'Fast emergency help for Nepal',
+  title: 'Nepal Health & Emergency Finder',
+  description: 'Find nearby hospitals, clinics, and emergency services in Nepal',
   manifest: '/manifest.json',
-  themeColor: '#A8D0E6',
+  themeColor: '#DC2626',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -37,7 +37,7 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          'min-h-screen bg-background font-body antialiased'
+          'min-h-screen flex flex-col font-body antialiased'
         )}
       >
         <ThemeProvider

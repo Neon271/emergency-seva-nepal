@@ -1,10 +1,9 @@
-
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Phone, Share2, Flag, MapPin, Star } from "lucide-react";
+import { Phone, Share2, Flag, MapPin, Star, Navigation, Ambulance, Building, Shield, Flame, HeartHandshake, PersonStanding } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { EmergencyContact } from "@/lib/types";
 import ReportDialog from "../feedback/ReportDialog";
@@ -12,8 +11,30 @@ import { useFavorites } from "@/hooks/use-favorites";
 import { cn } from "@/lib/utils";
 
 interface EmergencyContactCardProps {
-  contact: EmergencyContact;
+  contact: EmergencyContact & { categoryId?: string };
 }
+
+const categoryIcons = {
+    ambulance: '🚑',
+    hospital: '🏥',
+    police: '👮',
+    fire: '🚒',
+    blood: '🩸',
+    women: '👩',
+    disaster: '☎️',
+    helpline: '📞',
+};
+
+const categoryNames = {
+    ambulance: 'Ambulance Service',
+    hospital: 'Hospital',
+    police: 'Police Station',
+    fire: 'Fire Brigade',
+    blood: 'Blood Bank',
+    women: 'Women Helpline',
+    disaster: 'Disaster Helpline',
+    helpline: 'National Helpline'
+};
 
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -27,6 +48,11 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
   const { isFavorite, toggleFavorite } = useFavorites();
   
   const favorite = isFavorite(contact.id);
+  
+  const categoryId = contact.categoryId || 'helpline';
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address || contact.name)}`;
+  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contact.address || contact.name)}`;
+
 
   const handleShare = async () => {
     const shareData = {
@@ -63,21 +89,33 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
 
   return (
     <>
-      <Card className="flex h-full flex-col bg-card/80 transition-shadow hover:shadow-lg rounded-xl border-2">
-        <CardContent className="flex-1 p-4">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="font-headline text-xl font-bold">{contact.name_ne}</h3>
-                <p className="text-md text-muted-foreground">{contact.name}</p>
+      <div className="emergency-card bg-white rounded-2xl p-6 shadow-xl transition-transform hover:translate-y-[-3px] hover:shadow-2xl">
+          <div className="card-header flex items-center gap-4 mb-4">
+              <div className="card-icon text-5xl flex-shrink-0">
+                  {categoryIcons[categoryId as keyof typeof categoryIcons] || '📋'}
               </div>
-              <Button variant="ghost" size="icon" onClick={handleFavoriteClick} className="h-8 w-8 flex-shrink-0">
-                  <Star className={cn("h-5 w-5", favorite ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground")} />
+              <div className="card-title-group flex-1">
+                  <div className="card-category text-xs text-gray-500 uppercase font-bold tracking-wide">
+                      {categoryNames[categoryId as keyof typeof categoryNames] || categoryId}
+                  </div>
+                  <div className="card-name text-xl text-gray-800 font-bold">
+                    {contact.name_ne}
+                  </div>
+                  <p className="text-sm text-gray-500">{contact.name}</p>
+              </div>
+               <Button variant="ghost" size="icon" onClick={handleFavoriteClick} className="h-10 w-10 flex-shrink-0 rounded-full">
+                  <Star className={cn("h-6 w-6", favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
                   <span className="sr-only">Favorite</span>
               </Button>
-            </div>
+          </div>
+
+          <div className="card-info mb-4 space-y-2">
+            <a href={`tel:${contact.phone}`} className="card-phone flex items-center gap-2 text-2xl text-destructive font-bold">
+                <Phone className="h-5 w-5"/> {contact.phone}
+            </a>
             {contact.address && (
-                <div className="mt-2 flex items-center text-sm text-muted-foreground">
-                    <MapPin className="mr-1.5 h-4 w-4 flex-shrink-0" />
+                <div className="card-address flex items-start gap-2 text-sm text-gray-600">
+                    <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0"/> 
                     <span>{contact.address}</span>
                 </div>
             )}
@@ -88,44 +126,44 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
                     ))}
                 </div>
             )}
-            <a href={`tel:${contact.phone}`} className="mt-3 inline-block text-4xl font-bold tracking-wider text-primary hover:underline font-mono">
-                {contact.phone}
-            </a>
-        </CardContent>
-        <CardFooter className="flex flex-col items-stretch gap-2 p-4 pt-0">
-            <Button asChild size="lg" className="w-full text-lg py-6">
+          </div>
+          
+          <div className="card-actions grid grid-cols-3 gap-2">
+              <Button asChild className="btn-call h-auto py-3 text-base font-bold transition-transform hover:scale-105">
                 <a href={`tel:${contact.phone}`}>
-                    <Phone className="mr-2 h-6 w-6" />
-                    Call Now
+                    <Phone className="mr-2 h-5 w-5"/> Call
                 </a>
-            </Button>
-            <div className="grid grid-cols-3 gap-2">
-                {contact.whatsapp ? (
-                    <Button asChild variant="outline" className="w-full">
+              </Button>
+              <Button asChild variant="secondary" className="h-auto py-3 text-base font-bold bg-blue-500 text-white hover:bg-blue-600 transition-transform hover:scale-105">
+                 <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
+                    <MapPin className="mr-2 h-5 w-5" /> View
+                </a>
+              </Button>
+               <Button asChild variant="secondary" className="h-auto py-3 text-base font-bold bg-green-600 text-white hover:bg-green-700 transition-transform hover:scale-105">
+                 <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
+                    <Navigation className="mr-2 h-5 w-5" /> Navigate
+                </a>
+              </Button>
+          </div>
+          <div className="mt-4 flex justify-between items-center">
+             <div className="flex gap-2">
+                {contact.whatsapp && (
+                    <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full text-green-500 hover:bg-green-100">
                         <a href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
-                            <WhatsAppIcon className="h-5 w-5" />
+                            <WhatsAppIcon className="h-6 w-6" />
                         </a>
                     </Button>
-                ) : <div/>}
-
-                {contact.mapLink ? (
-                     <Button asChild variant="outline" className="w-full">
-                        <a href={contact.mapLink} target="_blank" rel="noopener noreferrer">
-                            <MapPin className="h-5 w-5" />
-                        </a>
-                    </Button>
-                ) : <div />}
-
-                <Button variant="outline" className="w-full" onClick={handleShare}>
+                )}
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-gray-500 hover:bg-gray-100" onClick={handleShare}>
                     <Share2 className="h-5 w-5" />
                 </Button>
-            </div>
-             <Button variant="ghost" size="sm" className="w-full text-muted-foreground" onClick={() => setReportDialogOpen(true)}>
-                <Flag className="mr-2 h-4 w-4" />
+             </div>
+             <Button variant="link" size="sm" className="text-xs text-gray-500 hover:text-destructive" onClick={() => setReportDialogOpen(true)}>
+                <Flag className="mr-1 h-3 w-3" />
                 Report Issue
             </Button>
-        </CardFooter>
-      </Card>
+          </div>
+      </div>
       {isReportDialogOpen && (
         <ReportDialog
             isOpen={isReportDialogOpen}

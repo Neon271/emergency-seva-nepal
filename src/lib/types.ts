@@ -25,6 +25,7 @@ export interface EmergencyContact {
   mapLink?: string;
   whatsapp?: string;
   bloodTypes?: string[];
+  categoryId?: string;
 }
 
 export interface EmergencyServiceCategory {
@@ -36,7 +37,7 @@ export interface EmergencyServiceCategory {
 }
 
 // For custom user-added contacts
-export type CustomContactCategory = 'ambulance' | 'clinic' | 'pharmacy' | 'other';
+export type CustomContactCategory = 'ambulance' | 'clinic' | 'pharmacy' | 'other' | 'hospital' | 'police' | 'fire' | 'blood' | 'helpline';
 
 export interface CustomContact {
     id: string;

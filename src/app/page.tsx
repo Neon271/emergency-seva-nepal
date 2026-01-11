@@ -5,20 +5,33 @@ import { useLocation } from '@/hooks/use-location-context';
 import WelcomeScreen from '@/components/onboarding/WelcomeScreen';
 import LocationSetup from '@/components/onboarding/LocationSetup';
 import Dashboard from '@/components/dashboard/Dashboard';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 
 export default function Home() {
   const { isLocationSet, isInitialLoad } = useLocation();
 
   if (isInitialLoad) {
     // You can return a loading spinner here if needed
-    return null;
+    return <div className="bg-gradient-to-r from-[#667eea] to-[#764ba2] min-h-screen"></div>;
   }
 
-  if (!isLocationSet) {
-    return <OnboardingFlow />;
+  const renderContent = () => {
+    if (!isLocationSet) {
+      return <OnboardingFlow />;
+    }
+    return <Dashboard />;
   }
 
-  return <Dashboard />;
+  return (
+    <>
+      <Header />
+      <main className="main-container">
+        {renderContent()}
+      </main>
+      <Footer />
+    </>
+  );
 }
 
 function OnboardingFlow() {

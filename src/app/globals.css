@@ -10,20 +10,20 @@
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 204 80% 50%; /* Soft Blue */
-    --primary-foreground: 210 20% 98%;
+    --primary: 0 84.2% 60.2%; /* Red */
+    --primary-foreground: 0 0% 98%;
     --secondary: 210 20% 96.1%;
     --secondary-foreground: 215 13.8% 34.3%;
     --muted: 210 20% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 31 100% 49%; /* Warm Orange */
+    --accent: 255 75% 50%; /* Blueish accent */
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 204 80% 50%;
-    --radius: 0.5rem;
+    --ring: 0 84.2% 60.2%;
+    --radius: 1rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -40,25 +40,25 @@
   }
 
   .dark {
-    --background: 210 20% 10%; /* Darker Gray */
+    --background: 210 20% 10%;
     --foreground: 210 20% 98%;
     --card: 222 47.4% 11.2%;
     --card-foreground: 210 20% 98%;
     --popover: 222 47.4% 11.2%;
     --popover-foreground: 210 20% 98%;
-    --primary: 204 70% 55%; /* Lighter Soft Blue */
-    --primary-foreground: 210 20% 98%;
+    --primary: 0 72% 65%; /* Lighter Red */
+    --primary-foreground: 0 0% 98%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 20% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 31 100% 55%; /* Lighter Warm Orange */
+    --accent: 255 70% 60%; /* Lighter Blueish */
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 204 70% 55%;
+    --ring: 0 72% 65%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -81,5 +81,31 @@
   }
   body {
     @apply bg-background text-foreground;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
+
+  .main-container {
+      @apply flex-1 flex flex-col items-center justify-center p-4;
+  }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.pulse-animation {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+.animate-scroll-left {
+    animation: scroll-left 20s linear infinite;
 }

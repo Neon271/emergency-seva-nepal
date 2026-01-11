@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -34,7 +33,7 @@ export function useCustomContacts() {
 
   const addContact = useCallback((contact: Omit<CustomContact, 'id'>) => {
     const newContact = { ...contact, id: `custom-${Date.now()}` };
-    const updatedContacts = [...customContacts, newContact];
+    const updatedContacts = [newContact, ...customContacts];
     saveContacts(updatedContacts);
     return newContact;
   }, [customContacts, saveContacts]);
