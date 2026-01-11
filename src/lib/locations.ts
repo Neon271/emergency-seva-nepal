@@ -1,7 +1,7 @@
 import type { Province, District } from '@/lib/types';
 
 export const provinces: Province[] = [
-  { id: 'p1', name: 'Province 1', name_ne: 'प्रदेश १' },
+  { id: 'p1', name: 'Koshi Province', name_ne: 'कोशी प्रदेश' },
   { id: 'p2', name: 'Madhesh Province', name_ne: 'मधेश प्रदेश' },
   { id: 'p3', name: 'Bagmati Province', name_ne: 'बागमती प्रदेश' },
   { id: 'p4', name: 'Gandaki Province', name_ne: 'गण्डकी प्रदेश' },
