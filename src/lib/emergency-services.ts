@@ -1,553 +1,117 @@
+
 import {
   Ambulance,
   Building,
   HeartHandshake,
   Shield,
-  Siren,
   Phone,
   Flame,
   PersonStanding,
 } from 'lucide-react';
-import type { EmergencyServiceCategory } from '@/lib/types';
+import type { EmergencyServiceCategory, EmergencyContact } from '@/lib/types';
+import allDistricts from '@/lib/data/districts.json';
+import districtContactMapping from '@/lib/data/contacts.json';
+import serviceData from '@/lib/data/services.json';
+
+const allServicesRaw = serviceData.allServices;
+const allContactsMap: Record<string, Omit<EmergencyContact, 'id'>> = serviceData.allContacts;
 
 export const allBloodTypes = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
-const allServices: Omit<EmergencyServiceCategory, 'contacts'>[] = [
-  { id: 'police', name: 'Police', name_ne: 'प्रहरी', icon: Shield },
-  { id: 'ambulance', name: 'Ambulance', name_ne: 'एम्बुलेन्स', icon: Ambulance },
-  { id: 'fire', name: 'Fire Brigade', name_ne: 'दमकल', icon: Flame },
-  { id: 'hospital', name: 'Hospitals', name_ne: 'अस्पताल', icon: Building },
-  { id: 'women', name: 'Women Helpline', name_ne: 'महिला हेल्पलाइन', icon: PersonStanding },
-  { id: 'blood', name: 'Blood Bank', name_ne: 'ब्लड बैंक', icon: HeartHandshake },
-  { id: 'disaster', name: 'National Helplines', name_ne: 'राष्ट्रिय हेल्पलाइन', icon: Phone },
-];
-
-const nationalHelplines: EmergencyServiceCategory[] = [
-    {
-      id: 'women',
-      name: 'Women Helpline',
-      name_ne: 'महिला हेल्पलाइन',
-      icon: PersonStanding,
-      contacts: [
-        { id: 'nat-w-1', name: 'National Women Commission', name_ne: 'राष्ट्रिय महिला आयोग', phone: '1145', address: 'Nationwide' },
-      ],
-    },
-    {
-      id: 'disaster',
-      name: 'National Helplines',
-      name_ne: 'राष्ट्रिय हेल्पलाइन',
-      icon: Phone,
-      contacts: [
-         { id: 'nat-d-1', name: 'Disaster & Emergency Control', name_ne: 'विपद् तथा आपतकालीन नियन्त्रण', phone: '1149', address: 'Nationwide' },
-         { id: 'nat-d-2', name: 'National Emergency Operation Center', name_ne: 'राष्ट्रिय आपतकालीन कार्य सञ्चालन केन्द्र', phone: '1155', address: 'Nationwide' },
-      ],
-    },
-];
-
-const contactsData: { [key: string]: EmergencyServiceCategory[] } = {
-  kathmandu: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'k-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'k-p-2', name: 'Metropolitan Police, Ranipokhari', name_ne: 'महानगरीय प्रहरी, रानीपोखरी', phone: '014228435', address: 'Ranipokhari, Kathmandu' },
-        { id: 'k-p-3', name: 'Police Circle, Maharajganj', name_ne: 'प्रहरी वृत्त, महाराजगञ्ज', phone: '014412780', address: 'Maharajganj, Kathmandu' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'k-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-        { id: 'k-a-2', name: 'Red Cross Ambulance', name_ne: 'रेडक्रस एम्बुलेन्स', phone: '014228094', address: 'Pradarshani Marg, Kathmandu' },
-        { id: 'k-a-3', name: 'Bir Hospital Ambulance', name_ne: 'वीर अस्पताल एम्बुलेन्स', phone: '014221988', address: 'Kanti Path, Kathmandu' },
-      ],
-    },
-     {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'k-f-1', name: 'Fire Brigade Control, Basantapur', name_ne: 'जुद्ध बारुण यन्त्र, बसन्तपुर', phone: '101', address: 'Basantapur, Kathmandu' },
-        { id: 'k-f-2', name: 'Fire Brigade, Bouddha', name_ne: 'दमकल, बौद्ध', phone: '014470101', address: 'Bouddha, Kathmandu' },
-      ],
-    },
-    {
-      id: 'blood',
-      name: 'Blood Bank',
-      name_ne: 'ब्लड बैंक',
-      icon: HeartHandshake,
-      contacts: [
-        { id: 'k-b-1', name: 'Central Blood Transfusion Service', name_ne: 'केन्द्रीय रक्तसञ्चार सेवा', phone: '014225344', address: 'Kalimati, Kathmandu', bloodTypes: allBloodTypes },
-      ],
-    },
-  ],
-  bhaktapur: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'b-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'b-p-2', name: 'District Police Office, Bhaktapur', name_ne: 'जिल्ला प्रहरी कार्यालय, भक्तपुर', phone: '016614821', address: 'Bhaktapur Durbar Square' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'b-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-        { id: 'b-a-2', name: 'Bhaktapur Red Cross', name_ne: 'भक्तपुर रेडक्रस', phone: '016610747', address: 'Bhaktapur' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'b-f-1', name: 'Fire Brigade, Bhaktapur', name_ne: 'दमकल, भक्तपुर', phone: '016611177', address: 'Bhaktapur' },
-      ],
-    },
-  ],
-  lalitpur: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'l-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'l-p-2', name: 'District Police Office, Lalitpur', name_ne: 'जिल्ला प्रहरी कार्यालय, ललितपुर', phone: '015521207', address: 'Mangalbazar, Lalitpur' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'l-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-        { id: 'l-a-2', name: 'Patan Hospital Ambulance', name_ne: 'पाटन अस्पताल एम्बुलेन्स', phone: '015522266', address: 'Lagankhel, Lalitpur' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'l-f-1', name: 'Fire Brigade, Lalitpur', name_ne: 'दमकल, ललितपुर', phone: '015521177', address: 'Pulchowk, Lalitpur' },
-      ],
-    },
-  ],
-  kaski: [
-     {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'kaski-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'kaski-p-2', name: 'District Police Office, Kaski', name_ne: 'जिल्ला प्रहरी कार्यालय, कास्की', phone: '061520033', address: 'Pokhara' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'kaski-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'kaski-f-1', name: 'Pokhara Fire Brigade', name_ne: 'पोखरा दमकल', phone: '061522222', address: 'Pokhara' },
-      ],
-    },
-  ],
-  chitwan: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'chitwan-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'chitwan-p-2', name: 'District Police Office, Chitwan', name_ne: 'जिल्ला प्रहरी कार्यालय, चितवन', phone: '056520155', address: 'Bharatpur' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'chitwan-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'chitwan-f-1', name: 'Bharatpur Fire Brigade', name_ne: 'भरतपुर दमकल', phone: '056520177', address: 'Bharatpur' },
-      ],
-    },
-  ],
-  morang: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'morang-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'morang-p-2', name: 'District Police Office, Morang', name_ne: 'जिल्ला प्रहरी कार्यालय, मोरङ', phone: '021523999', address: 'Biratnagar' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'morang-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'morang-f-1', name: 'Biratnagar Fire Brigade', name_ne: 'विराटनगर दमकल', phone: '021471111', address: 'Biratnagar' },
-      ],
-    },
-  ],
-  jhapa: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'jhapa-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'jhapa-p-2', name: 'District Police Office, Jhapa', name_ne: 'जिल्ला प्रहरी कार्यालय, झापा', phone: '023580133', address: 'Bhadrapur' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'jhapa-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'jhapa-f-1', name: 'Bhadrapur Fire Brigade', name_ne: 'भद्रपुर दमकल', phone: '023520101', address: 'Bhadrapur' },
-      ],
-    },
-  ],
-  sunsari: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'sunsari-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'sunsari-p-2', name: 'District Police Office, Sunsari', name_ne: 'जिल्ला प्रहरी कार्यालय, सुनसरी', phone: '025520133', address: 'Inaruwa' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'sunsari-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'sunsari-f-1', name: 'Dharan Fire Brigade', name_ne: 'धरान दमकल', phone: '025520101', address: 'Dharan' },
-      ],
-    },
-  ],
-  rupandehi: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'rupandehi-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'rupandehi-p-2', name: 'District Police Office, Rupandehi', name_ne: 'जिल्ला प्रहरी कार्यालय, रुपन्देही', phone: '071541199', address: 'Bhairahawa' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'rupandehi-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'rupandehi-f-1', name: 'Butwal Fire Brigade', name_ne: 'बुटवल दमकल', phone: '071540101', address: 'Butwal' },
-      ],
-    },
-  ],
-  banke: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'banke-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'banke-p-2', name: 'District Police Office, Banke', name_ne: 'जिल्ला प्रहरी कार्यालय, बाँके', phone: '081520199', address: 'Nepalgunj' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'banke-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'banke-f-1', name: 'Nepalgunj Fire Brigade', name_ne: 'नेपालगञ्ज दमकल', phone: '081520101', address: 'Nepalgunj' },
-      ],
-    },
-  ],
-  parsa: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'parsa-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'parsa-p-2', name: 'District Police Office, Parsa', name_ne: 'जिल्ला प्रहरी कार्यालय, पर्सा', phone: '051522133', address: 'Birgunj' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'parsa-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'parsa-f-1', name: 'Birgunj Fire Brigade', name_ne: 'वीरगञ्ज दमकल', phone: '051522131', address: 'Birgunj' },
-      ],
-    },
-  ],
-  dhanusha: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'dhanusha-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'dhanusha-p-2', name: 'District Police Office, Dhanusha', name_ne: 'जिल्ला प्रहरी कार्यालय, धनुषा', phone: '041520133', address: 'Janakpur' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'dhanusha-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'dhanusha-f-1', name: 'Janakpur Fire Brigade', name_ne: 'जनकपुर दमकल', phone: '041520101', address: 'Janakpur' },
-      ],
-    },
-  ],
-  kailali: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'kailali-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'kailali-p-2', name: 'District Police Office, Kailali', name_ne: 'जिल्ला प्रहरी कार्यालय, कैलाली', phone: '091521200', address: 'Dhangadhi' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'kailali-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'kailali-f-1', name: 'Dhangadhi Fire Brigade', name_ne: 'धनगढी दमकल', phone: '091521111', address: 'Dhangadhi' },
-      ],
-    },
-  ],
-  surkhet: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'surkhet-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'surkhet-p-2', name: 'District Police Office, Surkhet', name_ne: 'जिल्ला प्रहरी कार्यालय, सुर्खेत', phone: '083520133', address: 'Birendranagar' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'surkhet-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'surkhet-f-1', name: 'Birendranagar Fire Brigade', name_ne: 'वीरेन्द्रनगर दमकल', phone: '083520101', address: 'Birendranagar' },
-      ],
-    },
-  ],
-  makwanpur: [
-    {
-      id: 'police',
-      name: 'Police',
-      name_ne: 'प्रहरी',
-      icon: Shield,
-      contacts: [
-        { id: 'makwanpur-p-1', name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' },
-        { id: 'makwanpur-p-2', name: 'District Police Office, Makwanpur', name_ne: 'जिल्ला प्रहरी कार्यालय, मकवानपुर', phone: '057520133', address: 'Hetauda' },
-      ],
-    },
-    {
-      id: 'ambulance',
-      name: 'Ambulance',
-      name_ne: 'एम्बुलेन्स',
-      icon: Ambulance,
-      contacts: [
-        { id: 'makwanpur-a-1', name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' },
-      ],
-    },
-    {
-      id: 'fire',
-      name: 'Fire Brigade',
-      name_ne: 'दमकल',
-      icon: Flame,
-      contacts: [
-        { id: 'makwanpur-f-1', name: 'Hetauda Fire Brigade', name_ne: 'हेटौंडा दमकल', phone: '057520101', address: 'Hetauda' },
-      ],
-    },
-  ],
+const serviceIcons = {
+  police: Shield,
+  ambulance: Ambulance,
+  fire: Flame,
+  hospital: Building,
+  women: PersonStanding,
+  blood: HeartHandshake,
+  disaster: Phone,
 };
+
+const allServices: Omit<EmergencyServiceCategory, 'contacts'>[] = allServicesRaw.map(s => ({
+    ...s,
+    icon: serviceIcons[s.id as keyof typeof serviceIcons] || Phone
+}));
+
+const nationalHelplineContacts: EmergencyContact[] = [
+    { id: 'nat-w-1', name: 'National Women Commission', name_ne: 'राष्ट्रिय महिला आयोग', phone: '1145', address: 'Nationwide' },
+    { id: 'nat-d-1', name: 'Disaster & Emergency Control', name_ne: 'विपद् तथा आपतकालीन नियन्त्रण', phone: '1149', address: 'Nationwide' },
+    { id: 'nat-d-2', name: 'National Emergency Operation Center', name_ne: 'राष्ट्रिय आपतकालीन कार्य सञ्चालन केन्द्र', phone: '1155', address: 'Nationwide' },
+];
+
+const nationalHelplinesByCategory = {
+    women: nationalHelplineContacts.filter(c => c.id.startsWith('nat-w')),
+    disaster: nationalHelplineContacts.filter(c => c.id.startsWith('nat-d')),
+}
+
+const getContactById = (id: string): EmergencyContact => ({ id, ...allContactsMap[id] });
 
 export const getEmergencyServicesByDistrict = (districtId: string): EmergencyServiceCategory[] => {
   // Start with a copy of all service categories, ensuring none are missing
   const services: EmergencyServiceCategory[] = allServices.map(s => ({ ...s, contacts: [] }));
 
-  // Get district-specific data if it exists
-  const districtSpecificServices = contactsData[districtId];
-  if (districtSpecificServices) {
-    services.forEach(service => {
-      const specificService = districtSpecificServices.find(s => s.id === service.id);
-      if (specificService) {
-        service.contacts.push(...specificService.contacts);
+  // Get district-specific contact mappings
+  const districtMappings = (districtContactMapping as Record<string, { serviceId: string; contactId: string }[]>)[districtId];
+
+  if (districtMappings) {
+    districtMappings.forEach(mapping => {
+      const service = services.find(s => s.id === mapping.serviceId);
+      const contact = getContactById(mapping.contactId);
+      if (service && contact) {
+        service.contacts.push({ ...contact, categoryId: service.id });
       }
     });
   }
 
   // Add generic national numbers for core services if they don't have contacts yet
   if (services.find(s => s.id === 'police')?.contacts.length === 0) {
-    services.find(s => s.id === 'police')?.contacts.push({ id: `${districtId}-p-1`, name: 'Police Control', name_ne: 'प्रहरी कन्ट्रोल', phone: '100', address: 'Nationwide' });
+    services.find(s => s.id === 'police')?.contacts.push({ ...getContactById('k-p-1'), id: `${districtId}-p-1` });
   }
   if (services.find(s => s.id === 'ambulance')?.contacts.length === 0) {
-    services.find(s => s.id === 'ambulance')?.contacts.push({ id: `${districtId}-a-1`, name: 'Nepal Ambulance Service', name_ne: 'नेपाल एम्बुलेन्स सेवा', phone: '102', address: 'Nationwide', whatsapp: '9801234102' });
+    services.find(s => s.id === 'ambulance')?.contacts.push({ ...getContactById('k-a-1'), id: `${districtId}-a-1` });
   }
   if (services.find(s => s.id === 'fire')?.contacts.length === 0) {
-    services.find(s => s.id === 'fire')?.contacts.push({ id: `${districtId}-f-1`, name: 'Fire Brigade', name_ne: 'दमकल', phone: '101', address: 'Nationwide' });
+    services.find(s => s.id === 'fire')?.contacts.push({ ...getContactById('k-f-1'), id: `${districtId}-f-1` });
   }
 
   // Always merge national helplines
-  nationalHelplines.forEach(nationalService => {
-      const service = services.find(s => s.id === nationalService.id);
-      if (service) {
-          // Avoid duplicates
+  services.forEach(service => {
+      const nationalContacts = (nationalHelplinesByCategory as Record<string, EmergencyContact[]>)[service.id];
+      if (nationalContacts) {
           const existingIds = new Set(service.contacts.map(c => c.id));
-          const newContacts = nationalService.contacts.filter(c => !existingIds.has(c.id));
-          service.contacts.unshift(...newContacts);
+          const newContacts = nationalContacts.filter(c => !existingIds.has(c.id));
+          service.contacts.unshift(...newContacts.map(c => ({...c, categoryId: service.id})));
       }
   });
 
   return services;
 };
+
+export const getAllContacts = (): Map<string, EmergencyContact> => {
+    const allContacts = new Map<string, EmergencyContact>();
+    
+    // Add all base contacts
+    for (const id in allContactsMap) {
+        allContacts.set(id, getContactById(id));
+    }
+
+    // Add all national helplines
+    nationalHelplineContacts.forEach(contact => {
+        allContacts.set(contact.id, contact);
+    });
+
+    // Add generic fallbacks
+    allDistricts.forEach(district => {
+        if (!allContacts.has(`${district.id}-p-1`)) {
+            allContacts.set(`${district.id}-p-1`, { ...getContactById('k-p-1'), id: `${district.id}-p-1` });
+        }
+        if (!allContacts.has(`${district.id}-a-1`)) {
+            allContacts.set(`${district.id}-a-1`, { ...getContactById('k-a-1'), id: `${district.id}-a-1` });
+        }
+        if (!allContacts.has(`${district.id}-f-1`)) {
+           allContacts.set(`${district.id}-f-1`, { ...getContactById('k-f-1'), id: `${district.id}-f-1` });
+        }
+    });
+
+    return allContacts;
+}

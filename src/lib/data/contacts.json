@@ -1,0 +1,104 @@
+
+{
+  "kathmandu": [
+    { "serviceId": "police", "contactId": "k-p-1" },
+    { "serviceId": "police", "contactId": "k-p-2" },
+    { "serviceId": "police", "contactId": "k-p-3" },
+    { "serviceId": "police", "contactId": "k-p-4" },
+    { "serviceId": "police", "contactId": "k-p-5" },
+    { "serviceId": "ambulance", "contactId": "k-a-1" },
+    { "serviceId": "ambulance", "contactId": "k-a-2" },
+    { "serviceId": "ambulance", "contactId": "k-a-3" },
+    { "serviceId": "ambulance", "contactId": "k-a-4" },
+    { "serviceId": "fire", "contactId": "k-f-1" },
+    { "serviceId": "fire", "contactId": "k-f-2" },
+    { "serviceId": "hospital", "contactId": "k-h-1" },
+    { "serviceId": "hospital", "contactId": "k-h-2" },
+    { "serviceId": "hospital", "contactId": "k-h-3" },
+    { "serviceId": "hospital", "contactId": "k-h-4" },
+    { "serviceId": "blood", "contactId": "k-b-1" }
+  ],
+  "bhaktapur": [
+    { "serviceId": "police", "contactId": "b-p-1" },
+    { "serviceId": "police", "contactId": "b-p-2" },
+    { "serviceId": "ambulance", "contactId": "b-a-1" },
+    { "serviceId": "ambulance", "contactId": "b-a-2" },
+    { "serviceId": "fire", "contactId": "b-f-1" },
+    { "serviceId": "hospital", "contactId": "b-h-1" },
+    { "serviceId": "hospital", "contactId": "b-h-2" },
+    { "serviceId": "blood", "contactId": "b-b-1" }
+  ],
+  "lalitpur": [
+    { "serviceId": "police", "contactId": "l-p-1" },
+    { "serviceId": "police", "contactId": "l-p-2" },
+    { "serviceId": "ambulance", "contactId": "l-a-1" },
+    { "serviceId": "ambulance", "contactId": "l-a-2" },
+    { "serviceId": "fire", "contactId": "l-f-1" },
+    { "serviceId": "hospital", "contactId": "l-h-1" },
+    { "serviceId": "hospital", "contactId": "l-h-2" },
+    { "serviceId": "blood", "contactId": "l-b-1" }
+  ],
+  "kaski": [
+    { "serviceId": "police", "contactId": "kaski-p-1" },
+    { "serviceId": "ambulance", "contactId": "kaski-a-1" },
+    { "serviceId": "fire", "contactId": "kaski-f-1" },
+    { "serviceId": "hospital", "contactId": "kaski-h-1" },
+    { "serviceId": "hospital", "contactId": "kaski-h-2" }
+  ],
+  "chitwan": [
+    { "serviceId": "police", "contactId": "chitwan-p-1" },
+    { "serviceId": "ambulance", "contactId": "chitwan-a-1" },
+    { "serviceId": "fire", "contactId": "chitwan-f-1" },
+    { "serviceId": "hospital", "contactId": "chitwan-h-1" }
+  ],
+  "morang": [
+    { "serviceId": "police", "contactId": "morang-p-1" },
+    { "serviceId": "ambulance", "contactId": "morang-a-1" },
+    { "serviceId": "fire", "contactId": "morang-f-1" }
+  ],
+  "jhapa": [
+    { "serviceId": "police", "contactId": "jhapa-p-1" },
+    { "serviceId": "ambulance", "contactId": "jhapa-a-1" },
+    { "serviceId": "fire", "contactId": "jhapa-f-1" }
+  ],
+  "sunsari": [
+    { "serviceId": "police", "contactId": "sunsari-p-1" },
+    { "serviceId": "ambulance", "contactId": "sunsari-a-1" },
+    { "serviceId": "fire", "contactId": "sunsari-f-1" }
+  ],
+  "rupandehi": [
+    { "serviceId": "police", "contactId": "rupandehi-p-1" },
+    { "serviceId": "ambulance", "contactId": "rupandehi-a-1" },
+    { "serviceId": "fire", "contactId": "rupandehi-f-1" }
+  ],
+  "banke": [
+    { "serviceId": "police", "contactId": "banke-p-1" },
+    { "serviceId": "ambulance", "contactId": "banke-a-1" },
+    { "serviceId": "fire", "contactId": "banke-f-1" }
+  ],
+  "parsa": [
+    { "serviceId": "police", "contactId": "parsa-p-1" },
+    { "serviceId": "ambulance", "contactId": "parsa-a-1" },
+    { "serviceId": "fire", "contactId": "parsa-f-1" }
+  ],
+  "dhanusha": [
+    { "serviceId": "police", "contactId": "dhanusha-p-1" },
+    { "serviceId": "ambulance", "contactId": "dhanusha-a-1" },
+    { "serviceId": "fire", "contactId": "dhanusha-f-1" }
+  ],
+  "kailali": [
+    { "serviceId": "police", "contactId": "kailali-p-1" },
+    { "serviceId": "ambulance", "contactId": "kailali-a-1" },
+    { "serviceId": "fire", "contactId": "kailali-f-1" }
+  ],
+  "surkhet": [
+    { "serviceId": "police", "contactId": "surkhet-p-1" },
+    { "serviceId": "ambulance", "contactId": "surkhet-a-1" },
+    { "serviceId": "fire", "contactId": "surkhet-f-1" }
+  ],
+  "makwanpur": [
+    { "serviceId": "police", "contactId": "makwanpur-p-1" },
+    { "serviceId": "ambulance", "contactId": "makwanpur-a-1" },
+    { "serviceId": "fire", "contactId": "makwanpur-f-1" }
+  ]
+}

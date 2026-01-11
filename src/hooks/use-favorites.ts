@@ -3,9 +3,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import type { EmergencyContact } from '@/lib/types';
-import { getEmergencyServicesByDistrict } from '@/lib/emergency-services';
-import { districts } from '@/lib/locations';
-
+import { getAllContacts } from '@/lib/emergency-services';
 
 const FAVORITES_STORAGE_KEY = 'emergency-seva-favorites';
 
@@ -13,6 +11,12 @@ export function useFavorites() {
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
   const [favoriteContacts, setFavoriteContacts] = useState<EmergencyContact[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [allContactsMap, setAllContactsMap] = useState<Map<string, EmergencyContact>>(new Map());
+
+  // Load all contacts into memory once
+  useEffect(() => {
+    setAllContactsMap(getAllContacts());
+  }, []);
 
   // Load favorite IDs from localStorage on initial render
   useEffect(() => {
@@ -40,26 +44,14 @@ export function useFavorites() {
 
   // Re-populate favorite contacts when favorite IDs or all contacts change
   useEffect(() => {
-    if (isLoading) return;
-    
-    // This is inefficient but necessary without a central data store.
-    // We collect all contacts from all districts.
-    const allContactsMap = new Map<string, EmergencyContact>();
-    districts.forEach(district => {
-      const services = getEmergencyServicesByDistrict(district.id);
-      services.forEach(service => {
-        service.contacts.forEach(contact => {
-          allContactsMap.set(contact.id, contact);
-        });
-      });
-    });
+    if (isLoading || allContactsMap.size === 0) return;
 
     const contacts = Array.from(favoriteIds)
       .map(id => allContactsMap.get(id))
       .filter((c): c is EmergencyContact => !!c);
       
     setFavoriteContacts(contacts);
-  }, [favoriteIds, isLoading]);
+  }, [favoriteIds, isLoading, allContactsMap]);
   
   // Toggle a contact's favorite status
   const toggleFavorite = useCallback((contact: EmergencyContact) => {
