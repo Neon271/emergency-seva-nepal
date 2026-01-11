@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useLocation } from '@/hooks/use-location-context';
 import { Button } from '../ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, HeartHandshake } from 'lucide-react';
 import AddContactDialog from '../dashboard/AddContactDialog';
 import { useState } from 'react';
 import LocationSelector from '../location/LocationSelector';
@@ -19,7 +19,7 @@ const Header = () => {
         <div className="container flex h-16 items-center">
           <div className="mr-4 flex">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl">⛑️</span>
+              <HeartHandshake className="h-6 w-6 text-primary" />
               <span className="font-bold">
                 Emergency Seva
               </span>
