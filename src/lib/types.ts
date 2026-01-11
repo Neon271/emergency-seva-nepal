@@ -34,6 +34,18 @@ export interface EmergencyServiceCategory {
   contacts: EmergencyContact[];
 }
 
+// For custom user-added contacts
+export type CustomContactCategory = 'ambulance' | 'clinic' | 'pharmacy' | 'other';
+
+export interface CustomContact {
+    id: string;
+    name: string;
+    phone: string;
+    category: CustomContactCategory;
+    address?: string;
+}
+
+
 // For feedback submission
 export interface ReportPayload {
   contactId: string;
