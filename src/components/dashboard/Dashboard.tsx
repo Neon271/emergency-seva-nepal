@@ -56,10 +56,10 @@ export default function Dashboard() {
     }
     return (
         <div className="w-full max-w-5xl">
-            <div className="mb-6 rounded-2xl bg-white p-6 shadow-xl">
-                 <h2 className="text-2xl font-bold text-gray-800 sm:text-3xl">Emergency Services</h2>
-                 <p className="mt-1 text-sm text-gray-600">
-                    Showing services for {selectedDistrict?.name_ne}, {selectedProvince?.name_ne}
+            <div className="mb-6 rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-xl">
+                 <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 sm:text-3xl">Emergency Services</h2>
+                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    Showing services for {selectedDistrict?.name_ne} ({selectedDistrict?.name}), {selectedProvince?.name_ne} ({selectedProvince?.name})
                  </p>
                  <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <Button onClick={() => findNearby('hospitals')} className="h-auto py-3 text-base font-bold bg-green-600 hover:bg-green-700 shadow-lg transition-transform hover:scale-105">

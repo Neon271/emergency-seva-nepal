@@ -91,7 +91,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
 
   return (
     <>
-      <div className="mb-4 rounded-2xl bg-white p-4 shadow-xl">
+      <div className="mb-4 rounded-2xl bg-white dark:bg-slate-900 p-4 shadow-xl">
         <Input 
           type="text"
           placeholder="Search for hospitals, police, ambulance..."
@@ -101,11 +101,11 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
         />
       </div>
 
-      <div className="mb-6 rounded-2xl bg-white p-4 shadow-xl overflow-x-auto">
+      <div className="mb-6 rounded-2xl bg-white dark:bg-slate-900 p-4 shadow-xl overflow-x-auto">
         <div className="flex space-x-2">
             <button 
                 onClick={() => setActiveCategory('all')}
-                className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-bold transition-colors ${activeCategory === 'all' ? 'bg-destructive text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-bold transition-colors ${activeCategory === 'all' ? 'bg-destructive text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700'}`}
             >
                 All Services
             </button>
@@ -113,7 +113,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
              <button 
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-bold transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'bg-destructive text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-bold transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'bg-destructive text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700'}`}
              >
                 {categoryIcons[cat.id as keyof typeof categoryIcons] || cat.name}
             </button>
@@ -128,7 +128,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
             ))}
         </div>
       ) : (
-        <div className="mt-8 text-center text-gray-500 bg-white p-10 rounded-2xl shadow-xl">
+        <div className="mt-8 text-center text-gray-500 bg-white dark:bg-slate-900 p-10 rounded-2xl shadow-xl">
             <h3 className="text-xl font-bold">No Results Found</h3>
             <p>Try adjusting your search or filter.</p>
         </div>

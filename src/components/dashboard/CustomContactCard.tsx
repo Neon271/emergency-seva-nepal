@@ -26,13 +26,23 @@ const categoryIcons: Record<CustomContactCategory, React.ElementType> = {
     clinic: Stethoscope,
     pharmacy: Pill,
     other: LifeBuoy,
+    hospital: Stethoscope,
+    police: LifeBuoy,
+    fire: LifeBuoy,
+    blood: LifeBuoy,
+    helpline: LifeBuoy,
 };
 
 const categoryNames = {
     ambulance: 'Ambulance Service',
     clinic: 'Clinic / Doctor',
     pharmacy: 'Pharmacy',
-    other: 'Other'
+    other: 'Other',
+    hospital: 'Hospital',
+    police: 'Police',
+    fire: 'Fire Brigade',
+    blood: 'Blood Bank',
+    helpline: 'Helpline'
 };
 
 export default function CustomContactCard({ contact }: CustomContactCardProps) {
@@ -42,7 +52,7 @@ export default function CustomContactCard({ contact }: CustomContactCardProps) {
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contact.address || contact.name)}`;
 
   return (
-    <div className="emergency-card bg-white rounded-2xl p-6 shadow-xl transition-transform hover:translate-y-[-3px] hover:shadow-2xl">
+    <div className="emergency-card bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl transition-transform hover:translate-y-[-3px] hover:shadow-2xl">
           <div className="card-header flex items-center gap-4 mb-4">
               <div className="card-icon text-5xl flex-shrink-0">
                   <CategoryIcon className="h-12 w-12 text-primary" />
@@ -51,7 +61,7 @@ export default function CustomContactCard({ contact }: CustomContactCardProps) {
                   <div className="card-category text-xs text-gray-500 uppercase font-bold tracking-wide">
                       {categoryNames[contact.category]}
                   </div>
-                  <div className="card-name text-xl text-gray-800 font-bold">
+                  <div className="card-name text-xl text-gray-800 dark:text-gray-200 font-bold">
                       {contact.name}
                   </div>
               </div>
@@ -62,7 +72,7 @@ export default function CustomContactCard({ contact }: CustomContactCardProps) {
                 <Phone className="h-5 w-5"/> {contact.phone}
             </a>
             {contact.address && (
-                <div className="card-address flex items-start gap-2 text-sm text-gray-600">
+                <div className="card-address flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
                     <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0"/> 
                     <span>{contact.address}</span>
                 </div>
