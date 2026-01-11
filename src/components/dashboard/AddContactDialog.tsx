@@ -40,7 +40,7 @@ const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   phone: z.string().regex(/^[\d\s()+-]+$/, "Invalid phone number format.").min(1, "Phone number is required."),
   category: z.enum(['ambulance', 'clinic', 'pharmacy', 'other', 'hospital', 'police', 'fire', 'blood', 'helpline']),
-  address: z.string().min(1, "Address is required."),
+  address: z.string().optional(),
 });
 
 type ContactFormValues = z.infer<typeof contactSchema>;
@@ -93,20 +93,36 @@ export default function AddContactDialog({ isOpen, onOpenChange, onSuccess }: Ad
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md rounded-2xl">
-        <DialogHeader className="text-center">
-          <DialogTitle className="text-2xl font-bold text-gray-800">Add Emergency Contact</DialogTitle>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add a Custom Contact</DialogTitle>
+          <DialogDescription>
+            Save a personal emergency contact. It will be stored on your device.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold text-gray-700">Contact Name *</FormLabel>
+                  <FormLabel>Contact Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., City Hospital Pokhara" {...field} className="rounded-lg border-2 p-3 h-auto text-base" />
+                    <Input placeholder="e.g., Dr. Ramesh" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., 98XXXXXXXX" type="tel" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,11 +133,11 @@ export default function AddContactDialog({ isOpen, onOpenChange, onSuccess }: Ad
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold text-gray-700">Type *</FormLabel>
+                  <FormLabel>Category</FormLabel>
                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="rounded-lg border-2 p-3 h-auto text-base">
-                        <SelectValue placeholder="-- Select Type --" />
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -142,38 +158,26 @@ export default function AddContactDialog({ isOpen, onOpenChange, onSuccess }: Ad
             />
              <FormField
               control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-semibold text-gray-700">Phone Number *</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., 98XXXXXXXX" type="tel" {...field} className="rounded-lg border-2 p-3 h-auto text-base"/>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-              control={form.control}
               name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold text-gray-700">Address *</FormLabel>
+                  <FormLabel>Address (Optional)</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="e.g., Near the main market, Pokhara" {...field} className="rounded-lg border-2 p-3 text-base"/>
+                    <Textarea placeholder="e.g., Near the main market, Pokhara" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <DialogFooter className="grid grid-cols-2 gap-3 pt-4">
+            <DialogFooter>
               <DialogClose asChild>
-                <Button type="button" variant="outline" className="h-auto py-3 text-base font-bold rounded-lg bg-gray-100 hover:bg-gray-200">
+                <Button type="button" variant="outline">
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={isPending} className="h-auto py-3 text-base font-bold rounded-lg shadow-lg transition-transform hover:scale-105">
-                {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "💾 Save Contact"}
+              <Button type="submit" disabled={isPending}>
+                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Save Contact
               </Button>
             </DialogFooter>
           </form>

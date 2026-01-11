@@ -3,8 +3,9 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { MessageSquareWarning, Loader2, MapPin } from 'lucide-react';
+import { MessageSquareWarning, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent } from '../ui/card';
 
 export default function EmergencySms() {
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
@@ -60,24 +61,24 @@ export default function EmergencySms() {
 
   return (
     <Card className="bg-destructive/10 border-destructive">
-        <CardContent className="p-4 flex flex-col md:flex-row items-center justify-center gap-4 text-center">
-            <div className="flex-grow">
-                <h3 className="font-headline text-xl font-bold text-destructive-foreground">Emergency Situation?</h3>
-                <p className="text-destructive-foreground/80">
-                    Quickly send a pre-written SMS with your location to an emergency contact.
+        <CardContent className="p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-center sm:text-left">
+                <h3 className="font-bold text-destructive-foreground">Emergency Situation?</h3>
+                <p className="text-sm text-destructive-foreground/80">
+                    Quickly send an SMS with your location to an emergency contact.
                 </p>
             </div>
              <Button
                 size="lg"
                 variant="destructive"
-                className="w-full md:w-auto text-lg py-6"
+                className="w-full sm:w-auto flex-shrink-0"
                 onClick={handleClick}
                 disabled={isLoadingLocation}
                 >
                 {isLoadingLocation ? (
-                    <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
-                    <MessageSquareWarning className="mr-2 h-6 w-6" />
+                    <MessageSquareWarning className="mr-2 h-4 w-4" />
                 )}
                 Send Emergency SMS
             </Button>
@@ -85,11 +86,3 @@ export default function EmergencySms() {
     </Card>
   );
 }
-
-// Dummy Card components for compilation, as they are not imported
-const Card = ({ className, children }: { className?: string, children: React.ReactNode }) => (
-    <div className={className}>{children}</div>
-);
-const CardContent = ({ className, children }: { className?: string, children: React.ReactNode }) => (
-    <div className={className}>{children}</div>
-);

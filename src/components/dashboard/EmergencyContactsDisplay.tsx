@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { getEmergencyServicesByDistrict, allBloodTypes } from "@/lib/emergency-services";
+import { getEmergencyServicesByDistrict } from "@/lib/emergency-services";
 import { districts } from "@/lib/locations";
 import type { EmergencyServiceCategory } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,6 +9,8 @@ import { ComingSoon } from "../shared/ComingSoon";
 import { useLocation } from "@/hooks/use-location-context";
 import { Input } from "../ui/input";
 import EmergencyContactCard from "./EmergencyContactCard";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { allBloodTypes } from "@/lib/emergency-services";
 
 interface EmergencyContactsDisplayProps {
   districtId: string;
@@ -20,6 +22,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
+  const [selectedBloodType, setSelectedBloodType] = useState<string>("all");
 
   const districtInfo = districts.find(d => d.id === districtId);
 
@@ -39,14 +42,18 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
   const filteredContacts = useMemo(() => {
     return allContacts.filter(contact => {
       const matchesCategory = activeCategory === 'all' || contact.categoryId === activeCategory;
+      
       const matchesSearch = searchTerm === "" || 
         contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         contact.name_ne.toLowerCase().includes(searchTerm.toLowerCase()) ||
         contact.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         contact.categoryName.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearch;
+
+      const matchesBloodType = activeCategory !== 'blood' || selectedBloodType === 'all' || (contact.bloodTypes && contact.bloodTypes.includes(selectedBloodType));
+
+      return matchesCategory && matchesSearch && matchesBloodType;
     });
-  }, [allContacts, activeCategory, searchTerm]);
+  }, [allContacts, activeCategory, searchTerm, selectedBloodType]);
 
   const serviceCategories = useMemo(() => {
     const categories = services.map(s => ({id: s.id, name: s.name, name_ne: s.name_ne, icon: s.icon, contactsCount: s.contacts.length}));
@@ -79,46 +86,60 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
   }
 
   const categoryIcons = {
-    all: 'All Services',
-    ambulance: '🚑 Ambulance',
-    hospital: '🏥 Hospital',
-    police: '👮 Police',
-    fire: '🚒 Fire',
-    blood: '🩸 Blood Bank',
-    women: '👩 Women Helpline',
-    disaster: '☎️ Disaster',
+    all: 'All',
+    ambulance: '🚑',
+    hospital: '🏥',
+    police: '👮',
+    fire: '🚒',
+    blood: '🩸',
+    women: '👩',
+    disaster: '☎️',
   };
 
   return (
     <>
-      <div className="mb-4 rounded-2xl bg-white dark:bg-slate-900 p-4 shadow-xl">
+      <div className="mb-4 space-y-4">
         <Input 
           type="text"
-          placeholder="Search for hospitals, police, ambulance..."
-          className="w-full rounded-lg border-2 p-3 h-auto text-base"
+          placeholder="Search contacts..."
+          className="w-full"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-      </div>
 
-      <div className="mb-6 rounded-2xl bg-white dark:bg-slate-900 p-4 shadow-xl overflow-x-auto">
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 overflow-x-auto pb-2">
             <button 
                 onClick={() => setActiveCategory('all')}
-                className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-bold transition-colors ${activeCategory === 'all' ? 'bg-destructive text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700'}`}
+                className={`flex-shrink-0 rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${activeCategory === 'all' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}
             >
-                All Services
+                All
             </button>
           {serviceCategories.filter(c => c.contactsCount > 0).map(cat => (
              <button 
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`flex-shrink-0 rounded-full px-4 py-2 text-sm font-bold transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'bg-destructive text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700'}`}
+                className={`flex-shrink-0 rounded-full px-3 py-1.5 text-sm font-medium transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}
              >
-                {categoryIcons[cat.id as keyof typeof categoryIcons] || cat.name}
+                {categoryIcons[cat.id as keyof typeof categoryIcons] || cat.name} {cat.name_ne}
             </button>
           ))}
         </div>
+
+        {activeCategory === 'blood' && (
+          <div>
+            <Select onValueChange={setSelectedBloodType} value={selectedBloodType}>
+              <SelectTrigger>
+                <SelectValue placeholder="Filter by blood type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Blood Types</SelectItem>
+                {allBloodTypes.map(type => (
+                  <SelectItem key={type} value={type}>{type}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
       
       {filteredContacts.length > 0 ? (
@@ -128,9 +149,8 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
             ))}
         </div>
       ) : (
-        <div className="mt-8 text-center text-gray-500 bg-white dark:bg-slate-900 p-10 rounded-2xl shadow-xl">
-            <h3 className="text-xl font-bold">No Results Found</h3>
-            <p>Try adjusting your search or filter.</p>
+        <div className="mt-8 text-center text-muted-foreground">
+            <p>No contacts found for your search/filter.</p>
         </div>
       )}
     </>

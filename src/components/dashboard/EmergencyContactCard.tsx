@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Phone, Share2, Flag, MapPin, Star, Navigation, Ambulance, Building, Shield, Flame, HeartHandshake, PersonStanding } from "lucide-react";
+import { Phone, Share2, Flag, MapPin, Star, Navigation } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { EmergencyContact } from "@/lib/types";
 import ReportDialog from "../feedback/ReportDialog";
@@ -89,68 +89,67 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
 
   return (
     <>
-      <div className="emergency-card bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-xl transition-transform hover:translate-y-[-3px] hover:shadow-2xl">
-          <div className="card-header flex items-center gap-4 mb-4">
-              <div className="card-icon text-5xl flex-shrink-0">
-                  {categoryIcons[categoryId as keyof typeof categoryIcons] || '📋'}
-              </div>
-              <div className="card-title-group flex-1">
-                  <div className="card-category text-xs text-gray-500 uppercase font-bold tracking-wide">
-                      {categoryNames[categoryId as keyof typeof categoryNames] || categoryId}
-                  </div>
-                  <div className="card-name text-xl text-gray-800 dark:text-gray-200 font-bold">
-                    {contact.name_ne}
-                  </div>
-                  <p className="text-sm text-gray-500">{contact.name}</p>
-              </div>
-               <Button variant="ghost" size="icon" onClick={handleFavoriteClick} className="h-10 w-10 flex-shrink-0 rounded-full">
-                  <Star className={cn("h-6 w-6", favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
-                  <span className="sr-only">Favorite</span>
-              </Button>
+      <Card>
+        <CardContent className="p-4 space-y-3">
+          <div className="flex items-start gap-4">
+            <div className="text-3xl mt-1">
+                {categoryIcons[categoryId as keyof typeof categoryIcons] || '📋'}
+            </div>
+            <div className="flex-1">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider">{categoryNames[categoryId as keyof typeof categoryNames] || categoryId}</p>
+              <h3 className="font-bold text-lg">{contact.name_ne}</h3>
+              <p className="text-sm text-muted-foreground -mt-1">{contact.name}</p>
+            </div>
+            <Button variant="ghost" size="icon" onClick={handleFavoriteClick}>
+                <Star className={cn("h-6 w-6", favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
+            </Button>
           </div>
 
-          <div className="card-info mb-4 space-y-2">
-            <a href={`tel:${contact.phone}`} className="card-phone flex items-center gap-2 text-2xl text-destructive font-bold">
-                <Phone className="h-5 w-5"/> {contact.phone}
-            </a>
-            {contact.address && (
-                <div className="card-address flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0"/> 
-                    <span>{contact.address}</span>
-                </div>
-            )}
-             {contact.bloodTypes && contact.bloodTypes.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-1">
+          <a href={`tel:${contact.phone}`} className="block">
+            <div className="flex items-center gap-2 text-lg font-semibold text-primary">
+                <Phone className="h-5 w-5" /> <span>{contact.phone}</span>
+            </div>
+          </a>
+
+          {contact.address && (
+            <div className="flex items-start gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <span>{contact.address}</span>
+            </div>
+          )}
+
+            {contact.bloodTypes && contact.bloodTypes.length > 0 && (
+                <div className="flex flex-wrap gap-1">
                     {contact.bloodTypes.map(bt => (
                         <span key={bt} className="inline-block bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded-full">{bt}</span>
                     ))}
                 </div>
             )}
-          </div>
-          
-          <div className="card-actions grid grid-cols-3 gap-2">
-              <Button asChild className="btn-call h-auto py-3 text-base font-bold transition-transform hover:scale-105">
+
+          <div className="grid grid-cols-3 gap-2">
+            <Button asChild>
                 <a href={`tel:${contact.phone}`}>
-                    <Phone className="mr-2 h-5 w-5"/> Call
+                    <Phone /> Call
                 </a>
-              </Button>
-              <Button asChild variant="secondary" className="h-auto py-3 text-base font-bold bg-blue-500 text-white hover:bg-blue-600 transition-transform hover:scale-105">
+            </Button>
+             <Button asChild variant="secondary">
                  <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
-                    <MapPin className="mr-2 h-5 w-5" /> View
+                    <MapPin /> Map
                 </a>
               </Button>
-               <Button asChild variant="secondary" className="h-auto py-3 text-base font-bold bg-green-600 text-white hover:bg-green-700 transition-transform hover:scale-105">
+               <Button asChild variant="secondary">
                  <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
-                    <Navigation className="mr-2 h-5 w-5" /> Navigate
+                    <Navigation /> Directions
                 </a>
               </Button>
           </div>
-          <div className="mt-4 flex justify-between items-center">
-             <div className="flex gap-2">
+
+          <div className="flex justify-between items-center pt-2">
+             <div className="flex gap-1">
                 {contact.whatsapp && (
                     <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full text-green-500 hover:bg-green-100 dark:hover:bg-green-900/50">
                         <a href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
-                            <WhatsAppIcon className="h-6 w-6" />
+                            <WhatsAppIcon className="h-5 w-5" />
                         </a>
                     </Button>
                 )}
@@ -158,12 +157,13 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
                     <Share2 className="h-5 w-5" />
                 </Button>
              </div>
-             <Button variant="link" size="sm" className="text-xs text-gray-500 hover:text-destructive" onClick={() => setReportDialogOpen(true)}>
+             <Button variant="link" size="sm" className="text-xs text-muted-foreground hover:text-destructive" onClick={() => setReportDialogOpen(true)}>
                 <Flag className="mr-1 h-3 w-3" />
-                Report Issue
+                Report an issue
             </Button>
           </div>
-      </div>
+        </CardContent>
+      </Card>
       {isReportDialogOpen && (
         <ReportDialog
             isOpen={isReportDialogOpen}

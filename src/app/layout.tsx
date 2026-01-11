@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { LocationProvider } from '@/contexts/LocationContext';
 import { PT_Sans } from 'next/font/google';
+import AppLayout from '@/components/layout/AppLayout';
 
 const ptSans = PT_Sans({
   subsets: ['latin'],
@@ -37,7 +38,7 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          'min-h-screen flex flex-col font-body antialiased'
+          'min-h-screen bg-background font-body antialiased'
         )}
       >
         <ThemeProvider
@@ -47,7 +48,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LocationProvider>
-            {children}
+            <AppLayout>
+              {children}
+            </AppLayout>
             <Toaster />
           </LocationProvider>
         </ThemeProvider>

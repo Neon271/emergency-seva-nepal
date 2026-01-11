@@ -6,13 +6,15 @@ import EmergencyContactsDisplay from '@/components/dashboard/EmergencyContactsDi
 import EmergencyGuide from '@/components/guide/EmergencyGuide';
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Phone, BookOpen, Star, UserSquare, Navigation } from 'lucide-react';
+import { Phone, BookOpen, Star, UserSquare } from 'lucide-react';
 import { useFavorites } from '@/hooks/use-favorites';
 import EmergencyContactCard from './EmergencyContactCard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { useCustomContacts } from '@/hooks/use-custom-contacts';
 import CustomContactCard from './CustomContactCard';
 import { Button } from '../ui/button';
+import EmergencySms from '../sms/EmergencySms';
+import { CardDescription } from '../ui/card';
 
 export default function Dashboard() {
   const { location, isInitialLoad, isLocationSet, selectedDistrict, selectedProvince } = useLocation();
@@ -55,39 +57,43 @@ export default function Dashboard() {
       );
     }
     return (
-        <div className="w-full max-w-5xl">
-            <div className="mb-6 rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-xl">
-                 <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 sm:text-3xl">Emergency Services</h2>
-                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Showing services for {selectedDistrict?.name_ne} ({selectedDistrict?.name}), {selectedProvince?.name_ne} ({selectedProvince?.name})
-                 </p>
-                 <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    <Button onClick={() => findNearby('hospitals')} className="h-auto py-3 text-base font-bold bg-green-600 hover:bg-green-700 shadow-lg transition-transform hover:scale-105">
+        <div className="w-full max-w-5xl mx-auto">
+             <Card className="mb-6">
+                <CardHeader>
+                    <CardTitle>Find Nearby Services</CardTitle>
+                    <CardDescription>
+                        Showing services for {selectedDistrict?.name_ne} ({selectedDistrict?.name}), {selectedProvince?.name_ne} ({selectedProvince?.name})
+                    </CardDescription>
+                </CardHeader>
+                 <CardContent className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    <Button onClick={() => findNearby('hospitals')} size="lg" variant="secondary" className="font-semibold">
                        🏥 Find Nearby Hospitals
                     </Button>
-                     <Button onClick={() => findNearby('pharmacy')} className="h-auto py-3 text-base font-bold bg-green-600 hover:bg-green-700 shadow-lg transition-transform hover:scale-105">
+                     <Button onClick={() => findNearby('pharmacy')} size="lg" variant="secondary" className="font-semibold">
                        💊 Find Nearby Pharmacy
                     </Button>
-                 </div>
-            </div>
+                 </CardContent>
+            </Card>
 
-             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <EmergencySms />
+
+             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-6">
                 <div className='flex justify-center mb-6'>
-                    <TabsList className="grid h-auto w-full max-w-lg grid-cols-2 sm:grid-cols-4 p-2">
-                        <TabsTrigger value="contacts" className="flex gap-2 text-md py-2">
-                            <Phone className="h-5 w-5" />
+                    <TabsList className="grid h-auto w-full max-w-lg grid-cols-2 sm:grid-cols-4 p-1">
+                        <TabsTrigger value="contacts" className="flex gap-2">
+                            <Phone />
                             <span>Home</span>
                         </TabsTrigger>
-                        <TabsTrigger value="favorites" className="flex gap-2 text-md py-2">
-                            <Star className="h-5 w-5" />
+                        <TabsTrigger value="favorites" className="flex gap-2">
+                            <Star />
                             <span>Favorites</span>
                         </TabsTrigger>
-                         <TabsTrigger value="custom" className="flex gap-2 text-md py-2">
-                            <UserSquare className="h-5 w-5" />
+                         <TabsTrigger value="custom" className="flex gap-2">
+                            <UserSquare />
                             <span>My Contacts</span>
                         </TabsTrigger>
-                        <TabsTrigger value="guide" className="flex gap-2 text-md py-2">
-                            <BookOpen className="h-5 w-5" />
+                        <TabsTrigger value="guide" className="flex gap-2">
+                            <BookOpen />
                             <span>Guide</span>
                         </TabsTrigger>
                     </TabsList>
@@ -100,10 +106,10 @@ export default function Dashboard() {
                     <EmergencyGuide />
                 </TabsContent>
                  <TabsContent value="favorites">
-                     <Card className="rounded-2xl shadow-xl">
+                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-3 text-2xl">
-                                <Star className="h-7 w-7 text-primary" />
+                            <CardTitle className="flex items-center gap-3">
+                                <Star className="text-primary" />
                                 Favorite Contacts
                             </CardTitle>
                         </CardHeader>
@@ -124,10 +130,10 @@ export default function Dashboard() {
                     </Card>
                 </TabsContent>
                  <TabsContent value="custom">
-                    <Card className="rounded-2xl shadow-xl">
+                    <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-3 text-2xl">
-                                <UserSquare className="h-7 w-7 text-primary" />
+                            <CardTitle className="flex items-center gap-3">
+                                <UserSquare className="text-primary" />
                                 My Custom Contacts
                             </CardTitle>
                         </CardHeader>

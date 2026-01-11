@@ -5,15 +5,13 @@ import { useLocation } from '@/hooks/use-location-context';
 import WelcomeScreen from '@/components/onboarding/WelcomeScreen';
 import LocationSetup from '@/components/onboarding/LocationSetup';
 import Dashboard from '@/components/dashboard/Dashboard';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Home() {
   const { isLocationSet, isInitialLoad } = useLocation();
 
   if (isInitialLoad) {
-    // You can return a loading spinner here if needed
-    return <div className="bg-gradient-to-r from-[#667eea] to-[#764ba2] min-h-screen"></div>;
+    return <div className="p-4"><Skeleton className="h-[80vh] w-full" /></div>;
   }
 
   const renderContent = () => {
@@ -24,13 +22,9 @@ export default function Home() {
   }
 
   return (
-    <>
-      <Header />
-      <main className="main-container">
+    <main className="main-container">
         {renderContent()}
-      </main>
-      <Footer />
-    </>
+    </main>
   );
 }
 
@@ -44,7 +38,6 @@ function OnboardingFlow() {
 
   const handleLocationSet = (provinceId: string, districtId: string) => {
     setLocation({ provinceId, districtId });
-    // The main Home component will re-render and show the dashboard
   };
 
   if (step === 'welcome') {

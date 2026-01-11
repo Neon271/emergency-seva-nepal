@@ -1,21 +1,20 @@
+import Link from 'next/link';
+import { Button } from '../ui/button';
+
 const Footer = () => {
   return (
-    <footer className="w-full bg-white/95 py-2 text-center shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
-        <p className="py-2 text-sm font-semibold text-destructive">
-            Emergency: Police 100 | Ambulance 102 | Fire 101
-        </p>
-        <div className="copyright-ticker bg-gray-800 py-2 overflow-hidden relative">
-            <div className="ticker-content animate-scroll-left inline-block whitespace-nowrap text-white text-sm font-medium">
-                <span>© 2026 Nepal Health & Emergency Finder - Developed by Prajwol</span>
-                <span className="ticker-separator mx-8 text-destructive">●</span>
-                <span>For Emergency: Call 100 (Police), 102 (Ambulance), 101 (Fire)</span>
-                <span className="ticker-separator mx-8 text-destructive">●</span>
-                 <span>© 2026 Nepal Health & Emergency Finder - Developed by Prajwol</span>
-                <span className="ticker-separator mx-8 text-destructive">●</span>
-                <span>For Emergency: Call 100 (Police), 102 (Ambulance), 101 (Fire)</span>
-                 <span className="ticker-separator mx-8 text-destructive">●</span>
-            </div>
-        </div>
+    <footer className="w-full bg-card border-t p-4 text-center">
+      <p className="text-sm text-muted-foreground mb-2">
+        <span className="font-bold text-destructive">Emergency Numbers:</span> Police: <a href="tel:100" className="font-semibold">100</a> | Ambulance: <a href="tel:102" className="font-semibold">102</a> | Fire: <a href="tel:101" className="font-semibold">101</a>
+      </p>
+      <p className="text-xs text-muted-foreground">
+        © {new Date().getFullYear()} Emergency Seva. Developed by Prajwol. Not an official government app.
+      </p>
+       <div className="mt-2">
+         <Button variant="link" asChild size="sm">
+            <Link href="/admin">Admin Panel</Link>
+        </Button>
+      </div>
     </footer>
   );
 };

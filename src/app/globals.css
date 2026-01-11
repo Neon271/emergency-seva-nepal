@@ -81,31 +81,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
-
   .main-container {
-      @apply flex-1 flex flex-col items-center justify-center p-4;
+    @apply flex-1 p-4;
   }
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-.pulse-animation {
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes scroll-left {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
-.animate-scroll-left {
-    animation: scroll-left 20s linear infinite;
 }
