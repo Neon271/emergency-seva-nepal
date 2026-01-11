@@ -10,11 +10,6 @@ const Footer = () => {
       <p className="text-xs text-muted-foreground">
         © {new Date().getFullYear()} Emergency Seva. Developed by Prajwol. Not an official government app.
       </p>
-       <div className="mt-2">
-         <Button variant="link" asChild size="sm">
-            <Link href="/admin">Admin Panel</Link>
-        </Button>
-      </div>
     </footer>
   );
 };
