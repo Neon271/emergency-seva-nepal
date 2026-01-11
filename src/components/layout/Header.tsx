@@ -19,9 +19,9 @@ const Header = () => {
         <div className="container flex h-16 items-center">
           <div className="mr-4 flex">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl">🏥</span>
+              <span className="text-xl">⛑️</span>
               <span className="font-bold">
-                Nepal Health & Emergency
+                Emergency Seva
               </span>
             </Link>
           </div>
