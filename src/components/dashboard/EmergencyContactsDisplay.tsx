@@ -10,6 +10,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ComingSoon } from "../shared/ComingSoon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "../ui/button";
+import { Navigation } from "lucide-react";
 
 interface EmergencyContactsDisplayProps {
   districtId: string;
@@ -57,6 +59,9 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
      return <ComingSoon districtName={districtInfo?.name_ne || 'this area'} />;
   }
 
+  const googleMapsSearchUrl = "https://www.google.com/maps/search/?api=1&query=hospitals+or+ambulance+near+me";
+
+
   return (
     <div className="space-y-4">
       <div className="space-y-2">
@@ -67,6 +72,13 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
           Tap to call or share emergency contacts. Use the report button for incorrect information.
         </p>
       </div>
+
+       <Button asChild size="lg" className="w-full md:w-auto">
+          <a href={googleMapsSearchUrl} target="_blank" rel="noopener noreferrer">
+              <Navigation className="mr-2 h-5 w-5" />
+              Find Nearby Hospitals & Ambulances
+          </a>
+       </Button>
       
       <Tabs defaultValue={servicesWithContacts[0].id} className="w-full">
         <TabsList className="grid w-full grid-cols-2 h-auto md:grid-cols-3 lg:grid-cols-6">
