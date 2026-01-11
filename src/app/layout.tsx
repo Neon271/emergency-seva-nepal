@@ -4,10 +4,31 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { LocationProvider } from '@/contexts/LocationContext';
+import { Manrope } from 'next/font/google';
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-body',
+});
+
+const manrope_bold = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-headline',
+  weight: '800',
+});
 
 export const metadata: Metadata = {
   title: 'Emergency Seva',
   description: 'Fast access to emergency services in Nepal',
+  manifest: '/manifest.json',
+  themeColor: '#d9274b',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Emergency Seva',
+  },
 };
 
 export default function RootLayout({
@@ -16,14 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${manrope.variable} ${manrope_bold.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body
         className={cn(

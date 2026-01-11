@@ -50,24 +50,24 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
 
   return (
     <>
-      <Card className="flex h-full flex-col bg-card/80 transition-shadow hover:shadow-md">
+      <Card className="flex h-full flex-col bg-card/80 transition-shadow hover:shadow-lg rounded-xl border-2">
         <CardContent className="flex-1 p-4">
-            <h3 className="font-headline text-lg font-bold">{contact.name_ne}</h3>
-            <p className="text-sm text-muted-foreground">{contact.name}</p>
+            <h3 className="font-headline text-xl font-bold">{contact.name_ne}</h3>
+            <p className="text-md text-muted-foreground">{contact.name}</p>
             {contact.address && (
-                <div className="mt-1 flex items-center text-sm text-muted-foreground">
+                <div className="mt-2 flex items-center text-sm text-muted-foreground">
                     <MapPin className="mr-1.5 h-4 w-4 flex-shrink-0" />
                     <span>{contact.address}</span>
                 </div>
             )}
-            <a href={`tel:${contact.phone}`} className="mt-2 inline-block text-3xl font-bold tracking-wider text-primary hover:underline font-mono">
+            <a href={`tel:${contact.phone}`} className="mt-3 inline-block text-4xl font-bold tracking-wider text-primary hover:underline font-mono">
                 {contact.phone}
             </a>
         </CardContent>
         <CardFooter className="flex flex-col items-stretch gap-2 p-4 pt-0">
-            <Button asChild size="lg" className="w-full">
+            <Button asChild size="lg" className="w-full text-lg py-6">
                 <a href={`tel:${contact.phone}`}>
-                    <Phone className="mr-2 h-5 w-5" />
+                    <Phone className="mr-2 h-6 w-6" />
                     Call Now
                 </a>
             </Button>
@@ -92,7 +92,7 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
                     <Share2 className="h-5 w-5" />
                 </Button>
             </div>
-             <Button variant="outline" size="sm" className="w-full" onClick={() => setReportDialogOpen(true)}>
+             <Button variant="ghost" size="sm" className="w-full text-muted-foreground" onClick={() => setReportDialogOpen(true)}>
                 <Flag className="mr-2 h-4 w-4" />
                 Report Issue
             </Button>
