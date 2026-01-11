@@ -24,6 +24,7 @@ export interface EmergencyContact {
   address?: string;
   mapLink?: string;
   whatsapp?: string;
+  bloodTypes?: string[];
 }
 
 export interface EmergencyServiceCategory {

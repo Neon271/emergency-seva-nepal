@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import type { EmergencyServiceCategory } from '@/lib/types';
 
+export const allBloodTypes = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+
 const allServices: Omit<EmergencyServiceCategory, 'contacts'>[] = [
   { id: 'police', name: 'Police', name_ne: 'प्रहरी', icon: Shield },
   { id: 'ambulance', name: 'Ambulance', name_ne: 'एम्बुलेन्स', icon: Ambulance },
@@ -50,6 +52,15 @@ const contactsData: { [key: string]: EmergencyServiceCategory[] } = {
       contacts: [
         { id: 'k-f-1', name: 'Fire Brigade Control, Basantapur', name_ne: 'जुद्ध बारुण यन्त्र, बसन्तपुर', phone: '101', address: 'Basantapur, Kathmandu', mapLink: 'https://maps.app.goo.gl/m81TjFjLgkzjNfBw5' },
         { id: 'k-f-2', name: 'Fire Brigade, Bouddha', name_ne: 'दमकल, बौद्ध', phone: '014470101', address: 'Bouddha, Kathmandu' },
+      ],
+    },
+    {
+      id: 'blood',
+      name: 'Blood Donation',
+      name_ne: 'रक्तदान',
+      icon: HeartHandshake,
+      contacts: [
+        { id: 'k-b-1', name: 'Central Blood Transfusion Service', name_ne: 'केन्द्रीय रक्तसञ्चार सेवा', phone: '014225344', address: 'Kalimati, Kathmandu', mapLink: 'https://maps.app.goo.gl/2mRRT2Y8ZhcY7YgN7', bloodTypes: allBloodTypes },
       ],
     },
   ],

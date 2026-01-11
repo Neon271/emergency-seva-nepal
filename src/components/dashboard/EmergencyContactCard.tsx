@@ -4,10 +4,12 @@
 import { useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Phone, Share2, Flag, MapPin } from "lucide-react";
+import { Phone, Share2, Flag, MapPin, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { EmergencyContact } from "@/lib/types";
 import ReportDialog from "../feedback/ReportDialog";
+import { useFavorites } from "@/hooks/use-favorites";
+import { cn } from "@/lib/utils";
 
 interface EmergencyContactCardProps {
   contact: EmergencyContact;
@@ -22,6 +24,9 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function EmergencyContactCard({ contact }: EmergencyContactCardProps) {
   const { toast } = useToast();
   const [isReportDialogOpen, setReportDialogOpen] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  
+  const favorite = isFavorite(contact.id);
 
   const handleShare = async () => {
     const shareData = {
@@ -47,17 +52,40 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
       });
     }
   };
+  
+  const handleFavoriteClick = () => {
+    toggleFavorite(contact);
+    toast({
+      title: favorite ? "Removed from Favorites" : "Added to Favorites",
+      description: `${contact.name_ne} has been ${favorite ? 'removed from' : 'added to'} your favorites.`,
+    })
+  }
 
   return (
     <>
       <Card className="flex h-full flex-col bg-card/80 transition-shadow hover:shadow-lg rounded-xl border-2">
         <CardContent className="flex-1 p-4">
-            <h3 className="font-headline text-xl font-bold">{contact.name_ne}</h3>
-            <p className="text-md text-muted-foreground">{contact.name}</p>
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="font-headline text-xl font-bold">{contact.name_ne}</h3>
+                <p className="text-md text-muted-foreground">{contact.name}</p>
+              </div>
+              <Button variant="ghost" size="icon" onClick={handleFavoriteClick} className="h-8 w-8 flex-shrink-0">
+                  <Star className={cn("h-5 w-5", favorite ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground")} />
+                  <span className="sr-only">Favorite</span>
+              </Button>
+            </div>
             {contact.address && (
                 <div className="mt-2 flex items-center text-sm text-muted-foreground">
                     <MapPin className="mr-1.5 h-4 w-4 flex-shrink-0" />
                     <span>{contact.address}</span>
+                </div>
+            )}
+             {contact.bloodTypes && contact.bloodTypes.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-1">
+                    {contact.bloodTypes.map(bt => (
+                        <span key={bt} className="inline-block bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded-full">{bt}</span>
+                    ))}
                 </div>
             )}
             <a href={`tel:${contact.phone}`} className="mt-3 inline-block text-4xl font-bold tracking-wider text-primary hover:underline font-mono">
