@@ -1,5 +1,5 @@
 
-'use server';
+'use client';
 
 import { z } from 'zod';
 import type { ReportPayload } from '@/lib/types';
@@ -13,6 +13,7 @@ type ActionFormResult = {
   message: string;
 };
 
+// This is now a client-side function
 export async function sendNotification(
   values: z.infer<typeof notificationFormSchema>
 ): Promise<ActionFormResult> {
@@ -22,8 +23,6 @@ export async function sendNotification(
   }
 
   try {
-    // AI Validation has been removed.
-    // We can add simple validation here if needed, or just proceed.
     const notificationText = parsed.data.notificationText;
     if (notificationText.length < 10) {
         return {
@@ -32,7 +31,8 @@ export async function sendNotification(
         };
     }
 
-    // TODO: Implement actual FCM push notification logic here
+    // This is where the actual push notification logic would go.
+    // For now, it just logs to the console.
     console.log('FCM Logic: Sending notification:', notificationText);
 
     return {
@@ -56,6 +56,7 @@ const reportSchema = z.object({
   details: z.string().max(500).optional(),
 });
 
+// This is now a client-side function
 export async function submitReport(
   payload: ReportPayload
 ): Promise<ActionFormResult> {
@@ -65,10 +66,10 @@ export async function submitReport(
   }
 
   try {
-    // TODO: Implement saving the report to Firestore
+    // This is where the report would be saved to a database.
+    // For now, it just logs to the console.
     console.log('Feedback Received:', parsed.data);
 
-    // Simulate a successful submission
     return {
       success: true,
       message: 'Report submitted successfully. Thank you for your feedback!',

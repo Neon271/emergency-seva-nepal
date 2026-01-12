@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useTransition } from 'react';
+import { useState } from 'react';
 import {
   Form,
   FormControl,
@@ -30,7 +30,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function NotificationForm() {
   const { toast } = useToast();
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -39,24 +39,24 @@ export default function NotificationForm() {
     },
   });
 
-  const onSubmit = (values: FormValues) => {
-    startTransition(async () => {
-      const result = await sendNotification(values);
+  const onSubmit = async (values: FormValues) => {
+    setIsPending(true);
+    const result = await sendNotification(values);
 
-      if (result.success) {
-        toast({
-          title: 'Success',
-          description: result.message,
-        });
-        form.reset();
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: result.message,
-        });
-      }
-    });
+    if (result.success) {
+      toast({
+        title: 'Success',
+        description: result.message,
+      });
+      form.reset();
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: result.message,
+      });
+    }
+    setIsPending(false);
   };
 
   return (

@@ -1,10 +1,9 @@
-
 "use client";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useTransition } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -47,7 +46,7 @@ interface ReportDialogProps {
 
 export default function ReportDialog({ isOpen, onOpenChange, contact }: ReportDialogProps) {
   const { toast } = useToast();
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
 
   const form = useForm<ReportFormValues>({
     resolver: zodResolver(reportSchema),
@@ -57,33 +56,33 @@ export default function ReportDialog({ isOpen, onOpenChange, contact }: ReportDi
     },
   });
 
-  const onSubmit = (values: ReportFormValues) => {
-    startTransition(async () => {
-      const payload: ReportPayload = {
-        contactId: contact.id,
-        contactName: contact.name_ne,
-        contactPhone: contact.phone,
-        reason: values.reason as ReportPayload['reason'],
-        details: values.details || "",
-      };
+  const onSubmit = async (values: ReportFormValues) => {
+    setIsPending(true);
+    const payload: ReportPayload = {
+      contactId: contact.id,
+      contactName: contact.name_ne,
+      contactPhone: contact.phone,
+      reason: values.reason as ReportPayload['reason'],
+      details: values.details || "",
+    };
 
-      const result = await submitReport(payload);
+    const result = await submitReport(payload);
 
-      if (result.success) {
-        toast({
-          title: "Report Submitted",
-          description: "Thank you for your feedback. We will review it shortly.",
-        });
-        form.reset();
-        onOpenChange(false);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Submission Failed",
-          description: result.message,
-        });
-      }
-    });
+    if (result.success) {
+      toast({
+        title: "Report Submitted",
+        description: "Thank you for your feedback. We will review it shortly.",
+      });
+      form.reset();
+      onOpenChange(false);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Submission Failed",
+        description: result.message,
+      });
+    }
+    setIsPending(false);
   };
 
   return (
