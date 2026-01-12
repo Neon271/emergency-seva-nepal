@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -25,20 +26,9 @@ const categoryIcons = {
     helpline: '📞',
 };
 
-const categoryNames = {
-    ambulance: 'Ambulance Service',
-    hospital: 'Hospital',
-    police: 'Police Station',
-    fire: 'Fire Brigade',
-    blood: 'Blood Bank',
-    women: 'Women Helpline',
-    disaster: 'Disaster Helpline',
-    helpline: 'National Helpline'
-};
-
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" {...props}>
-        <path d="M16.75 13.96c.25.13.42.2.46.28.05.09.05.5.02.62-.03.12-.24.22-.4.25-.16.03-.5.03-.7.03-.2 0-1.14-.15-1.9-.45-.76-.3-1.68-.89-2.5-1.61-.95-.83-1.63-1.8-1.85-2.2-.23-.4-.41-.71-.41-1.01 0-.3.2-.45.33-.58.13-.13.28-.18.38-.18.1 0 .2.01.28.02.08.01.16.03.25.16.09.13.14.28.18.35.04.07.07.14.07.19 0 .07-.01.13-.03.18-.02.05-.05.09-.08.13s-.08.1-.13.15c-.05.05-.11.1-.15.14-.05.05-.08.09-.1.12-.02.03-.01.07.02.13.03.06.13.28.25.43.12.15.28.35.47.51.19.16.4.33.6.45.2.12.36.2.49.25.13.05.2.07.25.07.05 0 .1-.01.13-.03.03-.02.35-.16.4-.33.05-.17.1-.33.15-.5.05-.17.1-.28.16-.35.06-.07.12-.1.16-.1.04 0 .1 0 .19.01.09.01.2.01.28.02.08.01.14.01.17.02.03.01.05.01.06.01.01 0 .04-.01.06.01s.05.01.06.01c.01 0 .04.01.06.01l.01.01c.03.03.06.06.09.13.03.07.03.15.03.21 0 .07-.02.13-.04.18zM12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10zm0 18.2a8.2 8.2 0 1 1 8.2-8.2 8.21 8.21 0 0 1-8.2 8.2z"></path>
+        <path d="M16.75 13.96c.25.13.42.2.46.28.05.09.05.5.02.62-.03.12-.24.22-.4.25-.16.03-.5.03-.7.03-.2 0-1.14-.15-1.9-.45-.76-.3-1.68-.89-2.5-1.61-.95-.83-1.63-1.8-1.85-2.2-.23-.4-.41-.71-.41-1.01 0-.3.2-.45.33-.58.13-.13.28-.18.38-.18.1 0 .2.01.28.02.08.01.16.03.25.16.09.13.14.28.18.35.04.07.07.14.07.19 0 .07-.01.13-.03.18-.02.05-.05.09-.08.13s-.08.1-.13.15c-.05.05-.11.1-.15.14-.05.05-.08.09-.1.12-.02.03-.01.07.02.13.03.06.13.28.25.43.12.15.28.35.47.51.19.16.4.33.6.45.2.12.36.2.49.25.13.05.2.07.25.07.05 0 .1-.01.13-.03.03-.02.35-.16.4-.33.05-.17.1-.33.15-.5.05-.17.1-.28.16-.35.06-.07.12-.1.16-.1.04 0 .1 0 .19.01.09.01.2.01.28.02.eight.01.14.01.17.02.03.01.05.01.06.01.01 0 .04-.01.06.01s.05.01.06.01c.01 0 .04.01.06.01l.01.01c.03.03.06.06.09.13.03.07.03.15.03.21 0 .07-.02.13-.04.18zM12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10zm0 18.2a8.2 8.2 0 1 1 8.2-8.2 8.21 8.21 0 0 1-8.2 8.2z"></path>
     </svg>
 )
 
@@ -48,12 +38,8 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
   const { isFavorite, toggleFavorite } = useFavorites();
   
   const favorite = isFavorite(contact.id);
-  
   const categoryId = contact.categoryId || 'helpline';
-  
-  // Use specific map link if available, otherwise search by address/name
   const directionsUrl = contact.mapLink || `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contact.address || contact.name)}`;
-
 
   const handleShare = async () => {
     const shareData = {
@@ -91,71 +77,65 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
   return (
     <>
       <Card>
-        <CardContent className="p-4 space-y-3">
+        <CardContent className="p-4 space-y-4">
           <div className="flex items-start gap-4">
-            <div className="text-3xl mt-1">
+            <div className="text-3xl mt-1 select-none">
                 {categoryIcons[categoryId as keyof typeof categoryIcons] || '📋'}
             </div>
             <div className="flex-1">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">{categoryNames[categoryId as keyof typeof categoryNames] || categoryId}</p>
-              <h3 className="font-bold text-lg">{contact.name_ne}</h3>
-              <p className="text-sm text-muted-foreground -mt-1">{contact.name}</p>
-            </div>
-            <Button variant="ghost" size="icon" onClick={handleFavoriteClick}>
-                <Star className={cn("h-6 w-6", favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
-            </Button>
-          </div>
-
-          <a href={`tel:${contact.phone}`} className="block">
-            <div className="flex items-center gap-2 text-lg font-semibold text-accent">
-                <Phone className="h-5 w-5" /> <span>{contact.phone}</span>
-            </div>
-          </a>
-
-          {contact.address && (
-            <div className="flex items-start gap-2 text-sm text-muted-foreground">
-              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-              <span>{contact.address}</span>
-            </div>
-          )}
-
-            {contact.bloodTypes && contact.bloodTypes.length > 0 && (
-                <div className="flex flex-wrap gap-1">
+              <h3 className="font-bold text-base leading-tight">{contact.name_ne}</h3>
+              <p className="text-sm text-muted-foreground -mt-0.5">{contact.name}</p>
+              <a href={`tel:${contact.phone}`} className="block mt-1">
+                <div className="flex items-center gap-2 text-lg font-semibold text-accent">
+                    <Phone className="h-4 w-4" /> <span>{contact.phone}</span>
+                </div>
+              </a>
+              {contact.address && (
+                <div className="flex items-start gap-2 text-xs text-muted-foreground mt-1">
+                  <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                  <span>{contact.address}</span>
+                </div>
+              )}
+               {contact.bloodTypes && contact.bloodTypes.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-2">
                     {contact.bloodTypes.map(bt => (
                         <span key={bt} className="inline-block bg-primary/20 text-primary-foreground text-xs font-bold px-2 py-1 rounded-full">{bt}</span>
                     ))}
                 </div>
             )}
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <Button asChild variant="accent">
-                <a href={`tel:${contact.phone}`}>
-                    <Phone /> Call Now
-                </a>
+            </div>
+             <Button variant="ghost" size="icon" className="-mr-2 -mt-2 h-8 w-8" onClick={handleFavoriteClick}>
+                <Star className={cn("h-5 w-5", favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
             </Button>
-             <Button asChild variant="secondary">
-                 <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
-                    <Navigation /> Get Directions
-                </a>
-              </Button>
           </div>
 
-          <div className="flex justify-between items-center pt-2">
-             <div className="flex gap-1">
-                {contact.whatsapp && (
-                    <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full text-green-500 hover:bg-green-100 dark:hover:bg-green-900/50">
+          <div className="flex justify-between items-center">
+            <div className="flex gap-1">
+                <Button asChild variant="accent" size="sm" className="h-9">
+                    <a href={`tel:${contact.phone}`}>
+                        <Phone /> Call
+                    </a>
+                </Button>
+                <Button asChild variant="secondary" size="icon" className="h-9 w-9">
+                    <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
+                        <Navigation />
+                    </a>
+                </Button>
+                 {contact.whatsapp && (
+                    <Button asChild variant="ghost" size="icon" className="h-9 w-9 text-green-500 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/50">
                         <a href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
                             <WhatsAppIcon className="h-5 w-5" />
                         </a>
                     </Button>
                 )}
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleShare}>
+                <Button variant="ghost" size="icon" className="h-9 w-9 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleShare}>
                     <Share2 className="h-5 w-5" />
                 </Button>
-             </div>
-             <Button variant="link" size="sm" className="text-xs text-muted-foreground hover:text-destructive" onClick={() => setReportDialogOpen(true)}>
+            </div>
+            
+             <Button variant="link" size="sm" className="text-xs text-muted-foreground hover:text-destructive pr-0" onClick={() => setReportDialogOpen(true)}>
                 <Flag className="mr-1 h-3 w-3" />
-                Report an issue
+                Report
             </Button>
           </div>
         </CardContent>

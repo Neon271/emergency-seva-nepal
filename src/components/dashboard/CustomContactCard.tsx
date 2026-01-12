@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,62 +34,46 @@ const categoryIcons: Record<CustomContactCategory, React.ElementType> = {
     helpline: LifeBuoy,
 };
 
-const categoryNames = {
-    ambulance: 'Ambulance Service',
-    clinic: 'Clinic / Doctor',
-    pharmacy: 'Pharmacy',
-    other: 'Other',
-    hospital: 'Hospital',
-    police: 'Police',
-    fire: 'Fire Brigade',
-    blood: 'Blood Bank',
-    helpline: 'Helpline'
-};
 
 export default function CustomContactCard({ contact }: CustomContactCardProps) {
   const { deleteContact } = useCustomContacts();
   const CategoryIcon = categoryIcons[contact.category];
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address || contact.name)}`;
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contact.address || contact.name)}`;
 
   return (
     <Card>
-      <CardContent className="p-4 space-y-3">
+      <CardContent className="p-4 space-y-4">
         <div className="flex items-start gap-4">
-          <CategoryIcon className="h-8 w-8 text-accent mt-1" />
+          <CategoryIcon className="h-6 w-6 text-accent mt-1 flex-shrink-0" />
           <div className="flex-1">
-            <p className="text-xs text-muted-foreground uppercase tracking-wider">{categoryNames[contact.category]}</p>
-            <h3 className="font-bold text-lg">{contact.name}</h3>
+             <h3 className="font-bold text-base leading-tight">{contact.name}</h3>
+             <a href={`tel:${contact.phone}`} className="block mt-1">
+                <div className="flex items-center gap-2 text-lg font-semibold text-accent">
+                    <Phone className="h-4 w-4" /> <span>{contact.phone}</span>
+                </div>
+              </a>
+            {contact.address && (
+                <div className="flex items-start gap-2 text-xs text-muted-foreground mt-1">
+                    <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                    <span>{contact.address}</span>
+                </div>
+            )}
           </div>
         </div>
-
-        <a href={`tel:${contact.phone}`} className="block">
-            <div className="flex items-center gap-2 text-lg font-semibold text-accent">
-                <Phone className="h-5 w-5" /> <span>{contact.phone}</span>
+        
+        <div className="flex justify-between items-center">
+            <div className="flex gap-1">
+                <Button asChild variant="accent" size="sm" className="h-9">
+                    <a href={`tel:${contact.phone}`}>
+                        <Phone /> Call
+                    </a>
+                </Button>
+                <Button asChild variant="secondary" size="icon" className="h-9 w-9">
+                    <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
+                        <Navigation />
+                    </a>
+                </Button>
             </div>
-        </a>
-
-        {contact.address && (
-          <div className="flex items-start gap-2 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-            <span>{contact.address}</span>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <Button asChild variant="accent">
-                <a href={`tel:${contact.phone}`}>
-                    <Phone /> Call Now
-                </a>
-            </Button>
-             <Button asChild variant="secondary">
-                 <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
-                    <Navigation /> Directions
-                </a>
-              </Button>
-        </div>
-
-        <div className="mt-2 flex justify-end">
             <AlertDialog>
                 <AlertDialogTrigger asChild>
                     <Button variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-destructive">
@@ -112,7 +97,9 @@ export default function CustomContactCard({ contact }: CustomContactCardProps) {
                 </AlertDialogContent>
             </AlertDialog>
         </div>
+
       </CardContent>
     </Card>
   );
 }
+
