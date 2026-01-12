@@ -3,7 +3,6 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { getEmergencyServicesByDistrict, getAllContacts } from "@/lib/emergency-services";
-import { districts } from "@/lib/locations";
 import type { EmergencyServiceCategory } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProfile } from "@/hooks/use-profile";
@@ -24,8 +23,6 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBloodType, setSelectedBloodType] = useState<string>("all");
   const [allContactsMap, setAllContactsMap] = useState<Map<string, any>>(new Map());
-
-  const districtInfo = useMemo(() => districts.find(d => d.id === districtId), [districtId]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -85,7 +82,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
     return renderSkeleton();
   }
 
-  if (!districtInfo) {
+  if (!selectedDistrict) {
     // This case handles when districtInfo is still loading, which might happen briefly.
     return renderSkeleton();
   }

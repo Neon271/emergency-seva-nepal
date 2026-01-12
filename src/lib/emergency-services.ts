@@ -26,6 +26,7 @@ const serviceIcons = {
   women: PersonStanding,
   blood: HeartHandshake,
   disaster: Phone,
+  helpline: Phone
 };
 
 const allServices: Omit<EmergencyServiceCategory, 'contacts'>[] = allServicesRaw.map(s => ({
