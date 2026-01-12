@@ -45,14 +45,14 @@ export default function NotificationForm() {
 
       if (result.success) {
         toast({
-          title: 'Validation Success',
+          title: 'Success',
           description: result.message,
         });
         form.reset();
       } else {
         toast({
           variant: 'destructive',
-          title: 'Validation Failed',
+          title: 'Error',
           description: result.message,
         });
       }
@@ -88,7 +88,7 @@ export default function NotificationForm() {
           <CardFooter>
             <Button type="submit" disabled={isPending}>
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Validate and Send
+              Send Notification
             </Button>
           </CardFooter>
         </Card>

@@ -1,7 +1,6 @@
 
 'use server';
 
-import { validateNotificationText } from '@/ai/flows/validate-notification-text';
 import { z } from 'zod';
 import type { ReportPayload } from '@/lib/types';
 
@@ -23,23 +22,22 @@ export async function sendNotification(
   }
 
   try {
-    const validationResult = await validateNotificationText({
-      notificationText: parsed.data.notificationText,
-    });
-
-    if (!validationResult.isValid) {
-      return {
-        success: false,
-        message: validationResult.reason || 'The notification content is not valid.',
-      };
+    // AI Validation has been removed.
+    // We can add simple validation here if needed, or just proceed.
+    const notificationText = parsed.data.notificationText;
+    if (notificationText.length < 10) {
+        return {
+            success: false,
+            message: "Notification must be at least 10 characters.",
+        };
     }
 
     // TODO: Implement actual FCM push notification logic here
-    console.log('FCM Logic: Sending notification:', parsed.data.notificationText);
+    console.log('FCM Logic: Sending notification:', notificationText);
 
     return {
       success: true,
-      message: 'Notification passed validation and was sent.',
+      message: 'Notification has been sent.',
     };
   } catch (error) {
     console.error('Error sending notification:', error);

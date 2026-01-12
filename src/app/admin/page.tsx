@@ -8,8 +8,7 @@ export default function AdminPage() {
           Admin Notifications
         </h1>
         <p className="text-muted-foreground">
-          Send push notifications to all users. The message content will be
-          validated by AI for clarity and relevance before sending.
+          Use this form to send push notifications to all app users.
         </p>
       </div>
       <div className="mt-8">
