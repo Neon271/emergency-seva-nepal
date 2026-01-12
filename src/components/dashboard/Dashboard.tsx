@@ -57,7 +57,7 @@ export default function Dashboard() {
       );
     }
     return (
-        <div className="w-full max-w-5xl mx-auto">
+        <div className="w-full max-w-5xl mx-auto pb-24">
              <Card className="mb-6 bg-card/70">
                 <CardHeader>
                     <CardTitle>Find Nearby Services</CardTitle>
@@ -78,27 +78,6 @@ export default function Dashboard() {
             <EmergencySms />
 
              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-6">
-                <div className='flex justify-center mb-6'>
-                    <TabsList className="grid h-auto w-full max-w-lg grid-cols-2 sm:grid-cols-4 p-1">
-                        <TabsTrigger value="contacts" className="flex-col sm:flex-row gap-1 sm:gap-2">
-                            <Phone className="h-5 w-5"/>
-                            <span>Home</span>
-                        </TabsTrigger>
-                        <TabsTrigger value="favorites" className="flex-col sm:flex-row gap-1 sm:gap-2">
-                            <Star className="h-5 w-5"/>
-                            <span>Favorites</span>
-                        </TabsTrigger>
-                         <TabsTrigger value="custom" className="flex-col sm:flex-row gap-1 sm:gap-2">
-                            <UserSquare className="h-5 w-5"/>
-                            <span>My Contacts</span>
-                        </TabsTrigger>
-                        <TabsTrigger value="guide" className="flex-col sm:flex-row gap-1 sm:gap-2">
-                            <BookOpen className="h-5 w-5"/>
-                            <span>Guide</span>
-                        </TabsTrigger>
-                    </TabsList>
-                </div>
-
                 <TabsContent value="contacts">
                     <EmergencyContactsDisplay districtId={location.districtId} />
                 </TabsContent>
@@ -153,6 +132,29 @@ export default function Dashboard() {
                         </CardContent>
                     </Card>
                 </TabsContent>
+
+                <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/95 backdrop-blur-sm">
+                    <div className="container px-0">
+                         <TabsList className="grid h-auto w-full grid-cols-4 p-1 rounded-none">
+                            <TabsTrigger value="contacts" className="flex-col gap-1 h-14">
+                                <Phone className="h-5 w-5"/>
+                                <span className="text-xs">Home</span>
+                            </TabsTrigger>
+                            <TabsTrigger value="favorites" className="flex-col gap-1 h-14">
+                                <Star className="h-5 w-5"/>
+                                <span className="text-xs">Favorites</span>
+                            </TabsTrigger>
+                            <TabsTrigger value="custom" className="flex-col gap-1 h-14">
+                                <UserSquare className="h-5 w-5"/>
+                                <span className="text-xs">My Contacts</span>
+                            </TabsTrigger>
+                            <TabsTrigger value="guide" className="flex-col gap-1 h-14">
+                                <BookOpen className="h-5 w-5"/>
+                                <span className="text-xs">Guide</span>
+                            </TabsTrigger>
+                        </TabsList>
+                    </div>
+                </div>
             </Tabs>
         </div>
     );
