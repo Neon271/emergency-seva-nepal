@@ -77,7 +77,7 @@ export default function EmergencyGuide() {
   return (
     <Card>
         <CardHeader>
-            <CardTitle className="flex items-center gap-3 text-2xl">
+            <CardTitle className="flex items-center gap-3 text-xl">
                 <BookOpen className="h-7 w-7 text-accent" />
                 Emergency Preparedness Guide
             </CardTitle>
@@ -86,7 +86,7 @@ export default function EmergencyGuide() {
             <Accordion type="single" collapsible className="w-full">
             {guideData.map((item) => (
                 <AccordionItem value={item.id} key={item.id}>
-                <AccordionTrigger className="text-lg font-semibold hover:no-underline">
+                <AccordionTrigger className="text-lg font-semibold hover:no-underline text-left">
                     {item.title}
                 </AccordionTrigger>
                 <AccordionContent className="prose prose-sm max-w-none pl-2 text-muted-foreground">

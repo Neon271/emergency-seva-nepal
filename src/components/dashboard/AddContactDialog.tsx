@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -39,7 +40,7 @@ import { Textarea } from "../ui/textarea";
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   phone: z.string().regex(/^[\d\s()+-]+$/, "Invalid phone number format.").min(1, "Phone number is required."),
-  category: z.enum(['ambulance', 'clinic', 'pharmacy', 'other', 'hospital', 'police', 'fire', 'blood', 'helpline']),
+  category: z.enum(['other', 'hospital', 'clinic', 'pharmacy', 'police', 'fire', 'ambulance', 'blood', 'helpline']),
   address: z.string().optional(),
 });
 
@@ -141,15 +142,15 @@ export default function AddContactDialog({ isOpen, onOpenChange, onSuccess }: Ad
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                        <SelectItem value="ambulance">🚑 Ambulance</SelectItem>
+                        <SelectItem value="other">👤 Other</SelectItem>
                         <SelectItem value="hospital">🏥 Hospital</SelectItem>
-                        <SelectItem value="clinic">🏥 Clinic</SelectItem>
+                        <SelectItem value="clinic">🩺 Clinic</SelectItem>
                         <SelectItem value="pharmacy">💊 Pharmacy</SelectItem>
                         <SelectItem value="police">👮 Police</SelectItem>
                         <SelectItem value="fire">🚒 Fire Brigade</SelectItem>
+                        <SelectItem value="ambulance">🚑 Ambulance</SelectItem>
                         <SelectItem value="blood">🩸 Blood Bank</SelectItem>
                         <SelectItem value="helpline">📞 Helpline</SelectItem>
-                        <SelectItem value="other">📋 Other</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

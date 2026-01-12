@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useLocation } from '@/hooks/use-location-context';
@@ -60,7 +61,7 @@ export default function Dashboard() {
         <div className="w-full max-w-5xl mx-auto pb-24">
              <Card className="mb-6 bg-card/70">
                 <CardHeader>
-                    <CardTitle>Find Nearby Services</CardTitle>
+                    <CardTitle className="text-xl">Find Nearby Services</CardTitle>
                     <CardDescription>
                         Showing services for {selectedDistrict?.name_ne} ({selectedDistrict?.name}), {selectedProvince?.name_ne} ({selectedProvince?.name})
                     </CardDescription>
@@ -87,7 +88,7 @@ export default function Dashboard() {
                  <TabsContent value="favorites">
                      <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-3">
+                            <CardTitle className="flex items-center gap-3 text-xl">
                                 <Star className="text-accent" />
                                 Favorite Contacts
                             </CardTitle>
@@ -111,7 +112,7 @@ export default function Dashboard() {
                  <TabsContent value="custom">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-3">
+                            <CardTitle className="flex items-center gap-3 text-xl">
                                 <UserSquare className="text-accent" />
                                 My Custom Contacts
                             </CardTitle>

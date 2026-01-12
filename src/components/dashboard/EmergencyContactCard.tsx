@@ -39,7 +39,7 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
   
   const favorite = isFavorite(contact.id);
   const categoryId = contact.categoryId || 'helpline';
-  const directionsUrl = contact.mapLink || `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contact.address || contact.name)}`;
+  const directionsUrl = contact.mapLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address || `${contact.name}, ${contact.address}`)}`;
 
   const handleShare = async () => {
     const shareData = {
@@ -111,14 +111,16 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
 
           <div className="flex justify-between items-center">
             <div className="flex gap-1">
-                <Button asChild variant="accent" size="sm" className="h-9">
+                <Button asChild variant="accent" size="icon" className="h-9 w-9">
                     <a href={`tel:${contact.phone}`}>
-                        <Phone /> Call
+                        <Phone />
+                        <span className="sr-only">Call</span>
                     </a>
                 </Button>
                 <Button asChild variant="secondary" size="icon" className="h-9 w-9">
                     <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
                         <Navigation />
+                        <span className="sr-only">Directions</span>
                     </a>
                 </Button>
                  {contact.whatsapp && (
@@ -130,6 +132,7 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
                 )}
                 <Button variant="ghost" size="icon" className="h-9 w-9 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleShare}>
                     <Share2 className="h-5 w-5" />
+                    <span className="sr-only">Share</span>
                 </Button>
             </div>
             

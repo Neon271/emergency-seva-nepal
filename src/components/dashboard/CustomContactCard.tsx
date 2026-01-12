@@ -3,7 +3,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Phone, MapPin, Trash2, Ambulance, Pill, Stethoscope, LifeBuoy, Navigation } from "lucide-react";
+import { Phone, MapPin, Trash2, Ambulance, Pill, Stethoscope, LifeBuoy, Navigation, Shield, Flame, HeartHandshake, Building, UserSquare } from "lucide-react";
 import type { CustomContact, CustomContactCategory } from "@/lib/types";
 import { useCustomContacts } from "@/hooks/use-custom-contacts";
 import {
@@ -26,18 +26,18 @@ const categoryIcons: Record<CustomContactCategory, React.ElementType> = {
     ambulance: Ambulance,
     clinic: Stethoscope,
     pharmacy: Pill,
-    other: LifeBuoy,
-    hospital: Stethoscope,
-    police: LifeBuoy,
-    fire: LifeBuoy,
-    blood: LifeBuoy,
-    helpline: LifeBuoy,
+    other: UserSquare,
+    hospital: Building,
+    police: Shield,
+    fire: Flame,
+    blood: HeartHandshake,
+    helpline: Phone,
 };
 
 
 export default function CustomContactCard({ contact }: CustomContactCardProps) {
   const { deleteContact } = useCustomContacts();
-  const CategoryIcon = categoryIcons[contact.category];
+  const CategoryIcon = categoryIcons[contact.category] || UserSquare;
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(contact.address || contact.name)}`;
 
   return (
@@ -63,14 +63,16 @@ export default function CustomContactCard({ contact }: CustomContactCardProps) {
         
         <div className="flex justify-between items-center">
             <div className="flex gap-1">
-                <Button asChild variant="accent" size="sm" className="h-9">
+                <Button asChild variant="accent" size="icon" className="h-9 w-9">
                     <a href={`tel:${contact.phone}`}>
-                        <Phone /> Call
+                        <Phone />
+                        <span className="sr-only">Call</span>
                     </a>
                 </Button>
                 <Button asChild variant="secondary" size="icon" className="h-9 w-9">
                     <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
                         <Navigation />
+                        <span className="sr-only">Directions</span>
                     </a>
                 </Button>
             </div>
@@ -102,4 +104,3 @@ export default function CustomContactCard({ contact }: CustomContactCardProps) {
     </Card>
   );
 }
-

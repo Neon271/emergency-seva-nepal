@@ -1,3 +1,4 @@
+
 import type { LucideIcon } from 'lucide-react';
 
 // For location selection
@@ -37,7 +38,7 @@ export interface EmergencyServiceCategory {
 }
 
 // For custom user-added contacts
-export type CustomContactCategory = 'ambulance' | 'clinic' | 'pharmacy' | 'other' | 'hospital' | 'police' | 'fire' | 'blood' | 'helpline';
+export type CustomContactCategory = 'other' | 'hospital' | 'clinic' | 'pharmacy' | 'police' | 'fire' | 'ambulance' | 'blood' | 'helpline';
 
 export interface CustomContact {
     id: string;

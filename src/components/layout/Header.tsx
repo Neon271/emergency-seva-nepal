@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -19,7 +20,7 @@ const Header = () => {
           <div className="mr-4 flex">
             <Link href="/" className="flex items-center space-x-2">
               <HeartHandshake className="h-6 w-6 text-accent" />
-              <span className="font-bold sm:inline-block hidden">
+              <span className="font-bold sm:inline-block">
                 Emergency Seva
               </span>
             </Link>
@@ -28,29 +29,27 @@ const Header = () => {
             {isLocationSet && (
               <Button
                 variant="outline"
-                className="max-w-[150px] truncate sm:max-w-none"
+                className="max-w-[150px] truncate sm:max-w-none hidden sm:inline-flex"
                 onClick={() => setShowSelector(true)}
               >
                 <MapPin className="mr-2 h-4 w-4" />
                 <span className="truncate">{selectedDistrict?.name_ne}</span>
               </Button>
             )}
+             <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setAddContactOpen(true)}
+              className="sm:hidden"
+            >
+              <Plus className="mr-1 h-4 w-4" /> Add
+            </Button>
             <Button
                 variant="accent"
-                size="sm"
                 onClick={() => setAddContactOpen(true)}
                 className="hidden sm:inline-flex"
               >
-                <Plus className="mr-1 h-4 w-4" /> Add Contact
-              </Button>
-              <Button
-                variant="accent"
-                size="icon"
-                onClick={() => setAddContactOpen(true)}
-                className="sm:hidden"
-              >
-                <Plus className="h-4 w-4" />
-                <span className="sr-only">Add Contact</span>
+                <Plus className="mr-2 h-4 w-4" /> Add a Contact
               </Button>
             <ThemeToggle />
           </div>
