@@ -1,11 +1,11 @@
 {
   "name": "Emergency Seva",
-  "short_name": "Emergency Seva",
-  "description": "Fast access to emergency services in Nepal.",
+  "short_name": "EmergencySeva",
+  "description": "Find nearby hospitals, clinics, and emergency services in Nepal",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#d9274b",
+  "background_color": "#F0F4F8",
+  "theme_color": "#F77F00",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",

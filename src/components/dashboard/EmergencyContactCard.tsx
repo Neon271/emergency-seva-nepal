@@ -45,6 +45,7 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
     const shareData = {
       title: "Emergency Seva Contact",
       text: `Emergency Contact:\n${contact.name_ne} (${contact.name})\nPhone: ${contact.phone}${contact.address ? `\nAddress: ${contact.address}` : ''}`,
+      url: window.location.href,
     };
     try {
       if (navigator.share) {

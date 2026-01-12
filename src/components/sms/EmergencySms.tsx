@@ -11,6 +11,12 @@ export default function EmergencySms() {
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const { toast } = useToast();
 
+  const handleVibrate = () => {
+    if ('vibrate' in navigator) {
+      navigator.vibrate(100); // Vibrate for 100ms
+    }
+  };
+
   const handleSendSms = (location?: GeolocationCoordinates) => {
     let message = "I am in an emergency and need help.";
     if (location) {
@@ -24,6 +30,7 @@ export default function EmergencySms() {
   };
 
   const handleClick = () => {
+    handleVibrate();
     if (!navigator.geolocation) {
       toast({
         variant: 'destructive',

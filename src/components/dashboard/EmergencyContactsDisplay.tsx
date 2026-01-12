@@ -112,7 +112,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        <div className="flex space-x-2 overflow-x-auto pb-2">
+        <div className="flex space-x-2 overflow-x-auto pb-2 -mx-4 px-4">
             <button 
                 onClick={() => setActiveCategory('all')}
                 className={`flex-shrink-0 rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${activeCategory === 'all' ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'}`}
@@ -125,7 +125,8 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
                 onClick={() => setActiveCategory(cat.id)}
                 className={`flex-shrink-0 rounded-full px-3 py-1.5 text-sm font-medium transition-colors whitespace-nowrap ${activeCategory === cat.id ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'}`}
              >
-                {categoryIcons[cat.id as keyof typeof categoryIcons] || cat.name} {cat.name_ne}
+                <span className="mr-1.5">{categoryIcons[cat.id as keyof typeof categoryIcons] || '📋'}</span>
+                {cat.name_ne}
             </button>
           ))}
         </div>

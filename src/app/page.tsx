@@ -6,11 +6,21 @@ import WelcomeScreen from '@/components/onboarding/WelcomeScreen';
 import LocationSetup from '@/components/onboarding/LocationSetup';
 import Dashboard from '@/components/dashboard/Dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  const { isLocationSet, isInitialLoad } = useLocation();
+  const { location, setLocation, isLocationSet, isInitialLoad } = useLocation();
   const [step, setStep] = useState<'welcome' | 'location' | 'dashboard'>('dashboard');
+
+  useEffect(() => {
+    if (!isInitialLoad) {
+      if (!isLocationSet) {
+        setStep('welcome');
+      } else {
+        setStep('dashboard');
+      }
+    }
+  }, [isInitialLoad, isLocationSet]);
 
   const handleGetStarted = () => {
     setStep('location');
@@ -21,9 +31,6 @@ export default function Home() {
     setStep('dashboard');
   };
   
-  const { setLocation } = useLocation();
-
-
   if (isInitialLoad) {
     return (
         <div className="container p-4 sm:p-6 md:p-8">
