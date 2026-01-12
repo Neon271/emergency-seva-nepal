@@ -1,5 +1,5 @@
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   title: 'Emergency Seva',
   description: 'Find nearby hospitals, clinics, and emergency services in Nepal',
   manifest: '/manifest.json',
+};
+
+export const viewport: Viewport = {
   themeColor: '#F77F00',
   appleWebApp: {
     capable: true,
