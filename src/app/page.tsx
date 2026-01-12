@@ -1,14 +1,28 @@
+
 "use client";
 
-import { useState } from 'react';
 import { useLocation } from '@/hooks/use-location-context';
 import WelcomeScreen from '@/components/onboarding/WelcomeScreen';
 import LocationSetup from '@/components/onboarding/LocationSetup';
 import Dashboard from '@/components/dashboard/Dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useState } from 'react';
 
 export default function Home() {
   const { isLocationSet, isInitialLoad } = useLocation();
+  const [step, setStep] = useState<'welcome' | 'location' | 'dashboard'>('dashboard');
+
+  const handleGetStarted = () => {
+    setStep('location');
+  };
+
+  const handleLocationSet = (provinceId: string, districtId: string) => {
+    setLocation({ provinceId, districtId });
+    setStep('dashboard');
+  };
+  
+  const { setLocation } = useLocation();
+
 
   if (isInitialLoad) {
     return (
@@ -24,40 +38,18 @@ export default function Home() {
         </div>
     );
   }
-
-  const renderContent = () => {
-    if (!isLocationSet) {
-      return <OnboardingFlow />;
+  
+  if (!isLocationSet) {
+    if (step === 'welcome') {
+      return <main className="container p-4 sm:p-6 md:p-8"><WelcomeScreen onGetStarted={handleGetStarted} /></main>;
     }
-    return <Dashboard />;
+    return <main className="container p-4 sm:p-6 md:p-8"><LocationSetup onLocationSet={handleLocationSet} /></main>;
   }
+
 
   return (
     <main className="container p-4 sm:p-6 md:p-8">
-        {renderContent()}
+        <Dashboard />
     </main>
   );
-}
-
-function OnboardingFlow() {
-  const { location, setLocation } = useLocation();
-  const [step, setStep] = useState<'welcome' | 'location'>(location ? 'location' : 'welcome');
-
-  const handleGetStarted = () => {
-    setStep('location');
-  };
-
-  const handleLocationSet = (provinceId: string, districtId: string) => {
-    setLocation({ provinceId, districtId });
-  };
-
-  if (step === 'welcome') {
-    return <WelcomeScreen onGetStarted={handleGetStarted} />;
-  }
-
-  if (step === 'location') {
-    return <LocationSetup onLocationSet={handleLocationSet} />;
-  }
-
-  return null;
 }

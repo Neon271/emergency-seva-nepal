@@ -1,10 +1,9 @@
-
 "use client";
 
 import Link from 'next/link';
 import { useLocation } from '@/hooks/use-location-context';
 import { Button } from '../ui/button';
-import { Plus, HeartHandshake, MapPin, Menu, Star, UserSquare, Phone } from 'lucide-react';
+import { Plus, HeartHandshake, MapPin, Menu, Star, UserSquare, Home } from 'lucide-react';
 import AddContactDialog from '../dashboard/AddContactDialog';
 import { useState } from 'react';
 import { ThemeToggle } from '../ThemeToggle';
@@ -29,7 +28,7 @@ const Header = () => {
           <div className="hidden md:flex flex-1 items-center justify-start space-x-1 ml-6">
             <Button variant="ghost" asChild>
                 <Link href="/">
-                    <Phone className="mr-2 h-4 w-4"/> Home
+                    <Home className="mr-2 h-4 w-4"/> Home
                 </Link>
             </Button>
             <Button variant="ghost" asChild>
@@ -62,11 +61,12 @@ const Header = () => {
             )}
              <Button
               variant="outline"
-              size="sm"
+              size="icon"
               onClick={() => setAddContactOpen(true)}
               className="sm:hidden"
             >
-              <Plus className="mr-1 h-4 w-4" /> Add
+              <Plus className="h-4 w-4" />
+              <span className="sr-only">Add Contact</span>
             </Button>
             <Button
                 variant="accent"

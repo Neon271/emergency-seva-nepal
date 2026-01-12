@@ -1,4 +1,3 @@
-
 import { LifeBuoy, Target, Users, Star, Map, Globe, WifiOff, Bell, AlertTriangle, Database, Mail, Code } from 'lucide-react';
 import {
   Accordion,
@@ -9,7 +8,7 @@ import {
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-8 sm:py-12">
+    <main className="container mx-auto max-w-3xl px-4 py-8 sm:py-12">
       <header className="text-center mb-10">
         <h1 className="font-headline text-3xl sm:text-4xl font-bold tracking-tight">
           About Emergency Seva
@@ -104,6 +103,6 @@ export default function AboutPage() {
       <footer className="text-center mt-12">
         <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Emergency Seva – Prajwol</p>
       </footer>
-    </div>
+    </main>
   );
 }
