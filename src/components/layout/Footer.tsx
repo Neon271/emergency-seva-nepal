@@ -4,11 +4,6 @@ import { Button } from '../ui/button';
 const Footer = () => {
   return (
     <footer className="w-full bg-card border-t p-4 text-center mt-6">
-      <div className="space-x-4 mb-2">
-         <Button variant="link" asChild className="text-xs text-muted-foreground">
-            <Link href="/admin">Admin</Link>
-         </Button>
-      </div>
       <p className="text-sm text-muted-foreground mb-2">
         <span className="font-bold text-destructive">Emergency Numbers:</span> Police: <a href="tel:100" className="font-semibold">100</a> | Ambulance: <a href="tel:102" className="font-semibold">102</a> | Fire: <a href="tel:101" className="font-semibold">101</a>
       </p>
