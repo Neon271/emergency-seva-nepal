@@ -12,7 +12,7 @@ export default function Home() {
 
   if (isInitialLoad) {
     return (
-        <div className="container p-4">
+        <div className="container p-4 sm:p-6 md:p-8">
             <Skeleton className="h-24 w-full mb-4" />
             <Skeleton className="h-32 w-full mb-4" />
             <Skeleton className="h-16 w-full mb-8" />
@@ -33,7 +33,7 @@ export default function Home() {
   }
 
   return (
-    <main className="container p-4 sm:p-6">
+    <main className="container p-4 sm:p-6 md:p-8">
         {renderContent()}
     </main>
   );

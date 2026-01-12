@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { useLocation } from '@/hooks/use-location-context';
 import { Button } from '../ui/button';
-import { Plus, HeartHandshake, MapPin } from 'lucide-react';
+import { Plus, HeartHandshake, MapPin, Menu, Star, UserSquare, Phone } from 'lucide-react';
 import AddContactDialog from '../dashboard/AddContactDialog';
 import { useState } from 'react';
 import { ThemeToggle } from '../ThemeToggle';
@@ -25,15 +25,39 @@ const Header = () => {
               </span>
             </Link>
           </div>
+
+          <div className="hidden md:flex flex-1 items-center justify-start space-x-1 ml-6">
+            <Button variant="ghost" asChild>
+                <Link href="/">
+                    <Phone className="mr-2 h-4 w-4"/> Home
+                </Link>
+            </Button>
+            <Button variant="ghost" asChild>
+                 <Link href="/favorites">
+                    <Star className="mr-2 h-4 w-4"/> Favorites
+                </Link>
+            </Button>
+            <Button variant="ghost" asChild>
+                <Link href="/custom">
+                    <UserSquare className="mr-2 h-4 w-4"/> My Contacts
+                </Link>
+            </Button>
+             <Button variant="ghost" asChild>
+                <Link href="/more">
+                    <Menu className="mr-2 h-4 w-4"/> More
+                </Link>
+            </Button>
+          </div>
+
           <div className="flex flex-1 items-center justify-end space-x-2">
             {isLocationSet && (
               <Button
                 variant="outline"
-                className="max-w-[150px] truncate sm:max-w-none hidden sm:inline-flex"
+                className="max-w-[150px] truncate sm:max-w-none"
                 onClick={() => setShowSelector(true)}
               >
                 <MapPin className="mr-2 h-4 w-4" />
-                <span className="truncate">{selectedDistrict?.name_ne}</span>
+                <span className="truncate">{selectedDistrict?.name}</span>
               </Button>
             )}
              <Button

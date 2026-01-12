@@ -6,7 +6,6 @@ import { getEmergencyServicesByDistrict, getAllContacts } from "@/lib/emergency-
 import { districts } from "@/lib/locations";
 import type { EmergencyServiceCategory } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ComingSoon } from "../shared/ComingSoon";
 import { useLocation } from "@/hooks/use-location-context";
 import { Input } from "../ui/input";
 import EmergencyContactCard from "./EmergencyContactCard";
@@ -149,7 +148,7 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
       </div>
       
       {filteredContacts.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filteredContacts.map((contact) => (
               <EmergencyContactCard key={contact.id} contact={allContactsMap.get(contact.id)!} />
             ))}

@@ -49,7 +49,7 @@ export default function Dashboard() {
   const renderContent = () => {
     if (isInitialLoad || !isLocationSet) {
       return (
-        <div className="w-full max-w-5xl space-y-4">
+        <div className="w-full max-w-5xl mx-auto space-y-4">
           <Skeleton className="h-40 w-full" />
           <div className="space-y-4">
             <Skeleton className="h-32 w-full" />
@@ -61,7 +61,7 @@ export default function Dashboard() {
     }
     return (
         <>
-            <div className="w-full max-w-5xl mx-auto pb-24">
+            <div className="w-full max-w-5xl mx-auto pb-24 md:pb-8">
                 <Card className="mb-6 bg-card/70">
                     <CardHeader>
                         <CardTitle className="text-xl font-bold">Find Nearby Services</CardTitle>
@@ -98,7 +98,7 @@ export default function Dashboard() {
                             </CardHeader>
                             <CardContent>
                             {isLoadingFavorites ? <Skeleton className="h-48 w-full" /> : favoriteContacts.length > 0 ? (
-                                <div className="grid gap-4 sm:grid-cols-2">
+                                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                     {favoriteContacts.map((contact) => (
                                     <EmergencyContactCard key={contact.id} contact={contact} />
                                     ))}
@@ -122,7 +122,7 @@ export default function Dashboard() {
                             </CardHeader>
                             <CardContent>
                             {isLoadingCustomContacts ? <Skeleton className="h-48 w-full" /> : customContacts.length > 0 ? (
-                                <div className="grid gap-4 sm:grid-cols-2">
+                                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                     {customContacts.map((contact) => (
                                     <CustomContactCard key={contact.id} contact={contact} />
                                     ))}
@@ -141,7 +141,7 @@ export default function Dashboard() {
                         </Card>
                     </TabsContent>
 
-                    <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/95 backdrop-blur-sm">
+                    <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/95 backdrop-blur-sm md:hidden">
                         <div className="container px-0">
                             <TabsList className="grid h-auto w-full grid-cols-4 p-1 rounded-none">
                                 <TabsTrigger value="contacts" className="flex-col gap-1 h-14">
