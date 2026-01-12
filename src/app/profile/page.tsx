@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -47,6 +47,7 @@ export default function ProfilePage() {
   const { profile, saveProfile, isInitialLoad } = useProfile();
   const { toast } = useToast();
   const [availableDistricts, setAvailableDistricts] = useState<District[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -87,6 +88,17 @@ export default function ProfilePage() {
     return name ? name.split(' ').map(n => n[0]).join('').toUpperCase() : "P";
   }
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        form.setValue('photoUrl', reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   if (isInitialLoad) {
     return <div>Loading profile...</div>
   }
@@ -113,10 +125,19 @@ export default function ProfilePage() {
                     </Avatar>
                     <div className="grid gap-2">
                     <FormLabel>Profile Photo (Optional)</FormLabel>
-                     <Button type="button" size="sm" variant="outline" onClick={() => alert("File upload not implemented yet.")}>
+                     <Button type="button" size="sm" variant="outline" onClick={() => fileInputRef.current?.click()}>
                         <Upload className="mr-2 h-4 w-4" />
                         Upload Image
                     </Button>
+                    <FormControl>
+                      <Input 
+                        type="file"
+                        ref={fileInputRef}
+                        className="hidden"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                      />
+                    </FormControl>
                     </div>
                   </FormItem>
                 )}
