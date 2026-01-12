@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: 'Emergency Seva',
   description: 'Find nearby hospitals, clinics, and emergency services in Nepal',
   manifest: '/manifest.json',
+  applicationName: 'Emergency Seva',
 };
 
 export const viewport: Viewport = {
