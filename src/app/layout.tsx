@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: 'Emergency Seva',
   description: 'Find nearby hospitals, clinics, and emergency services in Nepal',
   manifest: '/manifest.json',
-  themeColor: '#DC2626',
+  themeColor: '#F77F00',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

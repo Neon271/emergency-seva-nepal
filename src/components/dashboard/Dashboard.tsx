@@ -80,20 +80,20 @@ export default function Dashboard() {
              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-6">
                 <div className='flex justify-center mb-6'>
                     <TabsList className="grid h-auto w-full max-w-lg grid-cols-2 sm:grid-cols-4 p-1">
-                        <TabsTrigger value="contacts" className="flex gap-2">
-                            <Phone />
+                        <TabsTrigger value="contacts" className="flex-col sm:flex-row gap-1 sm:gap-2">
+                            <Phone className="h-5 w-5"/>
                             <span>Home</span>
                         </TabsTrigger>
-                        <TabsTrigger value="favorites" className="flex gap-2">
-                            <Star />
+                        <TabsTrigger value="favorites" className="flex-col sm:flex-row gap-1 sm:gap-2">
+                            <Star className="h-5 w-5"/>
                             <span>Favorites</span>
                         </TabsTrigger>
-                         <TabsTrigger value="custom" className="flex gap-2">
-                            <UserSquare />
+                         <TabsTrigger value="custom" className="flex-col sm:flex-row gap-1 sm:gap-2">
+                            <UserSquare className="h-5 w-5"/>
                             <span>My Contacts</span>
                         </TabsTrigger>
-                        <TabsTrigger value="guide" className="flex gap-2">
-                            <BookOpen />
+                        <TabsTrigger value="guide" className="flex-col sm:flex-row gap-1 sm:gap-2">
+                            <BookOpen className="h-5 w-5"/>
                             <span>Guide</span>
                         </TabsTrigger>
                     </TabsList>

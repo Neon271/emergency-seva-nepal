@@ -11,7 +11,18 @@ export default function Home() {
   const { isLocationSet, isInitialLoad } = useLocation();
 
   if (isInitialLoad) {
-    return <div className="p-4"><Skeleton className="h-[80vh] w-full" /></div>;
+    return (
+        <div className="container p-4">
+            <Skeleton className="h-24 w-full mb-4" />
+            <Skeleton className="h-32 w-full mb-4" />
+            <Skeleton className="h-16 w-full mb-8" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <Skeleton className="h-48 w-full" />
+                <Skeleton className="h-48 w-full" />
+                <Skeleton className="h-48 w-full" />
+            </div>
+        </div>
+    );
   }
 
   const renderContent = () => {
@@ -22,7 +33,7 @@ export default function Home() {
   }
 
   return (
-    <main className="main-container">
+    <main className="container p-4 sm:p-6">
         {renderContent()}
     </main>
   );
