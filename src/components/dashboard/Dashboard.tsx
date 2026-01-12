@@ -1,14 +1,14 @@
 
 "use client";
 
-import { useLocation } from '@/hooks/use-location-context';
 import EmergencyContactsDisplay from '@/components/dashboard/EmergencyContactsDisplay';
 import { Button } from '../ui/button';
 import EmergencySms from '../sms/EmergencySms';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card';
+import { useProfile } from '@/hooks/use-profile';
 
 export default function Dashboard() {
-  const { location, selectedDistrict, selectedProvince } = useLocation();
+  const { profile, selectedDistrict, selectedProvince } = useProfile();
   
   const findNearby = (service: string) => {
     if (navigator.geolocation) {
@@ -35,9 +35,11 @@ export default function Dashboard() {
           <Card className="bg-card/70">
               <CardHeader>
                   <CardTitle className="text-xl font-bold">Find Nearby Services</CardTitle>
-                  <CardDescription>
-                      Showing services for {selectedDistrict?.name_ne} ({selectedDistrict?.name}), {selectedProvince?.name_ne} ({selectedProvince?.name})
-                  </CardDescription>
+                  {profile && (
+                    <CardDescription>
+                        Showing services for {selectedDistrict?.name_ne} ({selectedDistrict?.name}), {selectedProvince?.name_ne} ({selectedProvince?.name})
+                    </CardDescription>
+                  )}
               </CardHeader>
               <CardContent className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   <Button onClick={() => findNearby('hospitals')} size="lg" className="font-semibold">
@@ -51,7 +53,7 @@ export default function Dashboard() {
 
           <EmergencySms />
 
-          {location && <EmergencyContactsDisplay districtId={location.districtId} />}
+          {profile?.districtId && <EmergencyContactsDisplay districtId={profile.districtId} />}
       </div>
   );
 }

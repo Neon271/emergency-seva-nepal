@@ -1,33 +1,33 @@
 
 "use client";
 
-import { useLocation } from '@/hooks/use-location-context';
-import WelcomeScreen from '@/components/onboarding/WelcomeScreen';
-import LocationSetup from '@/components/onboarding/LocationSetup';
 import Dashboard from '@/components/dashboard/Dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useEffect } from 'react';
+import WelcomeScreen from '@/components/onboarding/WelcomeScreen';
+import ProfileSetup from '@/components/onboarding/ProfileSetup';
+import { useProfile } from '@/hooks/use-profile';
 
 export default function Home() {
-  const { location, setLocation, isLocationSet, isInitialLoad } = useLocation();
-  const [step, setStep] = useState<'welcome' | 'location' | 'dashboard'>('dashboard');
+  const { profile, isProfileSet, isInitialLoad, saveProfile } = useProfile();
+  const [step, setStep] = useState<'welcome' | 'profile' | 'dashboard'>('dashboard');
 
   useEffect(() => {
     if (!isInitialLoad) {
-      if (!isLocationSet) {
+      if (!isProfileSet) {
         setStep('welcome');
       } else {
         setStep('dashboard');
       }
     }
-  }, [isInitialLoad, isLocationSet]);
+  }, [isInitialLoad, isProfileSet]);
 
   const handleGetStarted = () => {
-    setStep('location');
+    setStep('profile');
   };
 
-  const handleLocationSet = (provinceId: string, districtId: string) => {
-    setLocation({ provinceId, districtId });
+  const handleProfileSet = (newProfile: any) => {
+    saveProfile(newProfile);
     setStep('dashboard');
   };
   
@@ -46,11 +46,11 @@ export default function Home() {
     );
   }
   
-  if (!isLocationSet) {
+  if (!isProfileSet) {
     if (step === 'welcome') {
       return <main className="container p-4 sm:p-6 md:p-8"><WelcomeScreen onGetStarted={handleGetStarted} /></main>;
     }
-    return <main className="container p-4 sm:p-6 md:p-8"><LocationSetup onLocationSet={handleLocationSet} /></main>;
+    return <main className="container p-4 sm:p-6 md:p-8"><ProfileSetup onProfileSet={handleProfileSet} /></main>;
   }
 
 

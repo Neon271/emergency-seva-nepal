@@ -1,11 +1,18 @@
+
 "use client";
 
 import Link from 'next/link';
 import { Card } from "@/components/ui/card";
-import { ChevronRight, BookOpen, Info, History } from 'lucide-react';
+import { ChevronRight, BookOpen, Info, History, User } from 'lucide-react';
 
 export default function MoreMenu() {
     const menuItems = [
+         {
+            href: "/profile",
+            icon: User,
+            title: "My Profile",
+            description: "View and edit your personal information."
+        },
         {
             href: "/guide",
             icon: BookOpen,

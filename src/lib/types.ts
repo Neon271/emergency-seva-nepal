@@ -48,6 +48,17 @@ export interface CustomContact {
     address?: string;
 }
 
+// For user profile
+export interface Profile {
+  name: string;
+  phone: string;
+  email?: string;
+  provinceId: string;
+  districtId: string;
+  address?: string;
+  photoUrl?: string; // URL to the photo
+}
+
 
 // For feedback submission
 export interface ReportPayload {

@@ -6,7 +6,7 @@ import { getEmergencyServicesByDistrict, getAllContacts } from "@/lib/emergency-
 import { districts } from "@/lib/locations";
 import type { EmergencyServiceCategory } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useLocation } from "@/hooks/use-location-context";
+import { useProfile } from "@/hooks/use-profile";
 import { Input } from "../ui/input";
 import EmergencyContactCard from "./EmergencyContactCard";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -17,7 +17,7 @@ interface EmergencyContactsDisplayProps {
 }
 
 export default function EmergencyContactsDisplay({ districtId }: EmergencyContactsDisplayProps) {
-  const { selectedDistrict } = useLocation();
+  const { selectedDistrict } = useProfile();
   const [services, setServices] = useState<EmergencyServiceCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");

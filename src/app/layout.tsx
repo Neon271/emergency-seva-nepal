@@ -1,9 +1,10 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import { LocationProvider } from '@/contexts/LocationContext';
+import { ProfileProvider } from '@/contexts/ProfileContext';
 import { PT_Sans } from 'next/font/google';
 import AppLayout from '@/components/layout/AppLayout';
 
@@ -49,12 +50,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <LocationProvider>
+          <ProfileProvider>
             <AppLayout>
               {children}
             </AppLayout>
             <Toaster />
-          </LocationProvider>
+          </ProfileProvider>
         </ThemeProvider>
       </body>
     </html>
