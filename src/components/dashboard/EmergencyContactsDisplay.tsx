@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { getEmergencyServicesByDistrict } from "@/lib/emergency-services";
+import { getEmergencyServicesByDistrict, getAllContacts } from "@/lib/emergency-services";
 import { districts } from "@/lib/locations";
 import type { EmergencyServiceCategory } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -24,11 +24,13 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [selectedBloodType, setSelectedBloodType] = useState<string>("all");
+  const [allContactsMap, setAllContactsMap] = useState<Map<string, any>>(new Map());
 
   const districtInfo = useMemo(() => districts.find(d => d.id === districtId), [districtId]);
 
   useEffect(() => {
     setIsLoading(true);
+    setAllContactsMap(getAllContacts());
     if (districtId) {
       const fetchedServices = getEmergencyServicesByDistrict(districtId);
       setServices(fetchedServices);
@@ -89,10 +91,6 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
     return renderSkeleton();
   }
 
-  if (!districtInfo.isSupported) {
-    return <ComingSoon districtName={districtInfo.name_ne} />;
-  }
-
   const categoryIcons = {
     all: 'All',
     ambulance: '🚑',
@@ -151,9 +149,9 @@ export default function EmergencyContactsDisplay({ districtId }: EmergencyContac
       </div>
       
       {filteredContacts.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {filteredContacts.map((contact) => (
-            <EmergencyContactCard key={contact.id} contact={contact} />
+              <EmergencyContactCard key={contact.id} contact={allContactsMap.get(contact.id)!} />
             ))}
         </div>
       ) : (
