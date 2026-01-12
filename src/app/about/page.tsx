@@ -94,7 +94,7 @@ export default function AboutPage() {
             </div>
             <div className="flex items-center justify-center gap-2">
                 <Mail className="h-5 w-5" />
-                <p>For feedback or questions, please reach out via email.</p>
+                <p>For feedback or questions, please reach out to <a href="mailto:prajwolbohora74@gmail.com" className="text-primary hover:underline">prajwolbohora74@gmail.com</a>.</p>
             </div>
         </div>
 
