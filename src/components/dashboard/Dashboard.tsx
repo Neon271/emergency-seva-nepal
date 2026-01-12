@@ -4,10 +4,9 @@
 import { useLocation } from '@/hooks/use-location-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import EmergencyContactsDisplay from '@/components/dashboard/EmergencyContactsDisplay';
-import EmergencyGuide from '@/components/guide/EmergencyGuide';
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Phone, BookOpen, Star, UserSquare, Plus } from 'lucide-react';
+import { Phone, Star, UserSquare, Plus, Menu } from 'lucide-react';
 import { useFavorites } from '@/hooks/use-favorites';
 import EmergencyContactCard from './EmergencyContactCard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -17,6 +16,7 @@ import { Button } from '../ui/button';
 import EmergencySms from '../sms/EmergencySms';
 import { CardDescription } from '../ui/card';
 import AddContactDialog from './AddContactDialog';
+import MoreMenu from '../more/MoreMenu';
 
 export default function Dashboard() {
   const { location, isInitialLoad, isLocationSet, selectedDistrict, selectedProvince } = useLocation();
@@ -85,8 +85,8 @@ export default function Dashboard() {
                     <TabsContent value="contacts">
                         <EmergencyContactsDisplay districtId={location.districtId} />
                     </TabsContent>
-                    <TabsContent value="guide">
-                        <EmergencyGuide />
+                    <TabsContent value="more">
+                        <MoreMenu />
                     </TabsContent>
                     <TabsContent value="favorites">
                         <Card>
@@ -156,9 +156,9 @@ export default function Dashboard() {
                                     <UserSquare className="h-5 w-5"/>
                                     <span className="text-xs">My Contacts</span>
                                 </TabsTrigger>
-                                <TabsTrigger value="guide" className="flex-col gap-1 h-14">
-                                    <BookOpen className="h-5 w-5"/>
-                                    <span className="text-xs">Guide</span>
+                                <TabsTrigger value="more" className="flex-col gap-1 h-14">
+                                    <Menu className="h-5 w-5"/>
+                                    <span className="text-xs">More</span>
                                 </TabsTrigger>
                             </TabsList>
                         </div>

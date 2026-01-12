@@ -6,9 +6,6 @@ const Footer = () => {
     <footer className="w-full bg-card border-t p-4 text-center mt-6">
       <div className="space-x-4 mb-2">
          <Button variant="link" asChild className="text-xs text-muted-foreground">
-            <Link href="/about">About Us</Link>
-         </Button>
-         <Button variant="link" asChild className="text-xs text-muted-foreground">
             <Link href="/admin">Admin</Link>
          </Button>
       </div>
