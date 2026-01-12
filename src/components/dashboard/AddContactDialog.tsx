@@ -4,7 +4,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useTransition } from "react";
+import { useTransition, useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -32,7 +32,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { Import, Loader2 } from "lucide-react";
 import type { CustomContactCategory } from "@/lib/types";
 import { useCustomContacts } from "@/hooks/use-custom-contacts";
 import { Textarea } from "../ui/textarea";
@@ -56,6 +56,13 @@ export default function AddContactDialog({ isOpen, onOpenChange, onSuccess }: Ad
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const { addContact } = useCustomContacts();
+  const [isContactPickerSupported, setisContactPickerSupported] = useState(false);
+
+  useEffect(() => {
+    if ('contacts' in navigator && 'select' in (navigator as any).contacts) {
+      setisContactPickerSupported(true);
+    }
+  }, []);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -66,6 +73,31 @@ export default function AddContactDialog({ isOpen, onOpenChange, onSuccess }: Ad
       address: "",
     },
   });
+
+  const handleImportContact = async () => {
+    try {
+      const contacts = await (navigator as any).contacts.select(['name', 'tel'], { multiple: false });
+      if (contacts.length > 0) {
+        const contact = contacts[0];
+        if (contact.name && contact.name.length > 0) {
+          form.setValue('name', contact.name[0]);
+        }
+        if (contact.tel && contact.tel.length > 0) {
+          form.setValue('phone', contact.tel[0]);
+        }
+        toast({
+            title: "Contact Imported",
+            description: "Contact details have been filled in the form.",
+        })
+      }
+    } catch (ex) {
+      toast({
+        variant: "destructive",
+        title: "Could Not Import Contact",
+        description: "There was an error accessing your contacts.",
+      });
+    }
+  };
 
   const onSubmit = (values: ContactFormValues) => {
     startTransition(() => {
@@ -101,6 +133,14 @@ export default function AddContactDialog({ isOpen, onOpenChange, onSuccess }: Ad
             Save a personal emergency contact. It will be stored on your device.
           </DialogDescription>
         </DialogHeader>
+        
+        {isContactPickerSupported && (
+            <Button variant="outline" onClick={handleImportContact} className="w-full">
+                <Import className="mr-2 h-4 w-4" />
+                Import from Device
+            </Button>
+        )}
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -187,3 +227,4 @@ export default function AddContactDialog({ isOpen, onOpenChange, onSuccess }: Ad
     </Dialog>
   );
 }
+
