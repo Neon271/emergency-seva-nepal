@@ -18,7 +18,7 @@ const ptSans = PT_Sans({
 
 export const metadata: Metadata = {
   title: 'Emergency Seva',
-  description: 'Find nearby hospitals, clinics, and emergency services in Nepal',
+  description: 'Your reliable guide to emergency contacts and health services in Nepal.',
   manifest: '/manifest.json',
   applicationName: 'Emergency Seva',
 };
