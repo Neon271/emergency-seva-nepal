@@ -9,6 +9,7 @@ const withPWA = require('next-pwa')({
 
 const nextConfig: NextConfig = {
   /* config options here */
+  output: 'export',
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -36,6 +37,7 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    unoptimized: true,
   },
 };
 
