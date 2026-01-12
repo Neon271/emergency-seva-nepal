@@ -1,9 +1,8 @@
-
 "use client";
 
 import Link from 'next/link';
 import { Card } from "@/components/ui/card";
-import { ChevronRight, BookOpen, Info } from 'lucide-react';
+import { ChevronRight, BookOpen, Info, History } from 'lucide-react';
 
 export default function MoreMenu() {
     const menuItems = [
@@ -12,6 +11,12 @@ export default function MoreMenu() {
             icon: BookOpen,
             title: "Emergency Guide",
             description: "Learn what to do in different emergencies."
+        },
+        {
+            href: "/history",
+            icon: History,
+            title: "Interaction History",
+            description: "View your past calls and service requests."
         },
         {
             href: "/about",
