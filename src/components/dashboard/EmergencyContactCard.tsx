@@ -4,12 +4,18 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Phone, Share2, Flag, MapPin, Star, Navigation } from "lucide-react";
+import { Phone, Share2, Flag, MapPin, Star, Navigation, MoreVertical } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { EmergencyContact } from "@/lib/types";
 import ReportDialog from "../feedback/ReportDialog";
 import { useFavorites } from "@/hooks/use-favorites";
 import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface EmergencyContactCardProps {
   contact: EmergencyContact & { categoryId?: string };
@@ -43,7 +49,7 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
 
   const handleShare = async () => {
     const shareData = {
-      title: "Emergency Seva Contact",
+      title: "Emergency Sewa Contact",
       text: `Emergency Contact:\n${contact.name_ne} (${contact.name})\nPhone: ${contact.phone}${contact.address ? `\nAddress: ${contact.address}` : ''}`,
       url: window.location.href,
     };
@@ -75,72 +81,88 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
     })
   }
 
+  const handleWhatsApp = () => {
+    if (contact.whatsapp) {
+      window.open(`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`, '_blank', 'noopener,noreferrer');
+    }
+  }
+
   return (
     <>
       <Card>
-        <CardContent className="p-4 space-y-4">
-          <div className="flex items-start gap-4">
-            <div className="text-3xl mt-1 select-none">
-                {categoryIcons[categoryId as keyof typeof categoryIcons] || '📋'}
+        <CardContent className="p-4 space-y-3">
+          <div className="flex items-start justify-between">
+            <div className="flex items-start gap-4">
+                <div className="text-3xl mt-1 select-none flex-shrink-0">
+                    {categoryIcons[categoryId as keyof typeof categoryIcons] || '📋'}
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-base leading-tight">{contact.name_ne}</h3>
+                  <p className="text-sm text-muted-foreground -mt-0.5">{contact.name}</p>
+                </div>
             </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-base leading-tight">{contact.name_ne}</h3>
-              <p className="text-sm text-muted-foreground -mt-0.5">{contact.name}</p>
-              <a href={`tel:${contact.phone}`} className="block mt-1">
+            <Button variant="ghost" size="icon" className="-mr-2 -mt-2 h-8 w-8" onClick={handleFavoriteClick}>
+                <Star className={cn("h-5 w-5", favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
+            </Button>
+          </div>
+          
+          <div>
+            <a href={`tel:${contact.phone}`} className="block">
                 <div className="flex items-center gap-2 text-lg font-semibold text-accent">
                     <Phone className="h-4 w-4" /> <span>{contact.phone}</span>
                 </div>
-              </a>
-              {contact.address && (
-                <div className="flex items-start gap-2 text-xs text-muted-foreground mt-1">
-                  <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
-                  <span>{contact.address}</span>
-                </div>
-              )}
-               {contact.bloodTypes && contact.bloodTypes.length > 0 && (
+            </a>
+            {contact.address && (
+            <div className="flex items-start gap-2 text-xs text-muted-foreground mt-1">
+                <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                <span>{contact.address}</span>
+            </div>
+            )}
+            {contact.bloodTypes && contact.bloodTypes.length > 0 && (
                 <div className="flex flex-wrap gap-1 mt-2">
                     {contact.bloodTypes.map(bt => (
                         <span key={bt} className="inline-block bg-primary/20 text-primary-foreground text-xs font-bold px-2 py-1 rounded-full">{bt}</span>
                     ))}
                 </div>
             )}
-            </div>
-             <Button variant="ghost" size="icon" className="-mr-2 -mt-2 h-8 w-8" onClick={handleFavoriteClick}>
-                <Star className={cn("h-5 w-5", favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
-            </Button>
           </div>
 
-          <div className="flex justify-between items-center">
-            <div className="flex gap-1">
-                <Button asChild variant="accent" size="icon" className="h-9 w-9">
-                    <a href={`tel:${contact.phone}`}>
-                        <Phone />
-                        <span className="sr-only">Call</span>
-                    </a>
-                </Button>
-                <Button asChild variant="secondary" size="icon" className="h-9 w-9">
-                    <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
-                        <Navigation />
-                        <span className="sr-only">Directions</span>
-                    </a>
-                </Button>
-                 {contact.whatsapp && (
-                    <Button asChild variant="ghost" size="icon" className="h-9 w-9 text-green-500 hover:bg-green-100 hover:text-green-600 dark:hover:bg-green-900/50">
-                        <a href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
-                            <WhatsAppIcon className="h-5 w-5" />
-                        </a>
-                    </Button>
-                )}
-                <Button variant="ghost" size="icon" className="h-9 w-9 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800" onClick={handleShare}>
-                    <Share2 className="h-5 w-5" />
-                    <span className="sr-only">Share</span>
-                </Button>
-            </div>
-            
-             <Button variant="link" size="sm" className="text-xs text-muted-foreground hover:text-destructive pr-0" onClick={() => setReportDialogOpen(true)}>
-                <Flag className="mr-1 h-3 w-3" />
-                Report
+          <div className="flex justify-between items-center gap-2">
+            <Button asChild variant="accent" size="default" className="w-full">
+                <a href={`tel:${contact.phone}`}>
+                    <Phone />
+                    Call Now
+                </a>
             </Button>
+            <Button asChild variant="secondary" size="icon" className="h-10 w-10 flex-shrink-0">
+                <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
+                    <Navigation />
+                    <span className="sr-only">Directions</span>
+                </a>
+            </Button>
+             <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-10 w-10 flex-shrink-0">
+                  <MoreVertical />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {contact.whatsapp && (
+                    <DropdownMenuItem onClick={handleWhatsApp}>
+                        <WhatsAppIcon className="mr-2 h-4 w-4 text-green-500"/>
+                        Chat on WhatsApp
+                    </DropdownMenuItem>
+                )}
+                <DropdownMenuItem onClick={handleShare}>
+                  <Share2 className="mr-2 h-4 w-4" />
+                  Share
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setReportDialogOpen(true)} className="text-destructive focus:text-destructive">
+                  <Flag className="mr-2 h-4 w-4" />
+                  Report Issue
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </CardContent>
       </Card>

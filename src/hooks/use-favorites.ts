@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 import type { EmergencyContact } from '@/lib/types';
 import { getAllContacts } from '@/lib/emergency-services';
 
-const FAVORITES_STORAGE_KEY = 'emergency-seva-favorites';
+const FAVORITES_STORAGE_KEY = 'emergency-sewa-favorites';
 
 export function useFavorites() {
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());

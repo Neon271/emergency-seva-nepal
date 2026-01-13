@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ export default function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
         <CardHeader>
             <div className="mx-auto text-6xl mb-4">⛑️</div>
           <CardTitle className="text-2xl">
-            Welcome to Emergency Seva
+            Welcome to Emergency Sewa
           </CardTitle>
           <CardDescription>
             Your guide to emergency contacts and health services in Nepal.
