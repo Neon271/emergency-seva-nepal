@@ -17,35 +17,11 @@ type ActionFormResult = {
 export async function sendNotification(
   values: z.infer<typeof notificationFormSchema>
 ): Promise<ActionFormResult> {
-  const parsed = notificationFormSchema.safeParse(values);
-  if (!parsed.success) {
-    return { success: false, message: 'Invalid input.' };
-  }
-
-  try {
-    const notificationText = parsed.data.notificationText;
-    if (notificationText.length < 10) {
-        return {
-            success: false,
-            message: "Notification must be at least 10 characters.",
-        };
-    }
-
-    // This is where the actual push notification logic would go.
-    // For now, it just logs to the console.
-    console.log('FCM Logic: Sending notification:', notificationText);
-
-    return {
-      success: true,
-      message: 'Notification has been sent.',
-    };
-  } catch (error) {
-    console.error('Error sending notification:', error);
-    return {
-      success: false,
-      message: 'An unexpected error occurred. Please try again.',
-    };
-  }
+  console.error('sendNotification is not implemented.');
+  return {
+    success: false,
+    message: 'This feature is not yet implemented. A secure backend (like a Cloud Function) is required.',
+  };
 }
 
 const reportSchema = z.object({
