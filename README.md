@@ -1,5 +1,80 @@
-# Firebase Studio
+# Emergency Sewa - Nepal Emergency Services App
 
-This is a NextJS starter in Firebase Studio.
+Emergency Sewa is a mobile-first web application designed to provide quick and easy access to emergency service numbers and information across Nepal. Built with Next.js and Capacitor, it's designed to be a reliable guide in times of need.
 
-To get started, take a look at src/app/page.tsx.
+## ✨ Features
+
+*   **Emergency Contacts:** Find numbers for police, hospitals, ambulances, fire brigades, and more.
+*   **Location-Based Filtering:** Automatically shows contacts for your selected province and district.
+*   **Offline Access:** Works without an internet connection after the initial load (PWA).
+*   **Custom Contacts:** Save your own personal emergency contacts for quick access.
+*   **Favorite Contacts:** Mark important numbers as favorites.
+*   **Emergency Guide:** Simple, actionable guides for common emergencies like earthquakes, floods, and snake bites.
+*   **Emergency SMS:** A one-tap button to quickly send an SMS with your location to an emergency contact.
+*   **Dark Mode:** Switch between light and dark themes for comfortable viewing.
+
+## 🚀 Getting Started
+
+To run this project locally, you'll need [Node.js](https://nodejs.org/) installed.
+
+1.  **Clone the repository or download the source code.**
+
+2.  **Navigate to the project directory:**
+    ```bash
+    cd [your-project-folder]
+    ```
+
+3.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
+
+## 📜 Available Scripts
+
+*   `npm run dev`: Runs the app in development mode.
+*   `npm run build`: Creates a production-ready build in the `out` directory.
+*   `npm run cap:add:android`: Adds the Android platform for Capacitor.
+*   `npm run cap:sync`: Syncs the web build with the Android project.
+
+## 📱 Building the Android APK
+
+To package the web app as an Android APK, follow these steps.
+
+1.  **Build the Web App:**
+    Create a production build of the Next.js app.
+    ```bash
+    npm run build
+    ```
+
+2.  **Add the Android Platform (if you haven't already):**
+    This command creates the native Android project.
+    ```bash
+    npm run cap:add:android
+    ```
+
+3.  **Sync the Web Build:**
+    Copy the web assets into the Android project.
+    ```bash
+    npm run cap:sync
+    ```
+
+4.  **Open in Android Studio:**
+    This command opens the native project in Android Studio.
+    ```bash
+    npx cap open android
+    ```
+
+5.  **Generate Signed APK:**
+    *   In Android Studio, go to **Build > Generate Signed Bundle / APK...**.
+    *   Select **APK** and click **Next**.
+    *   Create or use an existing **keystore** to sign your app.
+    *   Select the **release** build variant.
+    *   Click **Create**.
+
+The final APK will be located in `android/app/release/app-release.apk`.
