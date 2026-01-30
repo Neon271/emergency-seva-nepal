@@ -13,9 +13,9 @@ Emergency Sewa is a mobile-first web application designed to provide quick and e
 *   **Emergency SMS:** A one-tap button to quickly send an SMS with your location to an emergency contact.
 *   **Dark Mode:** Switch between light and dark themes for comfortable viewing.
 
-## 🚀 Getting Started
+## 🚀 Getting Started (for Local Development)
 
-To run this project locally, you'll need [Node.js](https://nodejs.org/) installed.
+To run this project for development on your local machine:
 
 1.  **Clone the repository or download the source code.**
 
@@ -38,39 +38,49 @@ To run this project locally, you'll need [Node.js](https://nodejs.org/) installe
 ## 📜 Available Scripts
 
 *   `npm run dev`: Runs the app in development mode.
-*   `npm run build`: Creates a production-ready build in the `out` directory.
+*   `npm run build`: Creates a production-ready build of the web app.
 *   `npm run cap:add:android`: Adds the Android platform for Capacitor.
-*   `npm run cap:sync`: Syncs the web build with the Android project.
+*   `npm run cap:sync`: Syncs the web build with the native Android project.
 
-## 📱 Building the Android APK
+## 📱 Building the Android APK from Source
 
-To package the web app as an Android APK, follow these steps.
+To package the web app as an Android APK on your local machine, follow these steps precisely.
 
-1.  **Build the Web App:**
-    Create a production build of the Next.js app.
+1.  **Get the Code:**
+    Download the project `.zip` file from Firebase Studio and unzip it. Or, clone the repository.
+
+2.  **Open a Terminal:**
+    Navigate your terminal (like Command Prompt, PowerShell, or Git Bash) into the project folder.
+    ```bash
+    cd [your-project-folder]
+    ```
+
+3.  **Install Dependencies:**
+    This command reads `package.json` and downloads the necessary libraries into a `node_modules` folder. This step is essential.
+    ```bash
+    npm install
+    ```
+
+4.  **Build the Web App:**
+    This creates a production-ready build of the Next.js app in the `out` directory.
     ```bash
     npm run build
     ```
 
-2.  **Add the Android Platform (if you haven't already):**
-    This command creates the native Android project.
-    ```bash
-    npm run cap:add:android
-    ```
-
-3.  **Sync the Web Build:**
-    Copy the web assets into the Android project.
+5.  **Sync the Web Build:**
+    This command copies your web app build into the native Android project.
     ```bash
     npm run cap:sync
     ```
+    *(Note: If you haven't added the android platform before, you may need to run `npm run cap:add:android` first.)*
 
-4.  **Open in Android Studio:**
-    This command opens the native project in Android Studio.
+6.  **Open in Android Studio:**
+    This command opens the native project in Android Studio automatically.
     ```bash
     npx cap open android
     ```
 
-5.  **Generate Signed APK:**
+7.  **Generate Signed APK:**
     *   In Android Studio, go to **Build > Generate Signed Bundle / APK...**.
     *   Select **APK** and click **Next**.
     *   Create or use an existing **keystore** to sign your app.
