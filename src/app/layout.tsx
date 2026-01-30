@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { ProfileProvider } from '@/contexts/ProfileContext';
 import { PT_Sans } from 'next/font/google';
 import AppLayout from '@/components/layout/AppLayout';
+import { FirebaseClientProvider } from '@/firebase';
 
 const ptSans = PT_Sans({
   subsets: ['latin'],
@@ -54,12 +55,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ProfileProvider>
-            <AppLayout>
-              {children}
-            </AppLayout>
-            <Toaster />
-          </ProfileProvider>
+          <FirebaseClientProvider>
+            <ProfileProvider>
+              <AppLayout>
+                {children}
+              </AppLayout>
+              <Toaster />
+            </ProfileProvider>
+          </FirebaseClientProvider>
         </ThemeProvider>
       </body>
     </html>
