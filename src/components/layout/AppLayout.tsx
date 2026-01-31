@@ -1,11 +1,10 @@
-
 "use client";
 
 import { useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import BottomNav from './BottomNav';
-import { isPlatform } from '@capacitor/core';
+import { Capacitor } from '@capacitor/core';
 import { PushNotifications, Token, PushNotificationSchema, ActionPerformed } from '@capacitor/push-notifications';
 import { useToast } from '@/hooks/use-toast';
 
@@ -13,7 +12,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     const { toast } = useToast();
 
     useEffect(() => {
-        if (isPlatform('capacitor')) {
+        if (Capacitor.isNativePlatform()) {
             const registerNotifications = async () => {
                 let permStatus = await PushNotifications.checkPermissions();
 

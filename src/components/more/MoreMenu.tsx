@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { Card } from "@/components/ui/card";
-import { ChevronRight, BookOpen, Info, History, User } from 'lucide-react';
+import { ChevronRight, BookOpen, Info, History, User, Shield } from 'lucide-react';
 
 export default function MoreMenu() {
     const menuItems = [
@@ -30,6 +30,12 @@ export default function MoreMenu() {
             icon: Info,
             title: "About Emergency Sewa",
             description: "Our mission, features, and limitations."
+        },
+        {
+            href: "/admin",
+            icon: Shield,
+            title: "Admin Panel",
+            description: "Send push notifications to users."
         }
     ]
   return (
