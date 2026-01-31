@@ -83,7 +83,7 @@ To package the web app as an Android APK on your local machine, follow these ste
 7.  **Generate Signed APK:**
     This is the most technical part. Follow these sub-steps carefully inside Android Studio.
 
-    a. Wait for Android Studio to finish its initial "Gradle Sync" (you'll see progress bars at the bottom).
+    a. **Wait for Gradle Sync to Finish:** When Android Studio opens, look at the bottom of the window. You will see progress bars and messages like "Gradle sync running". You **must wait** for this process to complete. It can take several minutes. The "Build" menu will not be available until it is done.
 
     b. From the top menu bar, click **Build** -> **Generate Signed Bundle / APK...**.
 
@@ -105,3 +105,13 @@ To package the web app as an Android APK on your local machine, follow these ste
     g. On the final screen, choose the build variant. Select **release** and click **Create**.
 
 Android Studio will now build the APK. After a minute or two, a notification will appear in the bottom-right corner. Click the blue **locate** link to find your final `app-release.apk` file in the `android/app/release/` directory.
+
+---
+### Gemini API Key
+
+The app does not currently use any AI features, so you do not need an API key to build it. However, if you wish to add Generative AI features in the future, you will need to get a free API key from Google AI Studio.
+
+1.  Go to the **[Google AI Studio website](https://makersuite.google.com/app/apikey)**.
+2.  Sign in with your Google account and click **"Create API key"**.
+3.  Copy the key.
+4.  In your project, open the `.env` file and paste the key there, like this: `GEMINI_API_KEY="YOUR_API_KEY_HERE"`
