@@ -81,10 +81,27 @@ To package the web app as an Android APK on your local machine, follow these ste
     ```
 
 7.  **Generate Signed APK:**
-    *   In Android Studio, go to **Build > Generate Signed Bundle / APK...**.
-    *   Select **APK** and click **Next**.
-    *   Create or use an existing **keystore** to sign your app.
-    *   Select the **release** build variant.
-    *   Click **Create**.
+    This is the most technical part. Follow these sub-steps carefully inside Android Studio.
 
-The final APK will be located in `android/app/release/app-release.apk`.
+    a. Wait for Android Studio to finish its initial "Gradle Sync" (you'll see progress bars at the bottom).
+
+    b. From the top menu bar, click **Build** -> **Generate Signed Bundle / APK...**.
+
+    c. A new window will open. Select **APK** and click **Next**.
+
+    d. You are now on the "keystore" screen. A keystore is a file that holds your digital signature. Click **Create new...**.
+
+    e. A "New Key Store" window will appear. Fill it out as follows:
+        *   **Key store path:** Click the folder icon. Navigate to a safe place on your computer (like your Documents folder). For the file name, enter `emergencysewa-keystore.jks` and click Save.
+        *   **Password:** Create a password. **IMPORTANT: Write this password down! You will need it to publish updates.**
+        *   **Alias:** You can just type `key0`.
+        *   **Password (for Alias):** Use the same password as above to keep it simple.
+        *   **Validity (years):** The default of `25` is fine.
+        *   **Certificate:** You only need to fill in one field. In the "First and Last Name" box, type your name.
+        *   Click **OK**.
+
+    f. You will return to the previous screen, and the details should be filled in. Check the **Remember passwords** box, then click **Next**.
+
+    g. On the final screen, choose the build variant. Select **release** and click **Create**.
+
+Android Studio will now build the APK. After a minute or two, a notification will appear in the bottom-right corner. Click the blue **locate** link to find your final `app-release.apk` file in the `android/app/release/` directory.
