@@ -12,12 +12,16 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "EmergencySewa"
+rootProject.name = "android"
 include ':app'
-
 include ':capacitor-android'
-project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
-include ':capacitor-push-notifications'
-project(':capacitor-push-notifications').projectDir = new File('../node_modules/@capacitor/push-notifications/android')
-include ':capacitor-splash-screen'
-project(':capacitor-splash-screen').projectDir = new File('../node_modules/@capacitor/splash-screen/android')
+project(':capacitor-android').projectDir = new File(rootProject.projectDir, '../node_modules/@capacitor/android/capacitor')
+
+// Copy over the android.ipr file if it exists
+def androidIpr = new File(project.rootDir, "android.ipr")
+if (androidIpr.exists()) {
+    copy {
+        from(androidIpr)
+        into(project.rootDir)
+    }
+}
