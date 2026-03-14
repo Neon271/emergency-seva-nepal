@@ -13,6 +13,15 @@ Emergency Sewa is a mobile-first web application designed to provide quick and e
 *   **Emergency SMS:** A one-tap button to quickly send an SMS with your location to an emergency contact.
 *   **Dark Mode:** Switch between light and dark themes for comfortable viewing.
 
+## 💻 Tech Stack
+
+*   **Framework:** [Next.js](https://nextjs.org/) (App Router)
+*   **UI Components:** [React](https://react.dev/), [ShadCN UI](https://ui.shadcn.com/), [Tailwind CSS](https://tailwindcss.com/)
+*   **Native Mobile:** [Capacitor](https://capacitorjs.com/) to wrap the web app for Android.
+*   **Styling:** Tailwind CSS with CSS Variables for theming.
+*   **Client-Side Storage:** Browser `localStorage` is used to persist user profiles, favorite contacts, and custom contacts directly on the device.
+*   **Deployment:** Pre-configured for [Firebase Hosting](https://firebase.google.com/docs/hosting).
+
 ## 🚀 Getting Started (for Local Development)
 
 To run this project for development on your local machine:
@@ -106,8 +115,16 @@ To package the web app as an Android APK on your local machine, follow these ste
 
 Android Studio will now build the APK. After a minute or two, a notification will appear in the bottom-right corner. Click the blue **locate** link to find your final `app-release.apk` file in the `android/app/release/` directory.
 
+## 🔧 Troubleshooting
+
+*   **Gradle Sync Failed in Android Studio:** This is a common issue when opening the `android` folder.
+    *   **Solution 1: Sync Project.** Look for a "Sync Now" prompt or the "Sync Project with Gradle Files" icon (a small elephant) in the top toolbar.
+    *   **Solution 2: Invalidate Caches.** Go to `File` -> `Invalidate Caches...` in the Android Studio menu, select `Invalidate and Restart`, and let the IDE reboot and re-index.
+    *   **Solution 3: Check Internet Connection.** Gradle needs to download files, so a stable connection is required.
+*   **"Minimum supported Gradle version..." Error:** This means the version numbers in your `gradle/wrapper/gradle-wrapper.properties` or `build.gradle` files are incorrect. This project has been configured with the correct versions, but if you change them, ensure they are compatible.
+
 ---
-### Gemini API Key
+### 🔑 Gemini API Key
 
 The app does not currently use any AI features, so you do not need an API key to build it. However, if you wish to add Generative AI features in the future, you will need to get a free API key from Google AI Studio.
 
