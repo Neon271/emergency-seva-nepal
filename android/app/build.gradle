@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.emergencyseva.app"
-    compileSdkVersion 34
+    namespace "com.emergencysewa.app"
+    compileSdk 34
+
     defaultConfig {
         applicationId "com.emergencyseva.app"
         minSdkVersion 22
@@ -10,27 +11,40 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        
+        // Correctly reference string resources
+        resValue "string", "app_name", "@string/app_name"
+        resValue "string", "package_name", "@string/package_name"
+        resValue "string", "custom_url_scheme", "@string/custom_url_scheme"
     }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // This is required for the capacitor-splash-screen plugin
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res']
         }
     }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
-    implementation "androidx.core:core-splashscreen:1.0.1"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation project(':capacitor-android')
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    implementation project(':capacitor-push-notifications')
-    implementation project(':capacitor-splash-screen')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
-apply from: project(':capacitor-cordova-android-plugins').cordovaAndroidPluginsGradle
-apply plugin: 'com.google.gms.google-services'
+apply from: project(':capacitor-android').file('capacitor.build.gradle')
