@@ -1,9 +1,11 @@
+
 "use client";
 
 import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Shield,
   Ambulance,
@@ -46,6 +48,7 @@ const categoryDetails: Record<HistoryCategory, { icon: React.ElementType; color:
 export default function HistoryPage() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [filter, setFilter] = useState<HistoryCategory | 'all'>('all');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Generate mock data on the client side to avoid hydration errors
@@ -58,6 +61,7 @@ export default function HistoryPage() {
       { id: 6, type: 'police', name: 'Tourist Police (1144)', timestamp: new Date(Date.now() - 1209600000), status: 'Dialed' },
     ];
     setHistory(mockHistory);
+    setIsLoading(false);
   }, []);
 
   const filteredHistory = useMemo(() => {
@@ -97,7 +101,13 @@ export default function HistoryPage() {
           </DropdownMenu>
         </CardHeader>
         <CardContent>
-          {filteredHistory.length > 0 ? (
+          {isLoading ? (
+             <div className="space-y-4">
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-20 w-full" />
+            </div>
+          ) : filteredHistory.length > 0 ? (
             <div className="space-y-4">
               {filteredHistory.map((item) => {
                 const { icon: Icon, color } = categoryDetails[item.type];

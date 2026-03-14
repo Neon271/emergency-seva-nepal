@@ -33,8 +33,10 @@ jobs:
       - name: Build Debug APK
         run: |
           cd android
+          # This line provides a fallback to fix repository issues in the build environment
+          sed -i 's/jcenter()/mavenCentral()/g' build.gradle
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
