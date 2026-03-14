@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -35,16 +35,6 @@ interface HistoryItem {
   status: HistoryStatus;
 }
 
-// Mock data for demonstration
-const mockHistory: HistoryItem[] = [
-  { id: 1, type: 'police', name: 'Police Control (100)', timestamp: new Date(Date.now() - 3600000), status: 'Dialed' },
-  { id: 2, type: 'ambulance', name: 'Nepal Ambulance Service (102)', timestamp: new Date(Date.now() - 86400000), status: 'Dialed' },
-  { id: 3, type: 'blood', name: 'Blood Bank Request', timestamp: new Date(Date.now() - 172800000), status: 'Requested' },
-  { id: 4, type: 'fire', name: 'Fire Brigade (101)', timestamp: new Date(Date.now() - 259200000), status: 'Dialed' },
-  { id: 5, type: 'other', name: 'Dr. Ramesh (Custom Contact)', timestamp: new Date(Date.now() - 604800000), status: 'Dialed' },
-  { id: 6, type: 'police', name: 'Tourist Police (1144)', timestamp: new Date(Date.now() - 1209600000), status: 'Dialed' },
-];
-
 const categoryDetails: Record<HistoryCategory, { icon: React.ElementType; color: string }> = {
   police: { icon: Shield, color: 'text-blue-500' },
   ambulance: { icon: Ambulance, color: 'text-red-500' },
@@ -54,12 +44,26 @@ const categoryDetails: Record<HistoryCategory, { icon: React.ElementType; color:
 };
 
 export default function HistoryPage() {
+  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [filter, setFilter] = useState<HistoryCategory | 'all'>('all');
 
+  useEffect(() => {
+    // Generate mock data on the client side to avoid hydration errors
+    const mockHistory: HistoryItem[] = [
+      { id: 1, type: 'police', name: 'Police Control (100)', timestamp: new Date(Date.now() - 3600000), status: 'Dialed' },
+      { id: 2, type: 'ambulance', name: 'Nepal Ambulance Service (102)', timestamp: new Date(Date.now() - 86400000), status: 'Dialed' },
+      { id: 3, type: 'blood', name: 'Blood Bank Request', timestamp: new Date(Date.now() - 172800000), status: 'Requested' },
+      { id: 4, type: 'fire', name: 'Fire Brigade (101)', timestamp: new Date(Date.now() - 259200000), status: 'Dialed' },
+      { id: 5, type: 'other', name: 'Dr. Ramesh (Custom Contact)', timestamp: new Date(Date.now() - 604800000), status: 'Dialed' },
+      { id: 6, type: 'police', name: 'Tourist Police (1144)', timestamp: new Date(Date.now() - 1209600000), status: 'Dialed' },
+    ];
+    setHistory(mockHistory);
+  }, []);
+
   const filteredHistory = useMemo(() => {
-    if (filter === 'all') return mockHistory;
-    return mockHistory.filter((item) => item.type === filter);
-  }, [filter]);
+    if (filter === 'all') return history;
+    return history.filter((item) => item.type === filter);
+  }, [filter, history]);
 
   const FilterIcon = ListFilter;
 
