@@ -45,22 +45,25 @@ const categoryDetails: Record<HistoryCategory, { icon: React.ElementType; color:
   other: { icon: Phone, color: 'text-gray-500' },
 };
 
+// Define static mock data outside the component to ensure consistency
+const staticMockHistory: HistoryItem[] = [
+    { id: 1, type: 'police', name: 'Police Control (100)', timestamp: new Date('2024-05-20T10:30:00Z'), status: 'Dialed' },
+    { id: 2, type: 'ambulance', name: 'Nepal Ambulance Service (102)', timestamp: new Date('2024-05-19T15:00:00Z'), status: 'Dialed' },
+    { id: 3, type: 'blood', name: 'Blood Bank Request', timestamp: new Date('2024-05-18T09:00:00Z'), status: 'Requested' },
+    { id: 4, type: 'fire', name: 'Fire Brigade (101)', timestamp: new Date('2024-05-17T18:45:00Z'), status: 'Dialed' },
+    { id: 5, type: 'other', name: 'Dr. Ramesh (Custom Contact)', timestamp: new Date('2024-05-13T11:00:00Z'), status: 'Dialed' },
+    { id: 6, type: 'police', name: 'Tourist Police (1144)', timestamp: new Date('2024-05-06T14:20:00Z'), status: 'Dialed' },
+];
+
+
 export default function HistoryPage() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [filter, setFilter] = useState<HistoryCategory | 'all'>('all');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Generate mock data on the client side to avoid hydration errors
-    const mockHistory: HistoryItem[] = [
-      { id: 1, type: 'police', name: 'Police Control (100)', timestamp: new Date(Date.now() - 3600000), status: 'Dialed' },
-      { id: 2, type: 'ambulance', name: 'Nepal Ambulance Service (102)', timestamp: new Date(Date.now() - 86400000), status: 'Dialed' },
-      { id: 3, type: 'blood', name: 'Blood Bank Request', timestamp: new Date(Date.now() - 172800000), status: 'Requested' },
-      { id: 4, type: 'fire', name: 'Fire Brigade (101)', timestamp: new Date(Date.now() - 259200000), status: 'Dialed' },
-      { id: 5, type: 'other', name: 'Dr. Ramesh (Custom Contact)', timestamp: new Date(Date.now() - 604800000), status: 'Dialed' },
-      { id: 6, type: 'police', name: 'Tourist Police (1144)', timestamp: new Date(Date.now() - 1209600000), status: 'Dialed' },
-    ];
-    setHistory(mockHistory);
+    // Set static data on mount to avoid hydration errors
+    setHistory(staticMockHistory);
     setIsLoading(false);
   }, []);
 
