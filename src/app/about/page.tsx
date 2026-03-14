@@ -10,7 +10,7 @@ import {
 import { useState, useEffect } from 'react';
 
 export default function AboutPage() {
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [year, setYear] = useState(2024);
 
   useEffect(() => {
     setYear(new Date().getFullYear());
