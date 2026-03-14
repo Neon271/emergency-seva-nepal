@@ -18,15 +18,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Standardize Package Name for Build Stability
-        run: |
-          echo "Standardizing package name to com.emergencyseva.app across all relevant files..."
-          find . -type f \( -name "capacitor.config.ts" -o -name "capacitor.config.json" -o -name "strings.xml" -o -name "google-services.json" -o -name "*InstrumentedTest.java" \) -print0 | xargs -0 sed -i 's/emergencysewa/emergencyseva/g'
-          if [ -f "android/app/build.gradle" ]; then
-            sed -i 's/applicationId "com.emergencysewa.app"/applicationId "com.emergencyseva.app"/' android/app/build.gradle
-          fi
-          echo "Standardization complete."
-
       - name: Build Next.js (Static Export)
         run: npm run build
 
