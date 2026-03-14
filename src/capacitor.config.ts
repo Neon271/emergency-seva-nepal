@@ -1,9 +1,3 @@
-import type { CapacitorConfig } from '@capacitor/cli';
-
-const config: CapacitorConfig = {
-  appId: 'com.emergencysewa.app',
-  appName: 'Emergency Sewa',
-  webDir: 'out'
-};
-
-export default config;
+// This file re-exports the main config from the root directory
+// to ensure a single source of truth for Capacitor configuration.
+export { default } from '../capacitor.config';
