@@ -1,1 +1,1 @@
-npx cap sync
+npm run buildnpx cap sync
