@@ -1,3 +1,27 @@
-// This file re-exports the main config from the root directory
-// to ensure a single source of truth for Capacitor configuration.
-export { default } from '../capacitor.config';
+import type { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'com.emergencyseva.app',
+  appName: 'Emergency Sewa',
+  webDir: 'out',
+  plugins: {
+    SplashScreen: {
+      launchShowDuration: 2500,
+      launchAutoHide: true,
+      backgroundColor: "#DC2626",
+      androidSplashResourceName: "splash",
+      androidScaleType: "CENTER",
+      showSpinner: false,
+      splashFullScreen: true,
+      splashImmersive: true,
+    },
+    PushNotifications: {
+      presentationOptions: ["badge", "sound", "alert"],
+    },
+  },
+  server: {
+    androidScheme: 'https'
+  }
+};
+
+export default config;
