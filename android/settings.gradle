@@ -5,8 +5,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
-rootProject.name = "android"
+rootProject.name = 'android'
 include ':app'
-include ':capacitor-cordova-android-plugins'
-project(':capacitor-cordova-android-plugins').projectDir = new File('capacitor-cordova-android-plugins')
+include ':capacitor-android'
+include ':capacitor-push-notifications'
+include ':capacitor-splash-screen'
+apply from: 'capacitor.settings.gradle'
