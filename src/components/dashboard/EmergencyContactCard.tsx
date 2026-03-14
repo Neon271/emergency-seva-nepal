@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -41,7 +40,7 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function EmergencyContactCard({ contact }: EmergencyContactCardProps) {
   const { toast } = useToast();
   const [isReportDialogOpen, setReportDialogOpen] = useState(false);
-  const { isFavorite, toggleFavorite } = useFavorites();
+  const { isFavorite, toggleFavorite, isLoading: isLoadingFavorites } = useFavorites();
   
   const favorite = isFavorite(contact.id);
   const categoryId = contact.categoryId || 'helpline';
@@ -74,6 +73,7 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
   };
   
   const handleFavoriteClick = () => {
+    if (isLoadingFavorites) return;
     toggleFavorite(contact);
     toast({
       title: favorite ? "Removed from Favorites" : "Added to Favorites",
@@ -101,8 +101,8 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
                   <p className="text-sm text-muted-foreground -mt-0.5">{contact.name}</p>
                 </div>
             </div>
-            <Button variant="ghost" size="icon" className="-mr-2 -mt-2 h-8 w-8" onClick={handleFavoriteClick}>
-                <Star className={cn("h-5 w-5", favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
+            <Button variant="ghost" size="icon" className="-mr-2 -mt-2 h-8 w-8" onClick={handleFavoriteClick} disabled={isLoadingFavorites}>
+                <Star className={cn("h-5 w-5", (favorite && !isLoadingFavorites) ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
             </Button>
           </div>
           

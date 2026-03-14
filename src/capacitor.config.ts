@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.emergencysewa.app',
-  appName: 'Emergency Sewa',
+  appId: 'com.emergencyseva.app',
+  appName: 'Emergency Seva',
   webDir: 'out',
   plugins: {
     SplashScreen: {
