@@ -1,3 +1,5 @@
+"use client";
+
 import { LifeBuoy, Target, Users, Star, Map, Globe, WifiOff, Bell, AlertTriangle, Database, Mail, Code } from 'lucide-react';
 import {
   Accordion,
@@ -5,8 +7,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useState, useEffect } from 'react';
 
 export default function AboutPage() {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <main className="container mx-auto max-w-3xl px-4 py-8 sm:py-12">
       <header className="text-center mb-10">
@@ -101,7 +110,7 @@ export default function AboutPage() {
       </div>
 
       <footer className="text-center mt-12">
-        <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Emergency Sewa – Prajwol</p>
+        <p className="text-sm text-muted-foreground">© {year} Emergency Sewa – Prajwol</p>
       </footer>
     </main>
   );
