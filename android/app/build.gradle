@@ -3,37 +3,18 @@ apply plugin: 'com.android.application'
 android {
     namespace "com.emergencysewa.app"
     compileSdk 34
-
     defaultConfig {
         applicationId "com.emergencyseva.app"
-        minSdkVersion 22
-        targetSdkVersion 34
+        minSdk 22
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        
-        // Correctly reference string resources
-        resValue "string", "app_name", "@string/app_name"
-        resValue "string", "package_name", "@string/package_name"
-        resValue "string", "custom_url_scheme", "@string/custom_url_scheme"
     }
-
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    // This is required for the capacitor-splash-screen plugin
-    sourceSets {
-        main {
-            res.srcDirs = ['src/main/res']
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -45,6 +26,9 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation project(':capacitor-push-notifications')
+    implementation project(':capacitor-splash-screen')
 }
 
-apply from: project(':capacitor-android').file('capacitor.build.gradle')
+apply from: 'capacitor.build.gradle'
+apply plugin: 'com.google.gms.google-services'
