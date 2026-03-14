@@ -1,9 +1,8 @@
-
 "use client";
 
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { Plus, HeartHandshake, MapPin, Menu, Star, UserSquare, Home, User } from 'lucide-react';
+import { Plus, HeartHandshake, Menu, Star, UserSquare, Home, User } from 'lucide-react';
 import AddContactDialog from '../dashboard/AddContactDialog';
 import { useState } from 'react';
 import { ThemeToggle } from '../ThemeToggle';
@@ -17,10 +16,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Skeleton } from '../ui/skeleton';
 
 
 const Header = () => {
-  const { isProfileSet, profile, selectedDistrict } = useProfile();
+  const { isProfileSet, profile, isInitialLoad } = useProfile();
   const [isAddContactOpen, setAddContactOpen] = useState(false);
 
   const getInitials = (name: string) => {
@@ -73,7 +73,9 @@ const Header = () => {
               </Button>
             <ThemeToggle />
 
-             {isProfileSet && profile ? (
+             {isInitialLoad ? (
+                <Skeleton className="h-8 w-8 rounded-full" />
+             ) : isProfileSet && profile ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-8 w-8 rounded-full">
