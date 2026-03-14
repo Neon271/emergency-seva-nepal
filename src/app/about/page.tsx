@@ -1,3 +1,4 @@
+
 "use client";
 
 import { LifeBuoy, Target, Users, Star, Map, Globe, WifiOff, Bell, AlertTriangle, Database, Mail, Code } from 'lucide-react';
@@ -20,7 +21,7 @@ export default function AboutPage() {
     <main className="container mx-auto max-w-3xl px-4 py-8 sm:py-12">
       <header className="text-center mb-10">
         <h1 className="font-headline text-3xl sm:text-4xl font-bold tracking-tight">
-          About Emergency Seva
+          About Emergency Sewa
         </h1>
         <p className="mt-2 text-lg text-muted-foreground">
           Your reliable guide in times of need.
@@ -29,14 +30,14 @@ export default function AboutPage() {
 
       <div className="space-y-8">
         
-        {/* What is Emergency Seva */}
+        {/* What is Emergency Sewa */}
         <div className="p-6 rounded-lg bg-card border">
             <h2 className="font-semibold text-xl flex items-center gap-3 mb-3 text-primary">
                 <LifeBuoy className="h-6 w-6" />
-                What is Emergency Seva?
+                What is Emergency Sewa?
             </h2>
             <p className="text-muted-foreground">
-                Emergency Seva is a mobile-friendly web app designed to provide quick and easy access to a list of important emergency service numbers across Nepal. It helps you find contact information for hospitals, police, ambulances, and more, right when you need it most.
+                Emergency Sewa is a mobile-friendly web app designed to provide quick and easy access to a list of important emergency service numbers across Nepal. It helps you find contact information for hospitals, police, ambulances, and more, right when you need it most.
             </p>
         </div>
 
@@ -110,7 +111,7 @@ export default function AboutPage() {
       </div>
 
       <footer className="text-center mt-12">
-        <p className="text-sm text-muted-foreground">© {year} Emergency Seva – Prajwol</p>
+        <p className="text-sm text-muted-foreground">© {year} Emergency Sewa – Prajwol</p>
       </footer>
     </main>
   );

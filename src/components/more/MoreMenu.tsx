@@ -28,7 +28,7 @@ export default function MoreMenu() {
         {
             href: "/about",
             icon: Info,
-            title: "About Emergency Seva",
+            title: "About Emergency Sewa",
             description: "Our mission, features, and limitations."
         },
         {

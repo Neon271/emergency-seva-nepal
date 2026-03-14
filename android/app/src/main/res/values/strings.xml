@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Emergency Seva</string>
-    <string name="title_activity_main">Emergency Seva</string>
-    <string name="package_name">com.emergencyseva.app</string>
-    <string name="custom_url_scheme">com.emergencyseva.app</string>
+    <string name="app_name">Emergency Sewa</string>
+    <string name="title_activity_main">Emergency Sewa</string>
+    <string name="package_name">com.emergencysewa.app</string>
+    <string name="custom_url_scheme">com.emergencysewa.app</string>
 </resources>
