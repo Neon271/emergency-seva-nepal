@@ -45,15 +45,15 @@ const categoryDetails: Record<HistoryCategory, { icon: React.ElementType; color:
   other: { icon: Phone, color: 'text-gray-500' },
 };
 
-// Define static mock data outside the component to ensure consistency
-const staticMockHistory: HistoryItem[] = [
-    { id: 1, type: 'police', name: 'Police Control (100)', timestamp: new Date('2024-05-20T10:30:00Z'), status: 'Dialed' },
-    { id: 2, type: 'ambulance', name: 'Nepal Ambulance Service (102)', timestamp: new Date('2024-05-19T15:00:00Z'), status: 'Dialed' },
-    { id: 3, type: 'blood', name: 'Blood Bank Request', timestamp: new Date('2024-05-18T09:00:00Z'), status: 'Requested' },
-    { id: 4, type: 'fire', name: 'Fire Brigade (101)', timestamp: new Date('2024-05-17T18:45:00Z'), status: 'Dialed' },
-    { id: 5, type: 'other', name: 'Dr. Ramesh (Custom Contact)', timestamp: new Date('2024-05-13T11:00:00Z'), status: 'Dialed' },
-    { id: 6, type: 'police', name: 'Tourist Police (1144)', timestamp: new Date('2024-05-06T14:20:00Z'), status: 'Dialed' },
-];
+// Define static mock data with string timestamps to prevent hydration errors
+const staticMockHistoryData = [
+    { id: 1, type: 'police', name: 'Police Control (100)', timestamp: '2024-05-20T10:30:00Z', status: 'Dialed' },
+    { id: 2, type: 'ambulance', name: 'Nepal Ambulance Service (102)', timestamp: '2024-05-19T15:00:00Z', status: 'Dialed' },
+    { id: 3, type: 'blood', name: 'Blood Bank Request', timestamp: '2024-05-18T09:00:00Z', status: 'Requested' },
+    { id: 4, type: 'fire', name: 'Fire Brigade (101)', timestamp: '2024-05-17T18:45:00Z', status: 'Dialed' },
+    { id: 5, type: 'other', name: 'Dr. Ramesh (Custom Contact)', timestamp: '2024-05-13T11:00:00Z', status: 'Dialed' },
+    { id: 6, type: 'police', name: 'Tourist Police (1144)', timestamp: '2024-05-06T14:20:00Z', status: 'Dialed' },
+] as const;
 
 
 export default function HistoryPage() {
@@ -62,8 +62,12 @@ export default function HistoryPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Set static data on mount to avoid hydration errors
-    setHistory(staticMockHistory);
+    // On the client, parse strings into Date objects
+    const clientSideHistory = staticMockHistoryData.map(item => ({
+        ...item,
+        timestamp: new Date(item.timestamp)
+    }));
+    setHistory(clientSideHistory);
     setIsLoading(false);
   }, []);
 
