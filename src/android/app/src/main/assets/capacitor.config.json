@@ -1,7 +1,7 @@
 
 {
 	"appId": "com.emergencyseva.app",
-	"appName": "Emergency Sewa",
+	"appName": "Emergency Seva",
 	"webDir": "out",
 	"plugins": {
 		"SplashScreen": {

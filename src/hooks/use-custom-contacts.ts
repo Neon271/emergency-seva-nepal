@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { CustomContact } from '@/lib/types';
 
-const CUSTOM_CONTACTS_STORAGE_KEY = 'emergency-sewa-custom-contacts';
+const CUSTOM_CONTACTS_STORAGE_KEY = 'emergency-seva-custom-contacts';
 
 export function useCustomContacts() {
   const [customContacts, setCustomContacts] = useState<CustomContact[]>([]);

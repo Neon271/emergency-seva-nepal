@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "../ui/skeleton";
 
 interface EmergencyContactCardProps {
   contact: EmergencyContact & { categoryId?: string };
@@ -48,7 +49,7 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
 
   const handleShare = async () => {
     const shareData = {
-      title: "Emergency Sewa Contact",
+      title: "Emergency Seva Contact",
       text: `Emergency Contact:\n${contact.name_ne} (${contact.name})\nPhone: ${contact.phone}${contact.address ? `\nAddress: ${contact.address}` : ''}`,
       url: window.location.href,
     };
@@ -101,9 +102,13 @@ export default function EmergencyContactCard({ contact }: EmergencyContactCardPr
                   <p className="text-sm text-muted-foreground -mt-0.5">{contact.name}</p>
                 </div>
             </div>
-            <Button variant="ghost" size="icon" className="-mr-2 -mt-2 h-8 w-8" onClick={handleFavoriteClick} disabled={isLoadingFavorites}>
-                <Star className={cn("h-5 w-5", (favorite && !isLoadingFavorites) ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
-            </Button>
+             {isLoadingFavorites ? (
+                <Skeleton className="h-8 w-8 rounded-md" />
+            ) : (
+                <Button variant="ghost" size="icon" className="-mr-2 -mt-2 h-8 w-8" onClick={handleFavoriteClick}>
+                    <Star className={cn("h-5 w-5", favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400")} />
+                </Button>
+            )}
           </div>
           
           <div>

@@ -11,7 +11,7 @@ import React, {
 import type { District, Province, Profile } from "@/lib/types";
 import { districts as allDistricts, provinces as allProvinces, getDistrictsByProvince } from "@/lib/locations";
 
-const PROFILE_STORAGE_KEY = "emergency-sewa-profile";
+const PROFILE_STORAGE_KEY = "emergency-seva-profile";
 
 interface ProfileContextType {
   profile: Profile | null;

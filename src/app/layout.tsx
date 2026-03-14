@@ -18,10 +18,9 @@ const ptSans = PT_Sans({
 
 
 export const metadata: Metadata = {
-  title: 'Emergency Sewa',
+  title: 'Emergency Seva',
   description: 'Your reliable guide to emergency contacts and health services in Nepal.',
-  manifest: '/manifest.json',
-  applicationName: 'Emergency Sewa',
+  applicationName: 'Emergency Seva',
 };
 
 export const viewport: Viewport = {
@@ -29,7 +28,7 @@ export const viewport: Viewport = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Emergency Sewa',
+    title: 'Emergency Seva',
   },
 };
 

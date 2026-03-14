@@ -35,7 +35,7 @@ const Header = () => {
             <Link href="/" className="flex items-center space-x-2">
               <HeartHandshake className="h-6 w-6 text-accent" />
               <span className="font-bold sm:inline-block">
-                Emergency Sewa
+                Emergency Seva
               </span>
             </Link>
           </div>
